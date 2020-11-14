@@ -1,7 +1,9 @@
-public class Leaderboard(){
-  private Profile[] profileList;
+import java.util.ArrayList;
 
-  public void Leaderboard(Profile[] profileList){
+public class Leaderboard(){
+  private ArrayList<Profile> profileList;
+
+  public void Leaderboard(ArrayList<Profile> profileList){
     this.profileList = profileList;
   }
 
@@ -10,6 +12,6 @@ public class Leaderboard(){
   }
 
   public void addProfile(Profile profile){
-    
+
   }
 }
