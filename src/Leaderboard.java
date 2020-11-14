@@ -1,17 +1,31 @@
 import java.util.ArrayList;
 
-public class Leaderboard(){
-  private ArrayList<Profile> profileList;
+/**
+ * Represents the leaderboard.
+ */
+public class Leaderboard() {
+  private ArrayList<Profile> profiles;
 
-  public void Leaderboard(ArrayList<Profile> profileList){
+  /**
+   * Creates a leaderboard from a given list of profiles.
+   * @param profiles
+   */
+  public void Leaderboard(ArrayList<Profile> profiles) {
     this.profileList = profileList;
   }
 
-  public void display(){
+  /**
+   * Displays the leaderboard to the screen.
+   */
+  public void display() {
 
   }
 
-  public void addProfile(Profile profile){
+  /**
+   * Adds a profile to the leaderboard.
+   * @param profile The profile to add.
+   */
+  public void addProfile(Profile profile) {
 
   }
 }

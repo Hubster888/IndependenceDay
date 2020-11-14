@@ -6,6 +6,13 @@ public class Profile {
     private int wins;
     private int losses;
 
+    /** 
+     * Creates a profile object from a given name.
+     */
+    public void Profile(String name){
+        this.name = name;
+    }
+
     /**
      * Increments the number of wins this profile has.
      */
@@ -39,13 +46,5 @@ public class Profile {
      */
     public int getLosses() {
         return losses;
-    }
-
-    /**
-     * Sets the name of the current profile.
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 }
