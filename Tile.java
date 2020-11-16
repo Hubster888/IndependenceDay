@@ -7,11 +7,9 @@ abstract class Tile {
         return type;
     }
 
-    public abstract void executeTile() {
-
-    }
-
     public double getChangeOfAppearing() {
-
+        return chanceOfAppearanceInBag;
     }
+
+    public abstract void executeTile();
 }
