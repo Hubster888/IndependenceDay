@@ -1,12 +1,13 @@
 
 abstract class Tile {
     private double chanceOfAppearanceInBag;
+    private final String type;
 
-    public getTileType() {
-
+    public String getTileType() {
+        return type;
     }
 
-    public void executeTile() {
+    public abstract void executeTile() {
 
     }
 
