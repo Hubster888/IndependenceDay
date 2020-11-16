@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Represents the leaderboard.
  */
-public class Leaderboard() {
+public class Leaderboard {
   private ArrayList<Profile> profiles;
 
   /**

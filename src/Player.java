@@ -1,11 +1,12 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Represents a player.
  */
 public class Player {
   private String name;
-  private int[2] lastPosition;
+  private static int[] lastPosition = new int[2];
   private ArrayList<ActionTile> actionTiles;
 
   /**
@@ -14,7 +15,7 @@ public class Player {
    * @param lastPosition Last position of the player.
    * @param actionTiles The action tiles the player has.
    */
-  public void Player(String name, Int[2] lastPosition, ArrayList<ActionTile> actionTiles) {
+  public Player(String name, int[] lastPosition, ArrayList<String> actionTiles) {
     this.name = name;
     this.lastPosition = lastPosition;
     this.actionTiles = actionTiles;
@@ -24,28 +25,28 @@ public class Player {
    * Moves the player one place to the left on the board.
    */
   public void moveLeft() {
-
+    lastPosition[0]--;
   }
 
   /**
   * Moves the player one place to the left on the board.
   */
   public void moveRight() {
-
+    lastPosition[0]++;
   }
 
   /**
   * Moves the player one place to the left on the board.
   */
   public void moveUp() {
-
+    lastPosition[1]++;
   }
 
   /**
   * Moves the player one place to the left on the board.
   */
   public void moveDown() {
-
+    lastPosition[1]--;
   }
 
   /**
@@ -53,14 +54,14 @@ public class Player {
    * @param tile
    */
   public void addActionTile(ActionTile tile) {
-
+    actionTiles.add(tile);
   }
 
   /**
    * Gets the last position of the player.
    * @return lastPosition
    */
-  public void getLastPosition() {
-    return this.getLastPosition();
+  public int[] getLastPosition() {
+    return lastPosition;
   }
 }
