@@ -11,7 +11,7 @@ public class Leaderboard {
    * @param profiles
    */
   public void Leaderboard(ArrayList<Profile> profiles) {
-    this.profileList = profileList;
+    this.profiles = profiles;
   }
 
   /**
