@@ -6,7 +6,7 @@ import java.util.Arrays;
  */
 public class Player {
   private String name;
-  private static int[] lastPosition = new int[2];
+  private int[] lastPosition = new int[2];
   private ArrayList<ActionTile> actionTiles;
 
   /**
