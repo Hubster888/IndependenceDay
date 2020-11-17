@@ -27,4 +27,11 @@ class FloorTile extends Tile {
     public void executeTile() {
 
     }
+
+    /**
+     * @return orientation of the floor Tile
+     */
+    public int getOrientation() {
+        return orientation;
+    }
 }
