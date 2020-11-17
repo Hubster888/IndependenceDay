@@ -6,10 +6,19 @@
  * @version 1.0
  */
 class Board {
-    private static int[][] SIZE;
+    private final static int[][] SIZE;
 
+    /**
+     * Constructor
+     * @param width of board
+     * @param height of board
+     */
     public Board (int width, int height){
         SIZE = new int[width][height];
     }
 
+
+    public void useTile(Tile tile) {
+
+    }
 }
