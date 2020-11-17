@@ -6,7 +6,7 @@
  * @version 1.0
  */
 class Board {
-    private final static int[][] SIZE;
+    private static int[][] SIZE;
 
     /**
      * Constructor
