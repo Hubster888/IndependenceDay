@@ -3,6 +3,6 @@
  * @version 1.0
  * @author Yan Yan Ji
  */
-public class ActionTile {
+public abstract class ActionTile {
 
 }
