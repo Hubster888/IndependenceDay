@@ -7,7 +7,7 @@
  * @version 1.0
  */
 class SilkBag {
-    private Tile[] tiles = new Tile[];
+    private Tile[] tiles;
 
     /**
      * Constructor
