@@ -6,15 +6,16 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import Profile;
 
 /**
- * Represents the leaderboard.
+ * Represents the leader board.
  */
 public class Leaderboard {
   private ArrayList<Profile> profiles;
 
   /**
-   * Creates a leaderboard from a given list of profiles.
+   * Creates a leader board from a given list of profiles.
    * @param profiles
    */
   public Leaderboard(ArrayList<Profile> profiles) {
@@ -22,6 +23,13 @@ public class Leaderboard {
     this.top10();
   }
 
+  public void display(){
+    // read save file
+    // For each profile in the save file make an object and print out its values.
+  }
+
+  public void addProfile(Profile profile){
+    this.profileList.add(profile);
   /**
    * Gets a sorted list of the top 10 players.
    */
@@ -43,7 +51,7 @@ public class Leaderboard {
   }
 
   /**
-   * Displays the leaderboard to the screen.
+   * Displays the leader board to the screen.
    * @param stage The stage of the main program to add the scene to.
    * @throws IOException
    */
@@ -73,6 +81,5 @@ public class Leaderboard {
     Scene scene = new Scene(vbox);
     stage.setScene(scene);
     stage.show();
-
   }
 }

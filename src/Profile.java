@@ -6,11 +6,17 @@ public class Profile {
     private int wins;
     private int losses;
 
-    /** 
+    /**
      * Creates a profile object from a given name.
      */
     public Profile(String name){
         this.name = name;
+    }
+
+    public Profile(String name, int wins, int losses){
+        this.name = name;
+        this.wins = wins;
+        this.losses = losses;
     }
 
     /**
