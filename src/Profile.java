@@ -9,7 +9,7 @@ public class Profile {
     /** 
      * Creates a profile object from a given name.
      */
-    public void Profile(String name){
+    public Profile(String name){
         this.name = name;
     }
 
