@@ -19,6 +19,10 @@ public class Profile {
         this.losses = losses;
     }
 
+    public Profile(){
+
+    }
+    
     /**
      * Increments the number of wins this profile has.
      */
@@ -52,5 +56,17 @@ public class Profile {
      */
     public int getLosses() {
         return losses;
+    }
+
+    public void setName(String name){
+      this.name = name;
+    }
+
+    public void setWins(int wins){
+      this.wins = wins;
+    }
+
+    public void setLosses(int losses){
+      this.losses = losses;
     }
 }
