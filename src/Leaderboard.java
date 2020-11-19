@@ -6,7 +6,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import Profile;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 /**
  * Represents the leader board.
@@ -33,20 +34,17 @@ public class Leaderboard {
 			reader = new BufferedReader(new FileReader("profileList.txt"));
 			String line = reader.readLine();
 			while (line != null) {
-        line = line.split(" ");
-				Profile temp = new Profile(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]));
+        String[] lineSplit = line.split(" ");
+				Profile temp = new Profile(lineSplit[0], Integer.parseInt(lineSplit[1]), Integer.parseInt(lineSplit[2]));
         this.profiles.add(temp);
 				line = reader.readLine();
 			}
 			reader.close();
-  		} catch (IOException e) {
-  			e.printStackTrace();
-  		}
+  	} catch (IOException e) {
+  		e.printStackTrace();
   	}
   }
 
-  public void addProfile(Profile profile){
-    this.profileList.add(profile);
   /**
    * Gets a sorted list of the top 10 players.
    */
