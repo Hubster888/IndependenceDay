@@ -23,9 +23,26 @@ public class Leaderboard {
     this.top10();
   }
 
-  public void display(){
-    // read save file
-    // For each profile in the save file make an object and print out its values.
+  /*
+  * This is a constructor that take no arguments but reads a list of profiles
+  * from a saved file.
+  */
+  public Leaderboard(){
+    BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader("profileList.txt"));
+			String line = reader.readLine();
+			while (line != null) {
+        line = line.split(" ");
+				Profile temp = new Profile(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]));
+        this.profiles.add(temp);
+				line = reader.readLine();
+			}
+			reader.close();
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		}
+  	}
   }
 
   public void addProfile(Profile profile){
