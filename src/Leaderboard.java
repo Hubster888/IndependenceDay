@@ -29,8 +29,10 @@ public class Leaderboard {
   }
 
   public void addProfile(Profile profile){
-    this.profileList.add(profile);
-  /**
+    this.profiles.add(profile);
+  }
+  
+    /**
    * Gets a sorted list of the top 10 players.
    */
   private void top10() {
