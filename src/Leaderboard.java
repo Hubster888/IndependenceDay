@@ -23,12 +23,12 @@ public class Leaderboard {
     this.top10();
   }
 
-  public void display(){
+  public void display() {
     // read save file
     // For each profile in the save file make an object and print out its values.
   }
 
-  public void addProfile(Profile profile){
+  public void addProfile(Profile profile) {
     this.profiles.add(profile);
   }
   
