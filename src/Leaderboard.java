@@ -1,35 +1,36 @@
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import Profile;
 
 /**
  * Represents the leader board.
  */
-public class Leaderboard {
-  private ArrayList<Profile> profiles;
+public class Leaderboard{
+  private static ArrayList<Profile> profiles;
+
+  public static void main(String[] args) {
+  }
 
   /**
    * Creates a leader board from a given list of profiles.
-   * @param profiles
+   * 
+   * @param profiles List of profiles.
    */
   public Leaderboard(ArrayList<Profile> profiles) {
     this.profiles = profiles;
     this.top10();
   }
 
-  public void display(){
-    // read save file
-    // For each profile in the save file make an object and print out its values.
+  public void addProfile(Profile profile) {
+    this.profiles.add(profile);
   }
 
-  public void addProfile(Profile profile){
-    this.profileList.add(profile);
   /**
    * Gets a sorted list of the top 10 players.
    */
@@ -38,10 +39,10 @@ public class Leaderboard {
 
     // Sorts the first 10 and removes any remaining.
     for (int i = 0; i < profiles.size(); i++) {
-      if (profiles.get(i).getWins() < profiles.get(i+1).getWins()) {
+      if (profiles.get(i).getWins() < profiles.get(i + 1).getWins()) {
         Profile t = temp.get(i);
-        profiles.set(i, temp.get(i+1));
-        profiles.set(i+1, t);
+        profiles.set(i, temp.get(i + 1));
+        profiles.set(i + 1, t);
 
         if (i > 9) {
           profiles.remove(i);
@@ -52,11 +53,11 @@ public class Leaderboard {
 
   /**
    * Displays the leader board to the screen.
+   * 
    * @param stage The stage of the main program to add the scene to.
    * @throws IOException
    */
-  public void display(Stage stage) throws IOException {
-
+  public static void display() throws IOException {
     // Creates a table view and adds all the columns needed.
     TableView<Profile> tableView = new TableView<>();
 

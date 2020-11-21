@@ -28,13 +28,12 @@ abstract class Tile {
     /**
      * @return Chance of appearing in the game.
      */
-    public double getChangeOfAppearing() {
+    public double getChanceOfAppearing() {
         return chanceOfAppearanceInBag;
     }
 
     /**
-     * Abstract method that do the action of a Tile
-     * in a game.
+     * Abstract method that performs the tile action.
      */
     public abstract void executeTile();
 }

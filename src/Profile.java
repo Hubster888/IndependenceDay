@@ -7,19 +7,29 @@ public class Profile {
     private int losses;
 
     /**
-     * Creates a profile object from a given name.
+     * Creates a profile object from a given name. 
+     * @param name Name of the profile.
      */
-    public Profile(String name){
+    public Profile(String name) {
         this.name = name;
     }
 
-    public Profile(String name, int wins, int losses){
+    /**
+     * Creates a profile object from a given name.
+     * @param name Name of the profile.`
+     * @param wins Number of wins the profile has.
+     * @param losses Number of losses the profile has.
+     */
+    public Profile(String name, int wins, int losses) {
         this.name = name;
         this.wins = wins;
         this.losses = losses;
     }
 
-    public Profile(){
+    /**
+     * Creates a profile object from a given name. 
+     */
+    public Profile() {
 
     }
     
@@ -58,15 +68,15 @@ public class Profile {
         return losses;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
       this.name = name;
     }
 
-    public void setWins(int wins){
+    public void setWins(int wins) {
       this.wins = wins;
     }
 
-    public void setLosses(int losses){
+    public void setLosses(int losses) {
       this.losses = losses;
     }
 }
