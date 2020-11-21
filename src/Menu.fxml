@@ -27,13 +27,13 @@
                   <Pane prefHeight="244.0" prefWidth="600.0" />
                   <HBox prefHeight="45.0" prefWidth="455.0">
                      <children>
-                        <Button mnemonicParsing="false" prefWidth="120.0" text="Leaderboard" />
+                        <Button fx:id="btnLeaderboard" mnemonicParsing="false" prefWidth="120.0" text="Leaderboard" />
                         <Separator orientation="VERTICAL" />
-                        <Button mnemonicParsing="false" prefWidth="120.0" text="Game" />
+                        <Button fx:id="btnGame" mnemonicParsing="false" onAction="#testButton" prefWidth="120.0" text="Game" />
                         <Separator orientation="VERTICAL" />
-                        <Button layoutX="500.0" layoutY="50.0" mnemonicParsing="false" prefWidth="120.0" text="Save" />
+                        <Button fx:id="btnSave" layoutX="500.0" layoutY="50.0" mnemonicParsing="false" prefWidth="120.0" text="Save" />
                         <Separator orientation="VERTICAL" />
-                        <Button mnemonicParsing="false" prefWidth="120.0" text="Exit" />
+                        <Button fx:id="btnExit" mnemonicParsing="false" prefWidth="120.0" text="Exit" />
                      </children>
                      <VBox.margin>
                         <Insets left="50.0" right="50.0" />
@@ -45,7 +45,7 @@
          <top>
             <Pane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="34.0" layoutY="13.0" prefHeight="30.0" prefWidth="566.0" style="-fx-background-color: white;" text="Message of the day">
+                  <Label fx:id="message" layoutX="34.0" layoutY="13.0" prefHeight="30.0" prefWidth="566.0" style="-fx-background-color: white;" text="Message of the day">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
