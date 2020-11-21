@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue; 
 
 /**
  * Represents a player.
@@ -7,46 +7,24 @@ import java.util.Arrays;
 public class Player {
   private String name;
   private int[] lastPosition = new int[2];
-  private ArrayList<ActionTile> actionTiles;
+  private Queue<ActionTile> actionTiles;
 
   /**
    * Creates a player object fron given values.
    * @param name Name of the player.
    * @param lastPosition Last position of the player.
-   * @param actionTiles The action tiles the player has.
    */
-  public Player(String name, int[] lastPosition, ArrayList<String> actionTiles) {
+  public Player(String name, int[] lastPosition) {
     this.name = name;
     this.lastPosition = lastPosition;
-    this.actionTiles = actionTiles;
+    this.actionTiles = new LinkedList<>();
   }
 
-  /**
-   * Moves the player one place to the left on the board.
-   */
-  public void moveLeft() {
-    lastPosition[0]--;
-  }
-
-  /**
-  * Moves the player one place to the left on the board.
+  /*
+  * @param position is a set of coordinates passed from the board class.
   */
-  public void moveRight() {
-    lastPosition[0]++;
-  }
-
-  /**
-  * Moves the player one place to the left on the board.
-  */
-  public void moveUp() {
-    lastPosition[1]++;
-  }
-
-  /**
-  * Moves the player one place to the left on the board.
-  */
-  public void moveDown() {
-    lastPosition[1]--;
+  public void setLastPosition(int[] position){
+    this.lastPosition = position;
   }
 
   /**
@@ -55,6 +33,13 @@ public class Player {
    */
   public void addActionTile(ActionTile tile) {
     actionTiles.add(tile);
+  }
+
+  /*
+  * @return returns an action tile from the queue that will be played
+  */
+  public ActionTile useTile(int positionOfTiles){
+    return actionTiles.remove();
   }
 
   /**

@@ -7,12 +7,19 @@ public class Profile {
     private int losses;
 
     /**
-     * Creates a profile object from a given name.
+     * Creates a profile object from a given name, this is used for new profiles.
+     * @param name of the profile
      */
     public Profile(String name){
         this.name = name;
     }
 
+    /*
+    * This constructor is used to create a profile object from an existing profile
+    * @param name of the profile
+    * @param wins number of Wins for the profiles
+    * @param losses number of losses for the profile
+    */
     public Profile(String name, int wins, int losses){
         this.name = name;
         this.wins = wins;
@@ -52,5 +59,26 @@ public class Profile {
      */
     public int getLosses() {
         return losses;
+    }
+
+    /*
+    * @param name of the profile
+    */
+    public void setName(String name){
+      this.name = name;
+    }
+
+    /*
+    * @param wins number of the profile
+    */
+    public void setWins(int wins){
+      this.wins = wins;
+    }
+
+    /*
+    * @param loss number of the profile
+    */
+    public void setLosses(int losses){
+      this.losses = losses;
     }
 }

@@ -17,6 +17,13 @@ import java.io.FileOutputStream;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import java.io.*;
+
 public class ProfileSave{
 
   private static Boolean fileExists(){
@@ -69,7 +76,7 @@ public class ProfileSave{
 
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("profileList.txt", true))) {
-          bw.write(profile.getName() + " 0 0");
+          bw.write(profile.getName() + " " + profile.getWins() + " " + profile.getLosses());
           bw.newLine();
           bw.close();
         }catch(Exception e){
@@ -87,27 +94,42 @@ public class ProfileSave{
   public static void updateProfile(Profile profile, Boolean playerWon){
       if(profileExists(profile)){
         try{
-          // input the (modified) file content to the StringBuffer "input"
-          BufferedReader file = new BufferedReader(new FileReader("profileList.txt"));
-          StringBuffer inputBuffer = new StringBuffer();
-          String line;
+          // PrintWriter object for output.txt
+          PrintWriter pw = new PrintWriter("output.txt");
 
-          while ((line = file.readLine()) != null) {
-            if(isContain(line, profile.getName())){
-              Profile temp = new Profile(profile.getName(), profile.getWins(), profile.getLosses());
-              if(playerWon){temp.addWin();} else {temp.addLoss();}
-              line = temp.getName() + " " + temp.getWins() + " " + temp.getLosses();
-              inputBuffer.append(line);
-              inputBuffer.append('\n');
-            }
+          // BufferedReader object for input.txt
+          BufferedReader br1 = new BufferedReader(new FileReader("profileList.txt"));
+
+          String line1 = br1.readLine();
+          Profile tempProfile = new Profile();
+          // loop for each line of input.txt
+          while(line1 != null)
+          {
+              // if line is not present in delete.txt
+              // write it to output.txt
+              if(!isContain(line1, profile.getName())){
+                  pw.println(line1);
+              }else{
+                String[] lineBreakDown = line1.split(" ");
+                tempProfile.setName(lineBreakDown[0]);
+                tempProfile.setWins(Integer.parseInt(lineBreakDown[1]));
+                tempProfile.setLosses(Integer.parseInt(lineBreakDown[2]));
+              }
+
+              line1 = br1.readLine();
           }
-          file.close();
 
+          pw.flush();
 
-          // write the new string with the replaced line OVER the same file
-          FileOutputStream fileOut = new FileOutputStream("profileList.txt");
-          fileOut.write(inputBuffer.toString().getBytes());
-          fileOut.close();
+          Path source = Paths.get("output.txt");
+          File file1 = new File("profileList.txt");
+          file1.delete();
+          Files.move(source, source.resolveSibling("profileList.txt"));
+          if(playerWon){tempProfile.addWin();}else{tempProfile.addLoss();}
+          addProfile(tempProfile);
+          // closing resources
+          br1.close();
+          pw.close();
         }catch(Exception e){
           System.out.println(e);
         }
@@ -131,14 +153,13 @@ public class ProfileSave{
 
   public static void main(String args[]){
     Profile prof = new Profile("huber");
-    updateProfile(prof, true);
+    updateProfile(prof,false);
   }
 }
 
 // File format
 // String Int Int /n
+// name wins losses /n
 // eg.
 //Hubert 23 43
 //Jhon 34 1
-
-//Deleates whole file and dosent remember previous stats.
