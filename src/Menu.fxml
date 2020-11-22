@@ -28,11 +28,11 @@
                   <HBox prefHeight="45.0" prefWidth="455.0">
                      <children>
                         <Button fx:id="btnLeaderboard" mnemonicParsing="false" prefWidth="120.0" text="Leaderboard" />
-                        <Separator orientation="VERTICAL" />
+                        <Separator orientation="VERTICAL" visible="false" />
                         <Button fx:id="btnGame" mnemonicParsing="false" onAction="#testButton" prefWidth="120.0" text="Game" />
-                        <Separator orientation="VERTICAL" />
+                        <Separator orientation="VERTICAL" visible="false" />
                         <Button fx:id="btnSave" layoutX="500.0" layoutY="50.0" mnemonicParsing="false" prefWidth="120.0" text="Save" />
-                        <Separator orientation="VERTICAL" />
+                        <Separator orientation="VERTICAL" visible="false" />
                         <Button fx:id="btnExit" mnemonicParsing="false" prefWidth="120.0" text="Exit" />
                      </children>
                      <VBox.margin>
