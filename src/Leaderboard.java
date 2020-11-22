@@ -1,5 +1,10 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
@@ -11,10 +16,19 @@ import javafx.stage.Stage;
 /**
  * Represents the leader board.
  */
-public class Leaderboard{
+public class Leaderboard {
   private static ArrayList<Profile> profiles;
 
   public static void main(String[] args) {
+    ArrayList<Profile> p = new ArrayList<Profile>();
+    p.add(new Profile("Robbie", 5, 2));
+    p.add(new Profile("Tamzin", 9, 5));
+    p.add(new Profile("James", 4, 2));
+    p.add(new Profile("Anna", 3, 3));
+    System.out.println(p.size());
+    Leaderboard i = new Leaderboard(p);
+    i.top10();
+    i.display();
   }
 
   /**
@@ -24,7 +38,7 @@ public class Leaderboard{
    */
   public Leaderboard(ArrayList<Profile> profiles) {
     this.profiles = profiles;
-    this.top10();
+    //this.top10();
   }
 
   public void addProfile(Profile profile) {
@@ -54,33 +68,31 @@ public class Leaderboard{
   /**
    * Displays the leader board to the screen.
    * 
-   * @param stage The stage of the main program to add the scene to.
    * @throws IOException
    */
-  public static void display() throws IOException {
+  public void display() {
     // Creates a table view and adds all the columns needed.
-    TableView<Profile> tableView = new TableView<>();
+    String[] columnNames = { "Rank", "Name", "Wins", "Losses" };
 
-    TableColumn<Profile, String> column1 = new TableColumn<>("Name");
-    column1.setCellValueFactory(new PropertyValueFactory<>("name"));
+    Object[][] data = new Object[profiles.size()][4];
 
-    TableColumn<Profile, Integer> column2 = new TableColumn<>("Wins");
-    column2.setCellValueFactory(new PropertyValueFactory<>("wins"));
-
-    TableColumn<Profile, Integer> column3 = new TableColumn<>("Losses");
-    column3.setCellValueFactory(new PropertyValueFactory<>("losses"));
-
-    tableView.getColumns().add(column1);
-    tableView.getColumns().add(column2);
-    tableView.getColumns().add(column3);
-
-    for (int i = 1; i < profiles.size(); i++) {
-      tableView.getItems().add(profiles.get(i));
+    for (int i = 0; i < profiles.size(); i++) {
+      data[i] = new Object[] { i + 1, profiles.get(i).getName(),
+        profiles.get(i).getWins(), profiles.get(i).getLosses()};
     }
 
-    VBox vbox = new VBox(tableView);
-    Scene scene = new Scene(vbox);
-    stage.setScene(scene);
-    stage.show();
+    System.out.print(profiles.size());
+
+    JFrame jF = new JFrame();
+    jF.setTitle("Leaderboard");
+
+    JTable table = new JTable(data, columnNames);
+    table.setBounds(30, 40, 200, 300);
+
+    JScrollPane sp = new JScrollPane(table);
+    jF.add(sp);
+    jF.setSize(500, 200);
+    jF.setVisible(true);
+
   }
 }
