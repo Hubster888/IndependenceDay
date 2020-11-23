@@ -32,7 +32,7 @@
                         <Separator orientation="VERTICAL" visible="false" />
                         <Button layoutX="500.0" layoutY="50.0" mnemonicParsing="false" prefWidth="120.0" text="Save" />
                         <Separator orientation="VERTICAL" visible="false" />
-                        <Button mnemonicParsing="false" prefWidth="120.0" text="Exit" />
+                        <Button mnemonicParsing="false" onAction="#exitGame" prefWidth="120.0" text="Exit" />
                      </children>
                      <VBox.margin>
                         <Insets left="50.0" right="50.0" />

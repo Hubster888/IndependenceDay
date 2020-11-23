@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,9 +25,13 @@ public class MenuController {
         window.show();
     }
 
-    public void leaderboardBtn(ActionTile event){
+    public void leaderboardBtn(ActionEvent event){
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         //Here should be leaderboard.display(window);
+    }
+
+    public void exitGame(ActionEvent event){
+        Platform.exit();
     }
 }
