@@ -1,23 +1,16 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 /**
  * Represents the leader board.
  */
 public class Leaderboard {
-  private static ArrayList<Profile> profiles;
+  private ArrayList<Profile> profiles;
 
   public static void main(String[] args) {
     ArrayList<Profile> p = new ArrayList<Profile>();
@@ -27,7 +20,6 @@ public class Leaderboard {
     p.add(new Profile("Anna", 3, 3));
     System.out.println(p.size());
     Leaderboard i = new Leaderboard(p);
-    i.top10();
     i.display();
   }
 
@@ -38,7 +30,7 @@ public class Leaderboard {
    */
   public Leaderboard(ArrayList<Profile> profiles) {
     this.profiles = profiles;
-    //this.top10();
+    this.top10();
   }
 
   public void addProfile(Profile profile) {
@@ -52,10 +44,10 @@ public class Leaderboard {
     ArrayList<Profile> temp = new ArrayList<Profile>();
 
     // Sorts the first 10 and removes any remaining.
-    for (int i = 0; i < profiles.size(); i++) {
+    for (int i = 0; i < profiles.size() - 1; i++) {
       if (profiles.get(i).getWins() < profiles.get(i + 1).getWins()) {
-        Profile t = temp.get(i);
-        profiles.set(i, temp.get(i + 1));
+        Profile t = profiles.get(i);
+        profiles.set(i, profiles.get(i + 1));
         profiles.set(i + 1, t);
 
         if (i > 9) {
@@ -67,7 +59,6 @@ public class Leaderboard {
 
   /**
    * Displays the leader board to the screen.
-   * 
    * @throws IOException
    */
   public void display() {
