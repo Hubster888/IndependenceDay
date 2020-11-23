@@ -152,6 +152,7 @@ public class ProfileSave {
 
 // File format
 // String Int Int /n
+// name wins losses /n
 // eg.
 //Hubert 23 43
 //Jhon 34 1
