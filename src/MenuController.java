@@ -3,6 +3,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import javax.xml.soap.Node;
@@ -13,13 +14,18 @@ import java.io.IOException;
 public class MenuController {
     @FXML
     private Label message;
+    @FXML
+    private Pane pane;
 
     public void gameBtn(ActionEvent event) throws IOException {
-        Parent newSceneParent = FXMLLoader.load((getClass().getResource("Game.fxml")));
-        Scene newScene = new Scene(newSceneParent);
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader load = FXMLLoader.load((getClass().getResource("Game.fxml")));
 
-        Canvas gc = GameController.getCanvas();
+        Parent newSceneParent = load.load();
+        Scene newScene = new Scene(newSceneParent);
+        Stage window = (Stage) pane.getScene().getWindow();
+
+        GameController controller = load.getController();
+        Canvas gc = controller.getCanvas();
 
         window.setScene(newScene);
         window.show();
