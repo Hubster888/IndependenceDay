@@ -18,6 +18,8 @@ public class MenuController {
         Scene newScene = new Scene(newSceneParent);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+        Canvas gc = GameController.getCanvas();
+
         window.setScene(newScene);
         window.show();
     }

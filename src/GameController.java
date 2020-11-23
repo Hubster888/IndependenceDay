@@ -8,7 +8,9 @@ public class GameController {
     private MenuItem load;
     private MenuItem help;
     private MenuItem exit;
-    private Canvas canvas;
+    private static Canvas canvas;
 
-
+    public static Canvas getCanvas() {
+        return canvas;
+    }
 }

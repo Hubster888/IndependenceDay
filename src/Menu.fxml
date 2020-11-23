@@ -26,9 +26,9 @@
                   <Pane prefHeight="244.0" prefWidth="600.0" />
                   <HBox prefHeight="45.0" prefWidth="455.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#leaderboardBtn" prefWidth="120.0" text="Leaderboard" />
+                        <Button mnemonicParsing="false" onAction="#gameBtn" prefWidth="120.0" text="Start Game" />
                         <Separator orientation="VERTICAL" visible="false" />
-                        <Button mnemonicParsing="false" onAction="#gameBtn" prefWidth="120.0" text="Game" />
+                        <Button mnemonicParsing="false" onAction="#leaderboardBtn" prefWidth="120.0" text="Leaderboard" />
                         <Separator orientation="VERTICAL" visible="false" />
                         <Button layoutX="500.0" layoutY="50.0" mnemonicParsing="false" prefWidth="120.0" text="Save" />
                         <Separator orientation="VERTICAL" visible="false" />
