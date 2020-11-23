@@ -11,19 +11,20 @@ import java.io.IOException;
 
 public class MenuController {
     @FXML
-    private Button btnLeaderboard, btnGame, btnSave, btnExit;
     private Label message;
 
-    public void testButton(Event e) {
-
-    }
-
-    public void game(ActionEvent event) throws IOException {
+    public void gameBtn(ActionEvent event) throws IOException {
         Parent newSceneParent = FXMLLoader.load((getClass().getResource("Game.fxml")));
         Scene newScene = new Scene(newSceneParent);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         window.setScene(newScene);
         window.show();
+    }
+
+    public void leaderboardBtn(ActionTile event){
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        //Here should be leaderboard.display(window);
     }
 }

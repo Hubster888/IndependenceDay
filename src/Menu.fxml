@@ -26,13 +26,13 @@
                   <Pane prefHeight="244.0" prefWidth="600.0" />
                   <HBox prefHeight="45.0" prefWidth="455.0">
                      <children>
-                        <Button fx:id="btnLeaderboard" mnemonicParsing="false" prefWidth="120.0" text="Leaderboard" />
+                        <Button mnemonicParsing="false" onAction="#leaderboardBtn" prefWidth="120.0" text="Leaderboard" />
                         <Separator orientation="VERTICAL" visible="false" />
-                        <Button fx:id="btnGame" mnemonicParsing="false" onAction="#game" prefWidth="120.0" text="Game" />
+                        <Button mnemonicParsing="false" onAction="#gameBtn" prefWidth="120.0" text="Game" />
                         <Separator orientation="VERTICAL" visible="false" />
-                        <Button fx:id="btnSave" layoutX="500.0" layoutY="50.0" mnemonicParsing="false" prefWidth="120.0" text="Save" />
+                        <Button layoutX="500.0" layoutY="50.0" mnemonicParsing="false" prefWidth="120.0" text="Save" />
                         <Separator orientation="VERTICAL" visible="false" />
-                        <Button fx:id="btnExit" mnemonicParsing="false" prefWidth="120.0" text="Exit" />
+                        <Button mnemonicParsing="false" prefWidth="120.0" text="Exit" />
                      </children>
                      <VBox.margin>
                         <Insets left="50.0" right="50.0" />
