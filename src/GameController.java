@@ -11,11 +11,8 @@ import java.io.IOException;
 
 public class GameController {
     @FXML
-    private MenuItem save;
-    private MenuItem load;
-    private MenuItem help;
-    private MenuItem exit;
     private Canvas canvas;
+    @FXML
     private BorderPane borderPane;
 
     public void exitToMenu() throws IOException {
