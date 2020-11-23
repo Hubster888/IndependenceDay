@@ -23,7 +23,7 @@ public class MenuController {
         Scene newScene = new Scene(newSceneParent);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        window.setScene(newSceneParent);
+        window.setScene(newScene);
         window.show();
     }
 }
