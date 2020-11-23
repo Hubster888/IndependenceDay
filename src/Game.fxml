@@ -8,7 +8,7 @@
 
 <BorderPane fx:id="borderPane" prefHeight="311.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameController">
     <center>
-        <Canvas height="500.0" width="500.0" BorderPane.alignment="CENTER" />
+        <Canvas fx:id="canvas" height="500.0" width="500.0" BorderPane.alignment="CENTER" />
     </center>
     <top>
         <AnchorPane prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
