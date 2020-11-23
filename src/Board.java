@@ -21,4 +21,8 @@ class Board {
     public void useTile(Tile tile) {
 
     }
+
+    public int[][] getSize(){
+      return this.SIZE;
+    }
 }
