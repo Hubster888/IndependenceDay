@@ -36,18 +36,20 @@ public class Board {
             }else if((j == this.boardHeight - 1 && i == this.boardWidth - 1)){
               this.board[i][j] = new FloorTile("goal", 0.1, 0);
             }else{
-              int typeGen = (int) ((Math.random() * (3 - 1)) + 1);
+              int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
+              int orientationGen = (int) ((Math.random() * (5 - 1)) + 1);
               switch (typeGen){
                 case 1:
-                  this.board[i][j] = new FloorTile("corner", 0.1, 0);
+                  this.board[i][j] = new FloorTile("corner", 0.1, orientationGen);
                   break;
                 case 2:
-                  this.board[i][j] = new FloorTile("straight", 0.1, 0);
+                  this.board[i][j] = new FloorTile("straight", 0.1, orientationGen);
                   break;
                 case 3:
-                  this.board[i][j] = new FloorTile("tShape", 0.1, 0);
+                  this.board[i][j] = new FloorTile("tShape", 0.1, orientationGen);
                   break;
                 default:
+                	System.out.println("Something wrong!");
                   break;
               }
 
@@ -71,6 +73,10 @@ public class Board {
     
     public int getHeight(){
         return this.boardHeight;
-      }
+    }
+    
+    public Tile[][] getBoard(){
+    	return this.board;
+    }
 
 }
