@@ -6,7 +6,7 @@ package Backend;
  * @author Yan Yan Ji
  * @version 1.0
  */
-class FloorTile extends Tile {
+public class FloorTile extends Tile {
 
     private boolean isFrozen = false;
     private boolean isOnFire = false;
