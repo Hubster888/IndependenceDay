@@ -8,9 +8,9 @@ import java.util.ArrayList;
  * @author Yan Yan Ji
  * @version 1.0
  */
-
 public class Board {
-    private int[] size = new int[2];
+    private int boardWidth;
+    private int boardHeight;
     private ArrayList<Player> listOfPlayers = new ArrayList<Player>();
     private Tile[][] board;
 
@@ -20,19 +20,20 @@ public class Board {
      * @param width of board
      * @param height of board
      */
-
     public Board (int width, int height, ArrayList<Profile> listOfProfiles, int[] startingPosition){
-        this.size[0] = width;
-        this.size[1] = height;
+        this.boardWidth = width;
+        this.boardHeight = height;
         board = new Tile[width][height];
         for(Profile profile : listOfProfiles){
           listOfPlayers.add(new Player(profile.getName(), startingPosition));
         }
-        for(int i = 0; i < this.size[0]; i++){
-          for(int j = 0; j < this.size[1]; j++){
-            if((i == 0 && j == 0) || (i == 0 && j == this.size[1] - 1) || (j == 0 && i == this.size[0] - 1)){
+        for(int i = 0; i < this.boardWidth; i++){
+          for(int j = 0; j < this.boardHeight; j++){
+            if((i == 0 && j == 0) || 
+            		(i == 0 && j == this.boardHeight - 1) || 
+            		(j == 0 && i == this.boardWidth - 1)){
               this.board[i][j] = new FloorTile("corner", 0.1, 0);
-            }else if((j == this.size[1] - 1 && i == this.size[0] - 1)){
+            }else if((j == this.boardHeight - 1 && i == this.boardWidth - 1)){
               this.board[i][j] = new FloorTile("goal", 0.1, 0);
             }else{
               int typeGen = (int) ((Math.random() * (3 - 1)) + 1);
@@ -64,8 +65,12 @@ public class Board {
 
     }
 
-    public int[] getSize(){
-      return this.size;
+    public int getWidth(){
+      return this.boardWidth;
     }
+    
+    public int getHeight(){
+        return this.boardHeight;
+      }
 
 }
