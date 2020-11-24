@@ -1,4 +1,4 @@
-
+package Backend;
 /**
  * FloorTile is class that floor tiles. It stores the
  * type and orientation of a floor tile.

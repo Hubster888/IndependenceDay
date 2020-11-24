@@ -1,3 +1,5 @@
+package Frontend;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +9,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import javax.xml.soap.Node;
+
+import Backend.GameController;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;

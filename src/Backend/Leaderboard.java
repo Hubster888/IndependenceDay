@@ -1,3 +1,5 @@
+package Backend;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -40,16 +42,6 @@ public class Leaderboard {
   public Leaderboard(ArrayList<Profile> profiles) {
     this.profiles = profiles;
     this.top10();
-  }
-
-
-  public void display() {
-    // read save file
-    // For each profile in the save file make an object and print out its values.
-  }
-
-  public void addProfile(Profile profile) {
-    this.profiles.add(profile);
   }
   
 
