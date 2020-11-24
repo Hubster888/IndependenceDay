@@ -44,7 +44,7 @@
          <top>
             <Pane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="#message" layoutX="34.0" layoutY="13.0" prefHeight="30.0" prefWidth="566.0" style="-fx-background-color: white;" text="Message of the day">
+                  <Label layoutX="34.0" layoutY="13.0" prefHeight="30.0" prefWidth="566.0" style="-fx-background-color: white;" text="Message of the day">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>

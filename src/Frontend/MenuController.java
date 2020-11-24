@@ -13,8 +13,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class MenuController {
-    @FXML
-    private Label message;
+
     @FXML
     private Pane pane;
 
