@@ -57,7 +57,8 @@ public class MenuController {
 
         //Here should be leaderboard.display(window);
     //}
-
+    
+    @FXML
     public void exitGame(ActionEvent event){
         Platform.exit();
     }
