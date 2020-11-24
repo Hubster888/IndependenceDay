@@ -1,3 +1,4 @@
+
 /**
  * Represents a profile.
  */
@@ -20,6 +21,7 @@ public class Profile {
     */
     public Profile(String name, int wins, int losses){
 
+
     /**
      * Creates a profile object from a given name.
      * @param name Name of the profile.`
@@ -35,6 +37,7 @@ public class Profile {
 
 
     /**
+
      * Creates a profile object from a given name. 
      */
     public Profile() {
@@ -89,6 +92,7 @@ public class Profile {
     public void setWins(int wins){
       this.wins = wins;
     }
+
 
     /*
     * @param loss number of the profile

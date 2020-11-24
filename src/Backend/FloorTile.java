@@ -1,3 +1,4 @@
+
 /**
  * FloorTile is class that floor tiles. It stores the
  * type and orientation of a floor tile.
@@ -9,6 +10,7 @@ class FloorTile extends Tile {
 
     private boolean isFrozen = false;
     private boolean isOnFire = false;
+
     private int orientation;
 
     /**
@@ -38,6 +40,7 @@ class FloorTile extends Tile {
         return orientation;
     }
 
+
     /**
      * @return True if floor tile is frozen.
      */
@@ -65,4 +68,5 @@ class FloorTile extends Tile {
     public void setOnFire(boolean onFire) {
         isOnFire = onFire;
     }
+
 }
