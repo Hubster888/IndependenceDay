@@ -27,9 +27,8 @@ public class MenuController {
     }
 
     public void leaderboardBtn(ActionEvent event){
-        Stage window = (Stage) pane.getScene().getWindow();
-
-        //Here should be leaderboard.display(window);
+        Leaderboard leaderBoard = new Leaderboard();
+        leaderBoard.display();
     }
 
     public void exitGame(ActionEvent event){
