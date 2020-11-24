@@ -1,6 +1,7 @@
 package Frontend;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,8 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import javafx.event.ActionEvent;
-import java.awt.*;
 import java.io.IOException;
 
 public class MenuController {
@@ -18,17 +17,13 @@ public class MenuController {
     private Pane pane;
 
     public void gameBtn(ActionEvent event) throws IOException {
-        FXMLLoader load = FXMLLoader.load((getClass().getResource("Game.fxml")));
+        FXMLLoader load = new FXMLLoader(getClass().getResource("Game.fxml"));
+        Parent root = load.load();
+        Scene newScene = new Scene(root);
+        Stage stage = (Stage) pane.getScene().getWindow();
 
-        Parent newSceneParent = load.load();
-        Scene newScene = new Scene(newSceneParent);
-        Stage window = (Stage) pane.getScene().getWindow();
-
-        GameController controller = load.getController();
-        Canvas gc = controller.getCanvas();
-
-        window.setScene(newScene);
-        window.show();
+        stage.setScene(newScene);
+        stage.show();
     }
 
     public void leaderboardBtn(ActionEvent event){
