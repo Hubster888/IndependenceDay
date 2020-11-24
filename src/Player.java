@@ -1,5 +1,5 @@
 import java.util.LinkedList;
-import java.util.Queue; 
+import java.util.Queue;
 
 /**
  * Represents a player.
