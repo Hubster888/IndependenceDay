@@ -1,4 +1,4 @@
-package Backend;
+package Frontend;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

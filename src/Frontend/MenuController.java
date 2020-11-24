@@ -8,12 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import javax.xml.soap.Node;
-
-import Backend.GameController;
-
+import javafx.event.ActionEvent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class MenuController {
