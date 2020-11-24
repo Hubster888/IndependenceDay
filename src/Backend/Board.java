@@ -1,4 +1,4 @@
-package Backend;
+
 import java.util.ArrayList;
 
 /**
@@ -8,16 +8,19 @@ import java.util.ArrayList;
  * @author Yan Yan Ji
  * @version 1.0
  */
+
 public class Board {
     private int[] size = new int[2];
     private ArrayList<Player> listOfPlayers = new ArrayList<Player>();
     private Tile[][] board;
+
 
     /**
      * Constructor
      * @param width of board
      * @param height of board
      */
+
     public Board (int width, int height, ArrayList<Profile> listOfProfiles, int[] startingPosition){
         this.size[0] = width;
         this.size[1] = height;
@@ -55,6 +58,7 @@ public class Board {
     public Tile getTile(int x, int y) {
     	return this.board[x][y];
     }
+
 
     public void useTile(Tile tile) {
 

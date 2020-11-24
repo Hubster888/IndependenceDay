@@ -1,4 +1,3 @@
-package Backend;
 
 /**
  * FloorTile is class that floor tiles. It stores the
@@ -8,6 +7,10 @@ package Backend;
  * @version 1.0
  */
 class FloorTile extends Tile {
+
+    private boolean isFrozen = false;
+    private boolean isOnFire = false;
+
     private int orientation;
 
     /**
@@ -36,4 +39,34 @@ class FloorTile extends Tile {
     public int getOrientation() {
         return orientation;
     }
+
+
+    /**
+     * @return True if floor tile is frozen.
+     */
+    public boolean isFrozen() {
+        return isFrozen;
+    }
+
+    /**
+     * @param frozen Set True if the tile is frozen.
+     */
+    public void setFrozen(boolean frozen) {
+        isFrozen = frozen;
+    }
+
+    /**
+     * @return True if the tile is on fire.
+     */
+    public boolean isOnFire() {
+        return isOnFire;
+    }
+
+    /**
+     * @param onFire Set True if the tile is on fire.
+     */
+    public void setOnFire(boolean onFire) {
+        isOnFire = onFire;
+    }
+
 }

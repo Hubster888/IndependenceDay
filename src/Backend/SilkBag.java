@@ -1,4 +1,3 @@
-package Backend;
 
 /**
  * Silk bag is a class where are stored rest of the
