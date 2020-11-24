@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
+import Backend.Leaderboard;
 import java.io.IOException;
 
 public class MenuController {
