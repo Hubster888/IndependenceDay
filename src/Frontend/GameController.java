@@ -36,7 +36,7 @@ public class GameController {
         stage.setScene(newScene);
         stage.show();
     }
-
+/*
     private TilePane setBoard (Board board){
         int width = board.getWidth();
         VBox column;
@@ -47,6 +47,7 @@ public class GameController {
             tilePane.getChildren().add(column);
         }
     }
+*/
 
     /**
      * It will set the tiles in a row.
