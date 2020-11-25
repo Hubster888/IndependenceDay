@@ -36,7 +36,7 @@ public class ProfileSave {
     }
   }
 
-  private static void createFile() {
+  public static void createFile() {
     File file  = new File("profileList.txt");
     try {
       file.createNewFile();
