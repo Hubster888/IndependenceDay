@@ -9,6 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,6 +30,22 @@ public class GameController {
         stage.show();
     }
 
+    /**
+     * It will set the tiles in a row.
+     * @param tiles Array of floor tiles
+     * @return Row of images of tiles
+     */
+    private VBox rowOfTiles(FloorTile[] tiles){
+        VBox row = new VBox();
+        ImageView imageTile;
+
+        for (FloorTile tile : tiles) {
+            imageTile = getImageTile(tile);
+            row.getChildren().add(imageTile);
+        }
+
+        return row;
+    }
 
     /**
      * Help method for converting floor tiles to images
