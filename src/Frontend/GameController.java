@@ -1,5 +1,6 @@
 package Frontend;
 
+import Backend.Board;
 import Backend.FloorTile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,12 +31,23 @@ public class GameController {
         stage.show();
     }
 
+    private TilePane setBoard (Board board){
+        int width = board.getWidth();
+        VBox column;
+        FloorTile[][] tiles = board.getBoard();
+
+        for (int i = 0; i < width; i++){
+            column = columnOfTiles(tiles[i]);
+            tilePane.getChildren().add(column);
+        }
+    }
+
     /**
      * It will set the tiles in a row.
      * @param tiles Array of floor tiles
      * @return Row of images of tiles
      */
-    private VBox rowOfTiles(FloorTile[] tiles){
+    private VBox columnOfTiles(FloorTile[] tiles){
         VBox row = new VBox();
         ImageView imageTile;
 
