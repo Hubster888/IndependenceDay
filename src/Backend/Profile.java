@@ -1,3 +1,4 @@
+package Backend;
 /**
  * Represents a profile.
  */
@@ -11,14 +12,6 @@ public class Profile {
         this.name = name;
     }
 
-
-    /*
-    * This constructor is used to create a profile object from an existing profile
-    * @param name of the profile
-    * @param wins number of Wins for the profiles
-    * @param losses number of losses for the profile
-    */
-    public Profile(String name, int wins, int losses){
 
     /**
      * Creates a profile object from a given name.
@@ -35,6 +28,7 @@ public class Profile {
 
 
     /**
+
      * Creates a profile object from a given name. 
      */
     public Profile() {
@@ -87,19 +81,6 @@ public class Profile {
     * @param wins number of the profile
     */
     public void setWins(int wins){
-      this.wins = wins;
-    }
-
-    /*
-    * @param loss number of the profile
-    */
-    public void setLosses(int losses){
-
-    public void setName(String name) {
-      this.name = name;
-    }
-
-    public void setWins(int wins) {
       this.wins = wins;
     }
 

@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
+<Pane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Frontend.MenuController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@america-flag.jpg" />
+            <Image url="@../america-flag.jpg" />
          </image>
       </ImageView>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
@@ -44,7 +44,7 @@
          <top>
             <Pane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="message" layoutX="34.0" layoutY="13.0" prefHeight="30.0" prefWidth="566.0" style="-fx-background-color: white;" text="Message of the day">
+                  <Label layoutX="34.0" layoutY="13.0" prefHeight="30.0" prefWidth="566.0" style="-fx-background-color: white;" text="Message of the day">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>

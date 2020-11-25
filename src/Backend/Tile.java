@@ -1,10 +1,13 @@
+package Backend;
 /**
  * Abstract class for all Tiles in the game.
  *
  * @author Yan Yan Ji
  * @version 1.0
  */
-abstract class Tile {
+
+public abstract class Tile {
+
     private double chanceOfAppearanceInBag;
     private final String type;
 
