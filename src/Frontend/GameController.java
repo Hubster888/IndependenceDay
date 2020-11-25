@@ -5,10 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class GameController {
     @FXML
-    private Canvas canvas;
+    private TilePane tilePane;
     @FXML
     private BorderPane borderPane;
 
