@@ -1,4 +1,6 @@
-package Frontend;
+
+
+
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -11,9 +13,10 @@ import javafx.stage.Stage;
 import javax.xml.soap.Node;
 
 import Backend.GameController;
+import Frontend.Leaderboard;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import java.io.IOException;
 
 public class MenuController {
@@ -21,9 +24,14 @@ public class MenuController {
     private Label message;
     @FXML
     private Pane pane;
-
-    public void gameBtn(ActionEvent event) throws IOException {
-        FXMLLoader load = FXMLLoader.load((getClass().getResource("Game.fxml")));
+    
+    @FXML
+    private Button Button;
+    
+  
+    @FXML
+    public void showLeaderboard(ActionEvent event) {
+        /*FXMLLoader load = FXMLLoader.load((getClass().getResource("Game.fxml")));
 
         Parent newSceneParent = load.load();
         Scene newScene = new Scene(newSceneParent);
@@ -33,15 +41,24 @@ public class MenuController {
         Canvas gc = controller.getCanvas();
 
         window.setScene(newScene);
-        window.show();
+        window.show();*/
+    	Leaderboard leaderBoard = new Leaderboard();
+    	leaderBoard.display();
+    }
+    
+    @FXML
+    private void handleButtonAction(ActionEvent event) {
+        // Button was clicked, do something...
+        System.out.println("Button Action\n");
     }
 
-    public void leaderboardBtn(ActionEvent event){
-        Stage window = (Stage) pane.getScene().getWindow();
+    //public void leaderboardBtn(ActionEvent event){
+      //  Stage window = (Stage) pane.getScene().getWindow();
 
         //Here should be leaderboard.display(window);
-    }
-
+    //}
+    
+    @FXML
     public void exitGame(ActionEvent event){
         Platform.exit();
     }
