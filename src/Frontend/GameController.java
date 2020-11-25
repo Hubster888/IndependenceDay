@@ -21,6 +21,12 @@ public class GameController {
     @FXML
     private BorderPane borderPane;
 
+    /*
+    public void initialize(){
+        Board board = new Board();
+        setBoard(board);
+    }*/
+
     public void exitToMenu() throws IOException {
         FXMLLoader load = new FXMLLoader(getClass().getResource("Menu.fxml"));
         Parent root = load.load();
