@@ -1,10 +1,13 @@
 package Frontend;
 
+import Backend.FloorTile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -26,7 +29,38 @@ public class GameController {
         stage.show();
     }
 
-    public Canvas getCanvas() {
-        return canvas;
+
+    /**
+     * Help method for converting floor tiles to images
+     * @param tile Floor tile
+     * @return ImageView of a floor tile
+     */
+    private ImageView getImageTile(FloorTile tile) {
+        Image pic;
+        ImageView image;
+
+        String type = tile.getTileType();
+        int orientation = tile.getOrientation();
+
+        switch (type) {
+            case "corner":
+                pic = new Image("corner");
+                break;
+            case "straight":
+                pic = new Image("straight");
+                break;
+            case "tShape":
+                pic = new Image("tShape");
+                break;
+            case "goal":
+                pic = new Image("goal");
+                break;
+            default:
+                pic = new Image("");
+                break;
+        }
+
+        image = new ImageView(pic);
+        return image;
     }
 }
