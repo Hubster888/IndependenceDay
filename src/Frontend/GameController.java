@@ -22,10 +22,10 @@ public class GameController {
     @FXML
     private BorderPane borderPane;
 
-    /*
-    public void initialize(){
+
+    /*public void initialize(){
         Board board = new Board();
-        setBoard(board);
+        setBoardWindow(board.getBoard);
     }*/
 
     public void exitToMenu() throws IOException {
@@ -50,11 +50,7 @@ public class GameController {
     }
 */
 
-    /**
-     * It will set the tiles in a row.
-     * @param tiles Array of floor tiles
-     * @return Row of images of tiles
-     */
+    /*
     private VBox columnOfTiles(FloorTile[] tiles){
         VBox row = new VBox();
         ImageView imageTile;
@@ -66,7 +62,19 @@ public class GameController {
 
         return row;
     }
+*/
+    public void setBoardWindow(FloorTile[][] tiles){
+        int width = tiles[0].length;
+        int height = tiles.length;
+        ImageView pic;
 
+        for (int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++){
+                pic = getImageTile(tiles[i][j]);
+                gp.add(pic,i,j);
+            }
+        }
+    }
     /**
      * Help method for converting floor tiles to images
      * @param tile Floor tile
@@ -81,16 +89,16 @@ public class GameController {
 
         switch (type) {
             case "corner":
-                pic = new Image("corner");
+                pic = new Image("path_Corner.jpg");
                 break;
             case "straight":
-                pic = new Image("straight");
+                pic = new Image("path_Straight.jpg");
                 break;
             case "tShape":
-                pic = new Image("tShape");
+                pic = new Image("path_T_Shape.jpg");
                 break;
             case "goal":
-                pic = new Image("goal");
+                pic = new Image("Goal.jpg");
                 break;
             default:
                 pic = new Image("");
