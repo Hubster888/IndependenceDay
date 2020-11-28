@@ -72,12 +72,13 @@ public class GameController {
         stage.show();
     }
 
-    @FXML
-    public void getPositionOfMouse(MouseEvent event) {
-        Node source = (Node) event.getSource();
-        Integer col = gp.getColumnIndex(source);
-        Integer row = gp.getRowIndex(source);
-        System.out.println(col + " " + row);
+    public double[] getPositionOfMouse(MouseEvent event) {
+        double col = event.getX();
+        double row = event.getY();
+
+        double result[] = {col,row};
+        System.out.println(gp.getWidth()/6);
+        return result;
     }
 
     public void setBoardWindow(Tile[][] tiles) {
