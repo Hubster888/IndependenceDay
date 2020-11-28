@@ -1,4 +1,9 @@
 package Backend;
+import Backend.FloorTile;
+import Backend.Player;
+import Backend.Profile;
+import Backend.Tile;
+
 import java.util.ArrayList;
 
 /**
@@ -20,7 +25,7 @@ public class Board {
      * @param width of board
      * @param height of board
      */
-    public Board (int width, int height, ArrayList<Profile> listOfProfiles, int[] startingPosition){
+    public Board(int width, int height, ArrayList<Profile> listOfProfiles, int[] startingPosition){
         this.boardWidth = width;
         this.boardHeight = height;
         board = new Tile[width][height];
