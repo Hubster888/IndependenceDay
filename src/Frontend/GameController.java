@@ -3,6 +3,7 @@ package Frontend;
 import Backend.Board;
 import Backend.FloorTile;
 import Backend.Profile;
+import Backend.ProfileSave;
 import Backend.Tile;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -22,6 +23,8 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class GameController {
     private static final String CORNER_PIC = "path_Corner.jpg";
     private static final String STRAIGHT_PIC = "path_Straight.jpg";
@@ -37,9 +40,14 @@ public class GameController {
 
 
     public void initialize() {
-        int[] a = new int[2];
-        a[0] = 1;
-        Board board = new Board(6, 6, new ArrayList<Profile>(), a);
+    	int numOfPlayers = getNumOfPlayers();
+        ArrayList<Profile> profileList = new ArrayList<Profile>();
+        for(int i = 1; i <= numOfPlayers; i++) {
+        	String profileName = getPlayerName(i);
+        	Profile prof = ProfileSave.getProfile(profileName);
+        	profileList.add(prof);
+        }
+        Board board = new Board(6, 6, profileList);
 
         gp.getRowConstraints().remove(0);
         gp.getColumnConstraints().remove(0);
@@ -148,6 +156,27 @@ public class GameController {
         image.setFitHeight(EDGE);
         image.setFitWidth(EDGE);
         return image;
+    }
+    
+    private int getNumOfPlayers() {
+    	String[] options = {"2 Players", "3 Players", "4 Players"};
+    	int choice = JOptionPane.showOptionDialog(null, "Select number of players:",
+                "Click a button",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+    	switch(choice) {
+    	case 1:
+    		return 2;
+    	case 2:
+    		return 3;
+    	case 3:
+    		return 4;
+    	default:
+    		return 0;
+    	}
+    }
+    
+    private String getPlayerName(int playerNum) {
+    	return JOptionPane.showInputDialog("What is player " + playerNum + " name?");
     }
 
 }
