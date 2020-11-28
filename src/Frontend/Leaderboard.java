@@ -110,7 +110,13 @@ public class Leaderboard {
     	        profiles.get(i).getWins(), profiles.get(i).getLosses()};
     	}
     	
-    	JTable table = new JTable(data, columnNames);
+    	JTable table = new JTable(data, columnNames) {
+        // Disable table editing.
+        public boolean editCellAt(int row, int column, java.util.EventObject e) {
+          return false;
+       }
+      };
+
         table.setBounds(30, 40, 200, 300);
         
         JScrollPane sp = new JScrollPane(table);
@@ -121,7 +127,7 @@ public class Leaderboard {
         jF.add(sp);
         jF.setSize(500, 200);
         jF.setVisible(true);
-    }catch(Exception e) {
+    } catch(Exception e) {
     	JLabel label = new JLabel();
     	label.setText("This leaderboard is empty!");
     	
