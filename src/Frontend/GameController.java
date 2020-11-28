@@ -84,10 +84,15 @@ public class GameController {
         stage.show();
     }
 
-    public void getPositionOfMouse(MouseEvent event) {
-        Node source = (Node) event.getSource();
-        Integer col = gp.getColumnIndex(source);
-        Integer row = gp.getRowIndex(source);
+    public int[] getPositionOfMouse(MouseEvent event) {
+        int[] result = new int[2];
+        int col = (int) event.getX() / EDGE;
+        int row = (int) event.getY() / EDGE;
+
+        result[0] = col;
+        result[1] = row;
+
+        return result;
     }
 
     public void setBoardWindow(Tile[][] tiles) {
