@@ -66,7 +66,7 @@ public class Board {
             for(Profile prof : listOfProfiles) {
                 switch(tracker) {
                     case 0:
-                        prof.getLosses()
+                        prof.getLosses();
                         //First figure out if profiles are chosen at start of game or end, then convert profiles
                         // to players
                         // Then set their positions.

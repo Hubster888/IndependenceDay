@@ -2,6 +2,8 @@ package Frontend;
 
 import Backend.Board;
 import Backend.FloorTile;
+import Backend.Profile;
+import Backend.Tile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GameController {
     @FXML
@@ -21,10 +24,12 @@ public class GameController {
     private BorderPane borderPane;
 
 
-    /*public void initialize(){
-        Board board = new Board();
+    public void initialize() {
+        int[] a = new int[2];
+        a[0] = 1;
+        Board board = new Board(6,6,new ArrayList<Profile>(), a);
         setBoardWindow(board.getBoard());
-    }*/
+    }
 
     public void exitToMenu() throws IOException {
         FXMLLoader load = new FXMLLoader(getClass().getResource("Menu.fxml"));
@@ -35,41 +40,16 @@ public class GameController {
         stage.setScene(newScene);
         stage.show();
     }
-/*
-    private TilePane setBoard (Board board){
-        int width = board.getWidth();
-        VBox column;
-        FloorTile[][] tiles = board.getBoard();
 
-        for (int i = 0; i < width; i++){
-            column = columnOfTiles(tiles[i]);
-            tilePane.getChildren().add(column);
-        }
-    }
-*/
-
-    /*
-    private VBox columnOfTiles(FloorTile[] tiles){
-        VBox row = new VBox();
-        ImageView imageTile;
-
-        for (FloorTile tile : tiles) {
-            imageTile = getImageTile(tile);
-            row.getChildren().add(imageTile);
-        }
-
-        return row;
-    }
-*/
-    public void setBoardWindow(FloorTile[][] tiles){
+    public void setBoardWindow(Tile[][] tiles){
         int width = tiles[0].length;
         int height = tiles.length;
         ImageView pic;
 
         for (int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
-                pic = getImageTile(tiles[i][j]);
-                gp.add(pic,i,j);
+                pic = getImageTile((FloorTile) tiles[i][j]);
+                gp.add(pic,i,j,1,1);
             }
         }
     }
@@ -104,6 +84,8 @@ public class GameController {
         }
 
         image = new ImageView(pic);
+        image.setFitHeight(50);
+        image.setFitWidth(50);
         return image;
     }
 }
