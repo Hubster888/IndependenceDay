@@ -1,5 +1,6 @@
 package Frontend;
 
+import Backend.Board;
 import Backend.FloorTile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,7 @@ public class GameController {
 
     /*public void initialize(){
         Board board = new Board();
-        setBoardWindow(board.getBoard);
+        setBoardWindow(board.getBoard());
     }*/
 
     public void exitToMenu() throws IOException {
