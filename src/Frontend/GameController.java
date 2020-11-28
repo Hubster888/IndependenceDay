@@ -1,3 +1,5 @@
+
+
 package Frontend;
 
 import Backend.Board;
@@ -40,14 +42,16 @@ public class GameController {
 
 
     public void initialize() {
-    	int numOfPlayers = getNumOfPlayers();
+        int boardSize = askBoardSize();
+        int numOfPlayers = getNumOfPlayers();
         ArrayList<Profile> profileList = new ArrayList<Profile>();
-        for(int i = 1; i <= numOfPlayers; i++) {
-        	String profileName = getPlayerName(i);
-        	Profile prof = ProfileSave.getProfile(profileName);
-        	profileList.add(prof);
+        for (int i = 1; i <= numOfPlayers; i++) {
+            String profileName = getPlayerName(i);
+            Profile prof = ProfileSave.getProfile(profileName);
+            profileList.add(prof);
         }
-        Board board = new Board(6, 6, profileList);
+
+        Board board = new Board(boardSize, boardSize, profileList);
 
         gp.getRowConstraints().remove(0);
         gp.getColumnConstraints().remove(0);
@@ -80,27 +84,21 @@ public class GameController {
         stage.show();
     }
 
-    public double[] getPositionOfMouse(MouseEvent event) {
-        double col = event.getX();
-        double row = event.getY();
-
-        double result[] = {col,row};
-        System.out.println(gp.getWidth()/6);
-        return result;
+    public void getPositionOfMouse(MouseEvent event) {
+        Node source = (Node) event.getSource();
+        Integer col = gp.getColumnIndex(source);
+        Integer row = gp.getRowIndex(source);
     }
 
     public void setBoardWindow(Tile[][] tiles) {
         int width = tiles[0].length;
-        System.out.println(width);
         int height = tiles.length;
-        System.out.println(height);
         ImageView pic;
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 pic = getImageTile((FloorTile) tiles[i][j]);
                 gp.add(pic, i, j);
-                System.out.println(i + " " + j);
             }
         }
     }
@@ -157,26 +155,44 @@ public class GameController {
         image.setFitWidth(EDGE);
         return image;
     }
-    
+
     private int getNumOfPlayers() {
-    	String[] options = {"2 Players", "3 Players", "4 Players"};
-    	int choice = JOptionPane.showOptionDialog(null, "Select number of players:",
+        String[] options = {"2 Players", "3 Players", "4 Players"};
+        int choice = JOptionPane.showOptionDialog(null, "Select number of players:",
                 "Click a button",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-    	switch(choice) {
-    	case 1:
-    		return 2;
-    	case 2:
-    		return 3;
-    	case 3:
-    		return 4;
-    	default:
-    		return 0;
-    	}
+        switch (choice) {
+            case 0:
+                return 2;
+            case 1:
+                return 3;
+            case 2:
+                return 4;
+            default:
+                return 0;
+        }
     }
-    
+
     private String getPlayerName(int playerNum) {
-    	return JOptionPane.showInputDialog("What is player " + playerNum + " name?");
+        return JOptionPane.showInputDialog("What is player " + playerNum + " name?");
+    }
+
+    private int askBoardSize() {
+        String[] options = {"6x6", "10x10", "12x12"};
+        int choice = JOptionPane.showOptionDialog(null, "Select board size:",
+                "Click a button",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        switch (choice) {
+            case 0:
+                return 6;
+            case 1:
+                return 10;
+            case 2:
+                return 12;
+            default:
+                return 0;
+        }
     }
 
 }
+
