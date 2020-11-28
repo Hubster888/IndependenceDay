@@ -29,33 +29,51 @@ public class Board {
         }
         for(int i = 0; i < this.boardWidth; i++){
           for(int j = 0; j < this.boardHeight; j++){
-            if((i == 0 && j == 0) || 
-            		(i == 0 && j == this.boardHeight - 1) || 
-            		(j == 0 && i == this.boardWidth - 1)){
-              this.board[i][j] = new FloorTile("corner", 0.1, 0);
-            }else if((j == this.boardHeight - 1 && i == this.boardWidth - 1)){
-              this.board[i][j] = new FloorTile("goal", 0.1, 0);
-            }else{
-              int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
-              int orientationGen = (int) ((Math.random() * (5 - 1)) + 1);
-              switch (typeGen){
-                case 1:
-                  this.board[i][j] = new FloorTile("corner", 0.1, orientationGen);
-                  break;
-                case 2:
-                  this.board[i][j] = new FloorTile("straight", 0.1, orientationGen);
-                  break;
-                case 3:
-                  this.board[i][j] = new FloorTile("tShape", 0.1, orientationGen);
-                  break;
-                default:
-                	System.out.println("Something wrong!");
-                  break;
-              }
+        	  if(i == 0 && j == 0) {
+        		  this.board[i][j] = new FloorTile("corner", 0.1, 0);
+        	  }else if(i == 0 && j == this.boardHeight - 1) {
+        		  this.board[i][j] = new FloorTile("corner", 0.1, 3);
+        	  }else if(j == 0 && i == this.boardWidth - 1) {
+        		  this.board[i][j] = new FloorTile("corner", 0.1, 1);
+        	  }else if(j == this.boardHeight - 1 && i == this.boardWidth - 1){
+        		  this.board[i][j] = new FloorTile("corner", 0.1, 2);
+              }else {
+                  int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
+                  int orientationGen = (int) ((Math.random() * (5 - 1)) + 1);
+                  switch (typeGen){
+                    case 1:
+                    	this.board[i][j] = new FloorTile("corner", 0.1, orientationGen);
+                    	break;
+                    case 2:
+                    	this.board[i][j] = new FloorTile("straight", 0.1, orientationGen);
+                    	break;
+                    case 3:
+                    	this.board[i][j] = new FloorTile("tShape", 0.1, orientationGen);
+                    	break;
+                    default:
+                    	System.out.println("Something wrong!");
+                    	break;
+                  }
 
-            }
+              }
           }
         }
+        board[(int) ((Math.random() * (this.boardHeight - 1) + 1))][(int) ((Math.random() * (this.boardHeight - 1)) + 1)] = new FloorTile("goal", 0.1, 0);
+        if(listOfProfiles.size() < 0) {
+        	System.out.println("Something is wrong, no players");
+        }else {
+        	int tracker = 0;
+        	for(Profile prof : listOfProfiles) {
+        		switch(tracker) {
+        			case 0:
+        				prof.getLosses()
+        				//First figure out if profiles are chosen at start of game or end, then convert profiles
+        				// to players
+        				// Then set their positions.
+        		}
+        	}
+        }
+        
     }
     
     public Tile getTile(int x, int y) {
@@ -78,5 +96,22 @@ public class Board {
     public Tile[][] getBoard(){
     	return this.board;
     }
+    
+    public static void main(String args[]) {
+    	int[] a = new int[2];
+    	a[0] = 1;
+    	Board b = new Board(6,6,new ArrayList<Profile>(), a);
+    	Tile[][] x = b.getBoard();
+    	for(int i = 0; i < 6; i++) {
+    		for(int j = 0; j< 6; j++) {
+    			System.out.print(x[i][j].getTileType() + " | ");
+    		}
+    		System.out.println();
+    	}
+    }
 
 }
+//Set the correct placments for player
+//Make all the getters and setters.
+//Add method to say which columns / rows can not move
+//Make the method that takes in as input a row or column and adds a floor tile to that.
