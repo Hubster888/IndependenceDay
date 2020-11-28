@@ -24,6 +24,7 @@ public class Board {
         this.boardWidth = width;
         this.boardHeight = height;
         board = new Tile[width][height];
+
         int xGoal = (int) ((Math.random() * (this.boardHeight - 1) + 1));
         int yGoal = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
         board[xGoal][yGoal] = new FloorTile("goal", 0.1, 0); 
@@ -74,11 +75,28 @@ public class Board {
 
               }
           }
+
         }
+        board[(int) ((Math.random() * (this.boardHeight - 1) + 1))][(int) ((Math.random() * (this.boardHeight - 1)) + 1)] = new FloorTile("goal", 0.1, 0);
+        if(listOfProfiles.size() < 0) {
+            System.out.println("Something is wrong, no players");
+        }else {
+            int tracker = 0;
+            for(Profile prof : listOfProfiles) {
+                switch(tracker) {
+                    case 0:
+                        prof.getLosses();
+                        //First figure out if profiles are chosen at start of game or end, then convert profiles
+                        // to players
+                        // Then set their positions.
+                }
+            }
+        }
+
     }
-    
+
     public Tile getTile(int x, int y) {
-    	return this.board[x][y];
+        return this.board[x][y];
     }
 
 
@@ -87,17 +105,32 @@ public class Board {
     }
 
     public int getWidth(){
-      return this.boardWidth;
+        return this.boardWidth;
     }
-    
+
     public int getHeight(){
         return this.boardHeight;
     }
-    
+
     public Tile[][] getBoard(){
-    	return this.board;
+        return this.board;
     }
+
+    public static void main(String args[]) {
+        int[] a = new int[2];
+        a[0] = 1;
+        Board b = new Board(6,6,new ArrayList<Profile>(), a);
+        Tile[][] x = b.getBoard();
+        for(int i = 0; i < 6; i++) {
+            for(int j = 0; j< 6; j++) {
+                System.out.print(x[i][j].getTileType() + " | ");
+            }
+            System.out.println();
+        }
+    }
+
 }
 //Make all the getters and setters.
 //Add method to say which columns / rows can not move
 //Make the method that takes in as input a row or column and adds a floor tile to that.
+
