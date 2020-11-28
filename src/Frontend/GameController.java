@@ -7,7 +7,6 @@ import Backend.FloorTile;
 import Backend.Profile;
 import Backend.ProfileSave;
 import Backend.Tile;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,9 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.awt.event.ActionEvent;
-
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -44,6 +40,7 @@ public class GameController {
     public void initialize() {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
+
         ArrayList<Profile> profileList = new ArrayList<Profile>();
         for (int i = 1; i <= numOfPlayers; i++) {
             String profileName = getPlayerName(i);
@@ -53,21 +50,24 @@ public class GameController {
 
         Board board = new Board(boardSize, boardSize, profileList);
 
+        int width = board.getWidth();
+        int height = board.getHeight();
+
         gp.getRowConstraints().remove(0);
         gp.getColumnConstraints().remove(0);
 
-        gp.setMaxWidth(6 * EDGE);
-        gp.setMaxHeight(6 * EDGE);
+        gp.setMaxWidth(width * EDGE);
+        gp.setMaxHeight(height * EDGE);
 
         for (int i = 0; i < 6; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setPercentWidth(100 / 6);
+            colConstraints.setPercentWidth(100 / width);
             gp.getColumnConstraints().add(colConstraints);
         }
 
         for (int i = 0; i < 6; i++) {
             RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPercentHeight(100 / 6);
+            rowConstraints.setPercentHeight(100 / height);
             gp.getRowConstraints().add(rowConstraints);
         }
 
