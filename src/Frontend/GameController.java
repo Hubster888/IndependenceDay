@@ -59,17 +59,7 @@ public class GameController {
         gp.setMaxWidth(width * EDGE);
         gp.setMaxHeight(height * EDGE);
 
-        for (int i = 0; i < 6; i++) {
-            ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setPercentWidth(100 / width);
-            gp.getColumnConstraints().add(colConstraints);
-        }
-
-        for (int i = 0; i < 6; i++) {
-            RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPercentHeight(100 / height);
-            gp.getRowConstraints().add(rowConstraints);
-        }
+        setConstrains(width,height);
 
         setBoardWindow(board.getBoard());
     }
@@ -95,7 +85,7 @@ public class GameController {
         return result;
     }
 
-    public void setBoardWindow(Tile[][] tiles) {
+    private void setBoardWindow(Tile[][] tiles) {
         int width = tiles[0].length;
         int height = tiles.length;
         ImageView pic;
@@ -105,6 +95,20 @@ public class GameController {
                 pic = getImageTile((FloorTile) tiles[i][j]);
                 gp.add(pic, i, j);
             }
+        }
+    }
+
+    private void setConstrains(int width, int height){
+        for (int i = 0; i < width; i++) {
+            ColumnConstraints colConstraints = new ColumnConstraints();
+            colConstraints.setPercentWidth(100 / width);
+            gp.getColumnConstraints().add(colConstraints);
+        }
+
+        for (int i = 0; i < height; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPercentHeight(100 / height);
+            gp.getRowConstraints().add(rowConstraints);
         }
     }
 
