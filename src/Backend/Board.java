@@ -99,17 +99,16 @@ public class Board {
         return this.board[x][y];
     }
 
-
-    public void useTile(Tile tile) {
-
-    }
-
     public int getWidth(){
         return this.boardWidth;
     }
 
     public int getHeight(){
         return this.boardHeight;
+    }
+
+    public ArrayList<Player> getListOfPlayers(){
+        return listOfPlayers;
     }
 
     public Tile[][] getBoard(){
