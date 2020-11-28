@@ -1,45 +1,52 @@
-
-import Frontend.*;
-
-import java.awt.Canvas;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.logging.Level;
 
-import Backend.Board;
-import Backend.Profile;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Main extends Application{
-	
-    @Override
-    public void start(Stage stage) throws IOException {
-    	Parent main = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+import static javafx.application.Application.launch;
 
-        stage.setTitle("Dev Launcher");
-        stage.setWidth(900);
-        stage.setHeight(560);
+public class Main extends Application {
 
-        Scene scene = new Scene(main);
+	public static void main(String[] args) {
+		launch(args);
+	}
 
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();;
-    }
 
-    public static void main(String[] args) {
-    	Leaderboard leaderBoard = new Leaderboard();
-    	launch(args);
-    }
+
+	@Override
+	public void start(Stage stage) throws IOException {
+		Parent main = FXMLLoader.load(getClass().getResource("Frontend/Menu.fxml"));
+
+		main.setStyle("-fx-background-image: url('america-flag.jpg');" +
+				"-fx-background-repeat: no-repeat;" +
+				"-fx-background-size: 100% 100%;");
+		stage.setTitle("Dev Launcher");
+
+		Scene scene = new Scene(main);
+
+		stage.setScene(scene);
+		//stage.setResizable(false);
+		stage.show();;
+	}
+
+	/*
+	public static void main(String[] args) {
+		Profile prof = new Profile("Hub");
+		ArrayList<Profile> listOfProfs = new ArrayList<Profile>();
+		listOfProfs.add(prof);
+		int[] pos = new int[2];
+		pos[0] = 0;
+		pos[1] = 0;
+		Board bor = new Board(4, 4, listOfProfs, pos);
+		for(int i = 0; i < 4; i++) {
+			for(int j = 0; j < 4; j++) {
+				System.out.print(bor.getTile(i, j).getTileType() + " ");
+			}
+			System.out.println("\n");
+		}
+	}*/
 
 }
