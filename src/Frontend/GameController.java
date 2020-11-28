@@ -72,6 +72,7 @@ public class GameController {
         stage.show();
     }
 
+    @FXML
     public void getPositionOfMouse(MouseEvent event) {
         Node source = (Node) event.getSource();
         Integer col = gp.getColumnIndex(source);
