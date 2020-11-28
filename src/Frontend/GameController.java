@@ -16,7 +16,9 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.awt.event.ActionEvent;
+
 import javafx.scene.input.MouseEvent;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -25,6 +27,8 @@ public class GameController {
     private static final String STRAIGHT_PIC = "path_Straight.jpg";
     private static final String T_SHAPE_PIC = "path_T_Shape.jpg";
     private static final String GOAL_PIC = "Goal.jpg";
+    private static final int RIGHT_ANGLE = 90;
+    private static final int EDGE = 100;
 
     @FXML
     private GridPane gp;
@@ -37,16 +41,19 @@ public class GameController {
         a[0] = 1;
         Board board = new Board(6, 6, new ArrayList<Profile>(), a);
 
-        gp.setMaxWidth(6*60);
-        gp.setMaxHeight(6*60);
+        gp.getRowConstraints().remove(0);
+        gp.getColumnConstraints().remove(0);
 
-        for (int i = 0 ; i < 6 ; i++ ) {
+        gp.setMaxWidth(6 * EDGE);
+        gp.setMaxHeight(6 * EDGE);
+
+        for (int i = 0; i < 6; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
             colConstraints.setPercentWidth(100 / 6);
             gp.getColumnConstraints().add(colConstraints);
         }
 
-        for (int i = 0 ; i < 6; i++  ) {
+        for (int i = 0; i < 6; i++) {
             RowConstraints rowConstraints = new RowConstraints();
             rowConstraints.setPercentHeight(100 / 6);
             gp.getRowConstraints().add(rowConstraints);
@@ -65,7 +72,7 @@ public class GameController {
         stage.show();
     }
 
-    public void getPositionOfMouse(MouseEvent event){
+    public void getPositionOfMouse(MouseEvent event) {
         Node source = (Node) event.getSource();
         Integer col = gp.getColumnIndex(source);
         Integer row = gp.getRowIndex(source);
@@ -123,21 +130,21 @@ public class GameController {
 
         switch (orientation) {
             case 1:
-                image.setRotate(90);
+                image.setRotate(RIGHT_ANGLE);
                 break;
             case 2:
-                image.setRotate(180);
+                image.setRotate(RIGHT_ANGLE * 2);
                 break;
             case 3:
-                image.setRotate(270);
+                image.setRotate(RIGHT_ANGLE * 3);
                 break;
             default:
                 image.setRotate(0);
                 break;
         }
 
-        image.setFitHeight(60);
-        image.setFitHeight(60);
+        image.setFitHeight(EDGE);
+        image.setFitWidth(EDGE);
         return image;
     }
 
