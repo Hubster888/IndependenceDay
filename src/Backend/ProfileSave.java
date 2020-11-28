@@ -151,6 +151,24 @@ public class ProfileSave {
     Profile prof = new Profile("huber");
     updateProfile(prof, false);
   }
+  
+  public static Profile getProfile(String profileName) {
+	  File file  = new File("profileList.txt");
+	    try(Scanner scanner = new Scanner(file)) {
+	      while (scanner.hasNextLine()) {
+	        String line = scanner.nextLine();
+	        if (isContain(line, profileName)) {
+	              String[] splitLine = line.split(" ");
+	              return new Profile(profileName, Integer.parseInt(splitLine[1]), Integer.parseInt(splitLine[2]));
+	            }
+	        }
+	    } catch(FileNotFoundException e) {
+	          System.out.println(e);
+	    }
+	    Profile prof = new Profile(profileName, 0, 0);
+	    addProfile(prof);
+	    return prof;
+  }
 }
 
 // File format

@@ -20,12 +20,29 @@ public class Board {
      * @param width of board
      * @param height of board
      */
-    public Board (int width, int height, ArrayList<Profile> listOfProfiles, int[] startingPosition){
+    public Board (int width, int height, ArrayList<Profile> listOfProfiles){
         this.boardWidth = width;
         this.boardHeight = height;
         board = new Tile[width][height];
-        for(Profile profile : listOfProfiles){
-          listOfPlayers.add(new Player(profile.getName(), startingPosition));
+        int xGoal = (int) ((Math.random() * (this.boardHeight - 1) + 1));
+        int yGoal = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
+        board[xGoal][yGoal] = new FloorTile("goal", 0.1, 0); 
+        if(listOfProfiles.size() < 0) {
+        	System.out.println("Something is wrong, no players");
+        }else {
+        	for(Profile prof : listOfProfiles) {
+        		int[] startingPos = new int[2];
+        		int x = -1;
+        		int y = -1;
+				while((x < 0 || x == xGoal) && (y < 0 || y == yGoal)) {
+					x = (int) ((Math.random() * (this.boardHeight - 1) + 1));
+			        y = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
+				}
+				startingPos[0] = x;
+				startingPos[1] = y;
+				listOfPlayers.add(new Player(prof.getName(), startingPos));
+				break;
+        	}
         }
         for(int i = 0; i < this.boardWidth; i++){
           for(int j = 0; j < this.boardHeight; j++){
@@ -58,22 +75,6 @@ public class Board {
               }
           }
         }
-        board[(int) ((Math.random() * (this.boardHeight - 1) + 1))][(int) ((Math.random() * (this.boardHeight - 1)) + 1)] = new FloorTile("goal", 0.1, 0);
-        if(listOfProfiles.size() < 0) {
-        	System.out.println("Something is wrong, no players");
-        }else {
-        	int tracker = 0;
-        	for(Profile prof : listOfProfiles) {
-        		switch(tracker) {
-        			case 0:
-        				prof.getLosses()
-        				//First figure out if profiles are chosen at start of game or end, then convert profiles
-        				// to players
-        				// Then set their positions.
-        		}
-        	}
-        }
-        
     }
     
     public Tile getTile(int x, int y) {
@@ -96,22 +97,7 @@ public class Board {
     public Tile[][] getBoard(){
     	return this.board;
     }
-    
-    public static void main(String args[]) {
-    	int[] a = new int[2];
-    	a[0] = 1;
-    	Board b = new Board(6,6,new ArrayList<Profile>(), a);
-    	Tile[][] x = b.getBoard();
-    	for(int i = 0; i < 6; i++) {
-    		for(int j = 0; j< 6; j++) {
-    			System.out.print(x[i][j].getTileType() + " | ");
-    		}
-    		System.out.println();
-    	}
-    }
-
 }
-//Set the correct placments for player
 //Make all the getters and setters.
 //Add method to say which columns / rows can not move
 //Make the method that takes in as input a row or column and adds a floor tile to that.
