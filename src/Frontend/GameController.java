@@ -2,11 +2,7 @@
 
 package Frontend;
 
-import Backend.Board;
-import Backend.FloorTile;
-import Backend.Profile;
-import Backend.ProfileSave;
-import Backend.Tile;
+import Backend.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -18,6 +14,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -49,6 +47,13 @@ public class GameController {
         }
 
         Board board = new Board(boardSize, boardSize, profileList);
+
+        //Player test draw
+        Player player = board.getListOfPlayers().get(0);
+        int col = player.getLastPosition()[0];
+        int row = player.getLastPosition()[1];
+
+        System.out.println(col + " " + row);
 
         int width = board.getWidth();
         int height = board.getHeight();
@@ -89,13 +94,32 @@ public class GameController {
         int width = tiles[0].length;
         int height = tiles.length;
         ImageView pic;
+        StackPane stackPane;
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
+                stackPane = new StackPane();
                 pic = getImageTile((FloorTile) tiles[i][j]);
+                stackPane.getChildren().add(pic);
                 gp.add(pic, i, j);
             }
         }
+
+        /*
+        pic = (ImageView) gp.getChildren().get(0);
+        gp.getChildren().remove(0);
+
+        FileInputStream inputstream = new FileInputStream("src/player_1.png");
+        Image p = new Image(inputstream);
+        ImageView image = new ImageView(p);
+
+        image.setFitHeight(EDGE);
+        image.setFitWidth(EDGE);
+
+        StackPane stackpane = new StackPane();
+        stackpane.getChildren().add(pic);
+        stackpane.getChildren().add(image);
+        gp.add(stackpane,0,0);*/
     }
 
     private void setConstrains(int width, int height){
