@@ -50,6 +50,9 @@ public class GameController {
         }
         
         Board board = new Board(boardSize, boardSize, profileList);
+        for(Profile prof : profileList) {
+        	ProfileSave.addProfile(prof);
+        }
 
         gp.getRowConstraints().remove(0);
         gp.getColumnConstraints().remove(0);
