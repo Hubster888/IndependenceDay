@@ -61,23 +61,7 @@ public class GameController {
 
         setConstrains(width, height);
 
-        setBoardWindow(board.getBoard());
-
-        //Player test draw
-        int col;
-        int row;
-        ArrayList<Player> players = board.getListOfPlayers();
-        ImageView[] picOfPlayers = getImagesOfPlayers(players);
-        for (int i = 0; i < players.size(); i++){
-            Player player = board.getListOfPlayers().get(i);
-            col = player.getLastPosition()[0];
-            row = player.getLastPosition()[1];
-
-            System.out.println(col + " " + row);
-            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width,col,row));
-            pane.getChildren().add(picOfPlayers[i]);
-        }
-
+        setBoardWindow(board.getBoard(), board.getListOfPlayers());
     }
 
     public void exitToMenu() throws IOException {
@@ -101,9 +85,12 @@ public class GameController {
         return result;
     }
 
-    private void setBoardWindow(Tile[][] tiles) {
+    private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
+        int col;
+        int row;
         int width = tiles[0].length;
         int height = tiles.length;
+        ImageView[] picOfPlayers = getImagesOfPlayers(players);
         ImageView pic;
         StackPane stackPane;
 
@@ -117,21 +104,15 @@ public class GameController {
             }
         }
 
-        /*
-        pic = (ImageView) gp.getChildren().get(0);
-        gp.getChildren().remove(0);
+        for (int i = 0; i < players.size(); i++){
+            Player player = players.get(i);
+            col = player.getLastPosition()[0];
+            row = player.getLastPosition()[1];
 
-        FileInputStream inputstream = new FileInputStream("src/player_1.png");
-        Image p = new Image(inputstream);
-        ImageView image = new ImageView(p);
-
-        image.setFitHeight(EDGE);
-        image.setFitWidth(EDGE);
-
-        StackPane stackpane = new StackPane();
-        stackpane.getChildren().add(pic);
-        stackpane.getChildren().add(image);
-        gp.add(stackpane,0,0);*/
+            System.out.println(col + " " + row);
+            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width,col,row));
+            pane.getChildren().add(picOfPlayers[i]);
+        }
     }
 
     private void setConstrains(int width, int height) {
