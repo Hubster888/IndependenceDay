@@ -26,6 +26,10 @@ public class GameController {
     private static final String STRAIGHT_PIC = "path_Straight.jpg";
     private static final String T_SHAPE_PIC = "path_T_Shape.jpg";
     private static final String GOAL_PIC = "Goal.jpg";
+    private static final String PLAYER1 = "src/player_1.png";
+    private static final String PLAYER2 = "src/player_2.png";
+    private static final String PLAYER3 = "src/player_3.png";
+    private static final String PLAYER4 = "src/player_4.png";
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
 
@@ -194,19 +198,19 @@ public class GameController {
         for (int i = 0; i < players.size(); i++) {
             switch (i) {
                 case 0:
-                    inputstream = new FileInputStream("src/player_1.png");
+                    inputstream = new FileInputStream(PLAYER1);
                     pic = new Image(inputstream);
                     break;
                 case 1:
-                    inputstream = new FileInputStream("src/player_2.png");
+                    inputstream = new FileInputStream(PLAYER2);
                     pic = new Image(inputstream);
                     break;
                 case 2:
-                    inputstream = new FileInputStream("src/player_3.png");
+                    inputstream = new FileInputStream(PLAYER3);
                     pic = new Image(inputstream);
                     break;
                 case 3:
-                    inputstream = new FileInputStream("src/player_4.png");
+                    inputstream = new FileInputStream(PLAYER4);
                     pic = new Image(inputstream);
                     break;
                 default:
