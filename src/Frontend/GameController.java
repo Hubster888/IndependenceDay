@@ -121,13 +121,6 @@ public class GameController {
         }
 
         System.out.println(turn);
-<<<<<<< HEAD
-
-        
-=======
-        result[0] = col;
-        result[1] = row;
->>>>>>> 18001cbb81d3c4d3ffc658f0092c7504cbf28d8a
 
         return result;
     }

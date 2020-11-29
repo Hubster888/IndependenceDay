@@ -77,17 +77,10 @@ public class Board {
 
                 }
             }
-<<<<<<< HEAD
+
          }
       }
-       
-        
-=======
 
-        }
-        board[(int) ((Math.random() * (this.boardHeight - 1) + 1))][(int) ((Math.random() * (this.boardHeight - 1)) + 1)] = new FloorTile("goal", 0.1, 0);
-
->>>>>>> 18001cbb81d3c4d3ffc658f0092c7504cbf28d8a
 
     
 
@@ -110,7 +103,6 @@ public class Board {
     public Tile[][] getBoard(){
         return this.board;
     }
-<<<<<<< HEAD
     
     public void updateBoard(int rowOrColumn, Boolean isRow, Tile newTile) {
     	if(!rowOrColumnCamMove(rowOrColumn)) {
@@ -133,17 +125,6 @@ public class Board {
     		}
     		this.board[rowOrColumn][0] = newTile;
     	}
-=======
-
-    public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile tileToBeAdded) {
-        if(!rowOrColumnCamMove(rowOrColumn)) {
-            // Pop up, that cant move row / column
-            return;
-        }
-        if(isRow) {
-
-        }
->>>>>>> 18001cbb81d3c4d3ffc658f0092c7504cbf28d8a
     }
 
     private Boolean rowOrColumnCamMove(int rowOrColumn) {
