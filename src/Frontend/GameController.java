@@ -117,6 +117,7 @@ public class GameController {
             player.getLastPosition()[0] = col;
             player.getLastPosition()[1] = row;
             setBoardWindow(board.getBoard(),board.getListOfPlayers());
+            changePlayer();
             changeTurnState();
         }
 
@@ -346,6 +347,13 @@ public class GameController {
         }
     }
 
-    // private void change
+    private void changePlayer(){
+        if (playerTurn < board.getListOfPlayers().size()){
+            playerTurn++;
+        }else {
+            playerTurn = 0;
+            playerTurn = 0;
+        }
+    }
 }
 
