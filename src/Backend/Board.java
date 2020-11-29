@@ -1,5 +1,6 @@
 package Backend;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Board class that is responsible for board and actions
@@ -97,6 +98,10 @@ public class Board {
     
     public Tile[][] getBoard(){
     	return this.board;
+    }
+
+    public ArrayList<Player>getListOfPlayers() {
+        return listOfPlayers;
     }
 }
 //Make all the getters and setters.
