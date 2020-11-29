@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="borderPane" prefHeight="638.0" prefWidth="829.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Frontend.GameController">
     <top>
@@ -32,4 +35,20 @@
         </rowConstraints>
       </GridPane>
    </center>
+   <left>
+      <AnchorPane prefHeight="597.0" prefWidth="171.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="playerLab" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="14.0" prefHeight="52.0" prefWidth="145.0" text="Players turn" textAlignment="CENTER" textFill="#0500f5" AnchorPane.bottomAnchor="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="stateLab" alignment="CENTER" layoutX="68.0" layoutY="120.0" text="State of turn" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </left>
 </BorderPane>
