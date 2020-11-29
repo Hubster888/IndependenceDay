@@ -98,9 +98,9 @@ public class GameController {
         } else if (turn.equals("Action")) {
             changeTurnState();
         } else if (turn.equals("Move") && checkPlayerMove(player, col, row)) {
-            //player.getLastPosition()[0] = col;
-            //player.getLastPosition()[1] = row;
-            //setBoardWindow(board.getBoard(),board.getListOfPlayers());
+            player.getLastPosition()[0] = col;
+            player.getLastPosition()[1] = row;
+            setBoardWindow(board.getBoard(),board.getListOfPlayers());
             changeTurnState();
         }
 
@@ -135,8 +135,7 @@ public class GameController {
             col = player.getLastPosition()[0];
             row = player.getLastPosition()[1];
 
-            System.out.println(col + " " + row);
-            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width, col, row));
+            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width,col,row));
             pane.getChildren().add(picOfPlayers[i]);
         }
     }
@@ -156,7 +155,7 @@ public class GameController {
     }
 
     private int getPosOfGridPane(int orgWidth, int width, int height) {
-        return width + (height * orgWidth);
+        return (width * orgWidth) + height;
     }
 
     /**
@@ -286,8 +285,8 @@ public class GameController {
     }
 
     private Boolean checkPlayerMove(Player player, int col, int row) {
-        int plRow = player.getLastPosition()[0] - 1;
-        int plCol = player.getLastPosition()[1];
+        int plRow = player.getLastPosition()[1];
+        int plCol = player.getLastPosition()[0];
 
         Boolean down = (plCol == col && plRow == row - 1);
         Boolean up = (plCol == col && plRow == row + 1);
