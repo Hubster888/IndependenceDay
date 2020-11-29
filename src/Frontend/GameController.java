@@ -35,7 +35,7 @@ public class GameController {
     private BorderPane borderPane;
 
 
-    public void initialize() {
+    public void initialize() throws FileNotFoundException {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
 
@@ -48,12 +48,7 @@ public class GameController {
 
         Board board = new Board(boardSize, boardSize, profileList);
 
-        //Player test draw
-        Player player = board.getListOfPlayers().get(0);
-        int col = player.getLastPosition()[0];
-        int row = player.getLastPosition()[1];
-
-        System.out.println(col + " " + row);
+        System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
         int height = board.getHeight();
@@ -64,9 +59,25 @@ public class GameController {
         gp.setMaxWidth(width * EDGE);
         gp.setMaxHeight(height * EDGE);
 
-        setConstrains(width,height);
+        setConstrains(width, height);
 
         setBoardWindow(board.getBoard());
+
+        //Player test draw
+        int col;
+        int row;
+        ArrayList<Player> players = board.getListOfPlayers();
+        ImageView[] picOfPlayers = getImagesOfPlayers(players);
+        for (int i = 0; i < players.size(); i++){
+            Player player = board.getListOfPlayers().get(i);
+            col = player.getLastPosition()[0];
+            row = player.getLastPosition()[1];
+
+            System.out.println(col + " " + row);
+            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width,col,row));
+            pane.getChildren().add(picOfPlayers[i]);
+        }
+
     }
 
     public void exitToMenu() throws IOException {
@@ -101,7 +112,8 @@ public class GameController {
                 stackPane = new StackPane();
                 pic = getImageTile((FloorTile) tiles[i][j]);
                 stackPane.getChildren().add(pic);
-                gp.add(pic, i, j);
+
+                gp.add(stackPane, i, j);
             }
         }
 
@@ -122,7 +134,7 @@ public class GameController {
         gp.add(stackpane,0,0);*/
     }
 
-    private void setConstrains(int width, int height){
+    private void setConstrains(int width, int height) {
         for (int i = 0; i < width; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
             colConstraints.setPercentWidth(100 / width);
@@ -134,6 +146,10 @@ public class GameController {
             rowConstraints.setPercentHeight(100 / height);
             gp.getRowConstraints().add(rowConstraints);
         }
+    }
+
+    private int getPosOfGridPane(int orgWidth, int width, int height) {
+        return width + (height * orgWidth);
     }
 
     /**
@@ -190,14 +206,12 @@ public class GameController {
     }
 
     private ImageView[] getImagesOfPlayers(ArrayList<Player> players) throws FileNotFoundException {
-        Player player;
         ImageView[] images = new ImageView[4];
         Image pic;
         FileInputStream inputstream;
 
-        for (int i = 0; i < players.size(); i++){
-            player = players.get(i);
-            switch (i){
+        for (int i = 0; i < players.size(); i++) {
+            switch (i) {
                 case 0:
                     inputstream = new FileInputStream("src/player_1.png");
                     pic = new Image(inputstream);
@@ -219,8 +233,9 @@ public class GameController {
                     pic = new Image("");
                     break;
             }
-
             images[i] = new ImageView(pic);
+            images[i].setFitWidth(EDGE);
+            images[i].setFitHeight(EDGE);
         }
         return images;
     }
