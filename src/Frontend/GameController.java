@@ -1,11 +1,8 @@
+
+
 package Frontend;
 
-import Backend.Board;
-import Backend.FloorTile;
-import Backend.Profile;
-import Backend.ProfileSave;
-import Backend.Tile;
-import javafx.beans.value.ObservableValue;
+import Backend.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,11 +12,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.awt.event.ActionEvent;
-
 import javafx.scene.input.MouseEvent;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -30,49 +26,50 @@ public class GameController {
     private static final String STRAIGHT_PIC = "path_Straight.jpg";
     private static final String T_SHAPE_PIC = "path_T_Shape.jpg";
     private static final String GOAL_PIC = "Goal.jpg";
+    private static final String PLAYER1 = "src/player_1.png";
+    private static final String PLAYER2 = "src/player_2.png";
+    private static final String PLAYER3 = "src/player_3.png";
+    private static final String PLAYER4 = "src/player_4.png";
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
+
+    //Draw, Push, Action, Move
+    private String turn = "Draw";
+    private Board board;
 
     @FXML
     private GridPane gp;
     @FXML
     private BorderPane borderPane;
 
-
-    public void initialize() {
-    	int boardSize = askBoardSize();
-    	int numOfPlayers = getNumOfPlayers();
+    public void initialize() throws FileNotFoundException {
+        int boardSize = askBoardSize();
+        int numOfPlayers = getNumOfPlayers();
         ArrayList<Profile> profileList = new ArrayList<Profile>();
-        for(int i = 1; i <= numOfPlayers; i++) {
-        	String profileName = getPlayerName(i);
-        	Profile prof = ProfileSave.getProfile(profileName);
-        	profileList.add(prof);
+        for (int i = 1; i <= numOfPlayers; i++) {
+            String profileName = getPlayerName(i);
+            Profile prof = ProfileSave.getProfile(profileName);
+            profileList.add(prof);
         }
-        
-        Board board = new Board(boardSize, boardSize, profileList);
-        for(Profile prof : profileList) {
-        	ProfileSave.addProfile(prof);
-        }
+
+
+        board = new Board(boardSize, boardSize, profileList);
+
+        System.out.println(board.getListOfPlayers().size());
+
+        int width = board.getWidth();
+        int height = board.getHeight();
+
 
         gp.getRowConstraints().remove(0);
         gp.getColumnConstraints().remove(0);
 
-        gp.setMaxWidth(6 * EDGE);
-        gp.setMaxHeight(6 * EDGE);
+        gp.setMaxWidth(width * EDGE);
+        gp.setMaxHeight(height * EDGE);
 
-        for (int i = 0; i < 6; i++) {
-            ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setPercentWidth(100 / 6);
-            gp.getColumnConstraints().add(colConstraints);
-        }
+        setConstrains(width, height);
 
-        for (int i = 0; i < 6; i++) {
-            RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPercentHeight(100 / 6);
-            gp.getRowConstraints().add(rowConstraints);
-        }
-
-        setBoardWindow(board.getBoard());
+        setBoardWindow(board.getBoard(), board.getListOfPlayers());
     }
 
     public void exitToMenu() throws IOException {
@@ -85,23 +82,78 @@ public class GameController {
         stage.show();
     }
 
-    public void getPositionOfMouse(MouseEvent event) {
-        Node source = (Node) event.getSource();
-        Integer col = gp.getColumnIndex(source);
-        Integer row = gp.getRowIndex(source);
+
+    public int[] getPositionOfMouse(MouseEvent event) {
+        int[] result = new int[2];
+        int col = (int) event.getX() / EDGE;
+        int row = (int) event.getY() / EDGE;
+
+        if (turn.equals("Player")) {
+            changeTurnState();
+        } else if (turn.equals("Push")) {
+            changeTurnState();
+        } else if (turn.equals("Push")) {
+            changeTurnState();
+        } else if (turn.equals("Push")) {
+            changeTurnState();
+        }
+        result[0] = col;
+        result[1] = row;
+
+        return result;
+
     }
 
-    public void setBoardWindow(Tile[][] tiles) {
+    private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
+        int col;
+        int row;
         int width = tiles[0].length;
         int height = tiles.length;
+
+        ImageView[] picOfPlayers = getImagesOfPlayers(players);
+
         ImageView pic;
+        StackPane stackPane;
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
+                stackPane = new StackPane();
                 pic = getImageTile((FloorTile) tiles[i][j]);
-                gp.add(pic, i, j);
+
+                stackPane.getChildren().add(pic);
+
+                gp.add(stackPane, i, j);
+
             }
         }
+
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            col = player.getLastPosition()[0];
+            row = player.getLastPosition()[1];
+
+            System.out.println(col + " " + row);
+            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width, col, row));
+            pane.getChildren().add(picOfPlayers[i]);
+        }
+    }
+
+    private void setConstrains(int width, int height) {
+        for (int i = 0; i < width; i++) {
+            ColumnConstraints colConstraints = new ColumnConstraints();
+            colConstraints.setPercentWidth(100 / width);
+            gp.getColumnConstraints().add(colConstraints);
+        }
+
+        for (int i = 0; i < height; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPercentHeight(100 / height);
+            gp.getRowConstraints().add(rowConstraints);
+        }
+    }
+
+    private int getPosOfGridPane(int orgWidth, int width, int height) {
+        return width + (height * orgWidth);
     }
 
     /**
@@ -156,26 +208,63 @@ public class GameController {
         image.setFitWidth(EDGE);
         return image;
     }
-    
+
+    private ImageView[] getImagesOfPlayers(ArrayList<Player> players) throws FileNotFoundException {
+        ImageView[] images = new ImageView[4];
+        Image pic;
+        FileInputStream inputstream;
+
+        for (int i = 0; i < players.size(); i++) {
+            switch (i) {
+                case 0:
+                    inputstream = new FileInputStream(PLAYER1);
+                    pic = new Image(inputstream);
+                    break;
+                case 1:
+                    inputstream = new FileInputStream(PLAYER2);
+                    pic = new Image(inputstream);
+                    break;
+                case 2:
+                    inputstream = new FileInputStream(PLAYER3);
+                    pic = new Image(inputstream);
+                    break;
+                case 3:
+                    inputstream = new FileInputStream(PLAYER4);
+                    pic = new Image(inputstream);
+                    break;
+                default:
+                    System.out.println("There are too many players");
+                    pic = new Image("");
+                    break;
+            }
+            images[i] = new ImageView(pic);
+            images[i].setFitWidth(EDGE);
+            images[i].setFitHeight(EDGE);
+        }
+        return images;
+    }
+
     private int getNumOfPlayers() {
-    	String[] options = {"2 Players", "3 Players", "4 Players"};
-    	int choice = JOptionPane.showOptionDialog(null, "Select number of players:",
+        String[] options = {"2 Players", "3 Players", "4 Players"};
+        int choice = JOptionPane.showOptionDialog(null, "Select number of players:",
                 "Click a button",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-    	switch(choice) {
-    	case 0:
-    		return 2;
-    	case 1:
-    		return 3;
-    	case 2:
-    		return 4;
-    	default:
-    		return 0;
-    	}
+
+        switch (choice) {
+            case 0:
+                return 2;
+            case 1:
+                return 3;
+            case 2:
+                return 4;
+            default:
+                return 0;
+        }
+
     }
-    
+
     private String getPlayerName(int playerNum) {
-    	return JOptionPane.showInputDialog("What is player " + playerNum + " name?");
+        return JOptionPane.showInputDialog("What is player " + playerNum + " name?");
     }
     
     private int askBoardSize() {
@@ -195,4 +284,43 @@ public class GameController {
     	}
     }
 
+    private int askBoardSize() {
+        String[] options = {"6x6", "10x10", "12x12"};
+        int choice = JOptionPane.showOptionDialog(null, "Select board size:",
+                "Click a button",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        switch (choice) {
+            case 0:
+                return 6;
+            case 1:
+                return 10;
+            case 2:
+                return 12;
+            default:
+                return 0;
+        }
+    }
+
+    private Boolean checkInputPush(int col, int row) {
+        if (col == 0 || col =)
+    }
+
+    private void changeTurnState() {
+        switch (turn) {
+            case "Draw":
+                turn = "Push";
+                break;
+            case "Push":
+                turn = "Action";
+                break;
+            case "Action":
+                turn = "Move";
+                break;
+            default:
+                turn = "Draw";
+                break;
+        }
+    }
+
 }
+

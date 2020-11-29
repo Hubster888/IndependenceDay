@@ -42,8 +42,6 @@ public class Board {
 				startingPos[0] = x;
 				startingPos[1] = y;
 				listOfPlayers.add(new Player(prof.getName(), startingPos));
-	
-				
         	}
         }
         for(int i = 0; i < this.boardWidth; i++){
@@ -100,11 +98,6 @@ public class Board {
         return this.board[x][y];
     }
 
-
-    public void useTile(Tile tile) {
-
-    }
-
     public int getWidth(){
         return this.boardWidth;
     }
@@ -113,10 +106,15 @@ public class Board {
         return this.boardHeight;
     }
 
+    public ArrayList<Player> getListOfPlayers(){
+        return listOfPlayers;
+    }
+
     public Tile[][] getBoard(){
         return this.board;
     }
 
+    /*
     public static void main(String args[]) {
         int[] a = new int[2];
         a[0] = 1;
@@ -128,7 +126,7 @@ public class Board {
             }
             System.out.println();
         }
-    }
+    }*/
 
 }
 //Make all the getters and setters.
