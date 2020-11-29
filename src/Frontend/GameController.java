@@ -38,6 +38,7 @@ public class GameController {
     private Board board;
     private int numPlayers;
     private int playerTurn = 0;
+    private Tile nextFloorTile = null;
 
 
     @FXML
@@ -93,12 +94,27 @@ public class GameController {
         int[] result = new int[2];
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
+        result[0] = col;
+        result[1] = row;
 
         Player player = board.getListOfPlayers().get(playerTurn);
 
         if (turn.equals("Draw")) {
+        	Tile newTile = SilkBag.generateTile();
+        	if(newTile instanceof FloorTile) {
+        		this.nextFloorTile = newTile;
+        	}else {
+        		player.addActionTile(newTile);
+        	}
             changeTurnState();
         } else if (turn.equals("Push") && checkInputPush(col, row)) {
+        	if(col == 1) {
+    			this.board.updateBoard(row, true, this.nextFloorTile);
+    		}else if(row == 1) {
+    			this.board.updateBoard(col, false, this.nextFloorTile);
+    		}else {
+    			System.out.println("Not an option");
+    		}
             changeTurnState();
         } else if (turn.equals("Action")) {
             changeTurnState();
@@ -108,8 +124,7 @@ public class GameController {
 
         System.out.println(turn);
 
-        result[0] = col;
-        result[1] = row;
+        
 
         return result;
 

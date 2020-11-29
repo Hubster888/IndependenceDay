@@ -10,7 +10,7 @@ import java.util.Queue;
 public class Player {
   private String name;
   private int[] lastPosition = new int[2];
-  private Queue<ActionTile> actionTiles;
+  private Queue<Tile> actionTiles;
 
   /**
    * Creates a player object fron given values.
@@ -32,16 +32,16 @@ public class Player {
 
   /**
    * Gives a given action tile to the player.
-   * @param tile
+   * @param newTile
    */
-  public void addActionTile(ActionTile tile) {
-    actionTiles.add(tile);
+  public void addActionTile(Tile newTile) {
+    actionTiles.add(newTile);
   }
 
   /*
   * @return returns an action tile from the queue that will be played
   */
-  public ActionTile useTile(int positionOfTiles){
+  public Tile useTile(int positionOfTiles){
     return actionTiles.remove();
   }
 

@@ -7,7 +7,7 @@ package Backend;
  * @author Yan Yan Ji
  * @version 1.0
  */
-class SilkBag {
+public class SilkBag {
     private Tile[] tiles;
 
     /**
