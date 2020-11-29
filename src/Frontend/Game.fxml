@@ -38,7 +38,7 @@
    <left>
       <AnchorPane prefHeight="597.0" prefWidth="171.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="playerLab" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="14.0" prefHeight="52.0" prefWidth="145.0" text="Players turn" textAlignment="CENTER" textFill="#0500f5" AnchorPane.bottomAnchor="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Label fx:id="playerLab" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="14.0" prefHeight="52.0" prefWidth="145.0" text="Player 1" textAlignment="CENTER" textFill="#0500f5" AnchorPane.bottomAnchor="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
