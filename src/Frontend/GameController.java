@@ -33,6 +33,10 @@ public class GameController {
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
 
+    //Draw, Push, Action, Move
+    private String turn = "Player";
+    private Board board;
+
     @FXML
     private GridPane gp;
     @FXML
@@ -50,7 +54,7 @@ public class GameController {
             profileList.add(prof);
         }
 
-        Board board = new Board(boardSize, boardSize, profileList);
+        board = new Board(boardSize, boardSize, profileList);
 
         System.out.println(board.getListOfPlayers().size());
 
@@ -83,6 +87,15 @@ public class GameController {
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
 
+        if (turn.equals("Player")) {
+            changeTurnState();
+        } else if (turn.equals("Push")) {
+            changeTurnState();
+        } else if (turn.equals("Push")) {
+            changeTurnState();
+        } else if (turn.equals("Push")) {
+            changeTurnState();
+        }
         result[0] = col;
         result[1] = row;
 
@@ -108,13 +121,13 @@ public class GameController {
             }
         }
 
-        for (int i = 0; i < players.size(); i++){
+        for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
             col = player.getLastPosition()[0];
             row = player.getLastPosition()[1];
 
             System.out.println(col + " " + row);
-            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width,col,row));
+            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width, col, row));
             pane.getChildren().add(picOfPlayers[i]);
         }
     }
@@ -260,6 +273,27 @@ public class GameController {
                 return 12;
             default:
                 return 0;
+        }
+    }
+/*
+    private Boolean checkInputPush(int col, int row) {
+        if (col == 0 || col =)
+    }*/
+
+    private void changeTurnState() {
+        switch (turn) {
+            case "Player":
+                turn = "Push";
+                break;
+            case "Push":
+                turn = "Action";
+                break;
+            case "Action":
+                turn = "Move";
+                break;
+            default:
+                turn = "Player";
+                break;
         }
     }
 
