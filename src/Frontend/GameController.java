@@ -189,6 +189,42 @@ public class GameController {
         return image;
     }
 
+    private ImageView[] getImagesOfPlayers(ArrayList<Player> players) throws FileNotFoundException {
+        Player player;
+        ImageView[] images = new ImageView[4];
+        Image pic;
+        FileInputStream inputstream;
+
+        for (int i = 0; i < players.size(); i++){
+            player = players.get(i);
+            switch (i){
+                case 0:
+                    inputstream = new FileInputStream("src/player_1.png");
+                    pic = new Image(inputstream);
+                    break;
+                case 1:
+                    inputstream = new FileInputStream("src/player_2.png");
+                    pic = new Image(inputstream);
+                    break;
+                case 2:
+                    inputstream = new FileInputStream("src/player_3.png");
+                    pic = new Image(inputstream);
+                    break;
+                case 3:
+                    inputstream = new FileInputStream("src/player_4.png");
+                    pic = new Image(inputstream);
+                    break;
+                default:
+                    System.out.println("There are too many players");
+                    pic = new Image("");
+                    break;
+            }
+
+            images[i] = new ImageView(pic);
+        }
+        return images;
+    }
+
     private int getNumOfPlayers() {
         String[] options = {"2 Players", "3 Players", "4 Players"};
         int choice = JOptionPane.showOptionDialog(null, "Select number of players:",
