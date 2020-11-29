@@ -348,10 +348,9 @@ public class GameController {
     }
 
     private void changePlayer(){
-        if (playerTurn < board.getListOfPlayers().size()){
+        if (playerTurn < board.getListOfPlayers().size() - 1){
             playerTurn++;
         }else {
-            playerTurn = 0;
             playerTurn = 0;
         }
     }
