@@ -52,14 +52,10 @@ public class GameController {
             profileList.add(prof);
         }
 
-
         board = new Board(boardSize, boardSize, profileList);
-
-        System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
         int height = board.getHeight();
-
 
         gp.getRowConstraints().remove(0);
         gp.getColumnConstraints().remove(0);
@@ -88,7 +84,7 @@ public class GameController {
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
 
-        if (turn.equals("Player")) {
+        if (turn.equals("Draw")) {
             changeTurnState();
         } else if (turn.equals("Push")) {
             changeTurnState();
@@ -282,27 +278,6 @@ public class GameController {
     	default:
     		return 0;
     	}
-    }
-
-    private int askBoardSize() {
-        String[] options = {"6x6", "10x10", "12x12"};
-        int choice = JOptionPane.showOptionDialog(null, "Select board size:",
-                "Click a button",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-        switch (choice) {
-            case 0:
-                return 6;
-            case 1:
-                return 10;
-            case 2:
-                return 12;
-            default:
-                return 0;
-        }
-    }
-
-    private Boolean checkInputPush(int col, int row) {
-        if (col == 0 || col =)
     }
 
     private void changeTurnState() {

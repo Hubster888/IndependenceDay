@@ -77,20 +77,7 @@ public class Board {
 
         }
         board[(int) ((Math.random() * (this.boardHeight - 1) + 1))][(int) ((Math.random() * (this.boardHeight - 1)) + 1)] = new FloorTile("goal", 0.1, 0);
-        if(listOfProfiles.size() < 0) {
-            System.out.println("Something is wrong, no players");
-        }else {
-            int tracker = 0;
-            for(Profile prof : listOfProfiles) {
-                switch(tracker) {
-                    case 0:
-                        prof.getLosses();
-                        //First figure out if profiles are chosen at start of game or end, then convert profiles
-                        // to players
-                        // Then set their positions.
-                }
-            }
-        }
+        
 
     }
 
@@ -113,6 +100,41 @@ public class Board {
     public Tile[][] getBoard(){
         return this.board;
     }
+    
+    public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile tileToBeAdded) {
+    	if(!rowOrColumnCamMove(rowOrColumn)) {
+    		// Pop up, that cant move row / column
+    		return;
+    	}
+    	if(isRow) {
+    		
+    	}
+    }
+    
+    private Boolean rowOrColumnCamMove(int rowOrColumn) {
+    	switch(this.boardHeight) {
+    	case 6:
+    		if(rowOrColumn == 2 || rowOrColumn == 4) {
+				return false;
+			}else {
+				return true;
+			}
+    	case 10:
+    		if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8) {
+				return false;
+			}else {
+				return true;
+			}
+    	case 12:
+    		if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8 || rowOrColumn == 10) {
+				return false;
+			}else {
+				return true;
+			}
+    	default:
+    		return false;
+    	}
+    }
 
     /*
     public static void main(String args[]) {
@@ -129,7 +151,6 @@ public class Board {
     }*/
 
 }
-//Make all the getters and setters.
 //Add method to say which columns / rows can not move
 //Make the method that takes in as input a row or column and adds a floor tile to that.
 
