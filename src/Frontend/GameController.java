@@ -95,12 +95,12 @@ public class GameController {
         Player player = board.getListOfPlayers().get(playerTurn);
 
         if (turn.equals("Draw")) {
-        	Tile newTile = SilkBag.generateTile();
+        	/*Tile newTile = SilkBag.generateTile();
         	if(newTile instanceof FloorTile) {
         		this.nextFloorTile = newTile;
         	}else {
         		player.addActionTile(newTile);
-        	}
+        	}*/
             changeTurnState();
         } else if (turn.equals("Push") && checkInputPush(col, row)) {
         	if(col == 1) {
