@@ -84,7 +84,7 @@ public class GameController {
         stage.show();
     }
 
-    public int[] getPositionOfMouse(MouseEvent event) {
+    public int[] getPositionOfMouse(MouseEvent event) throws FileNotFoundException {
         int[] result = new int[2];
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
@@ -98,6 +98,9 @@ public class GameController {
         } else if (turn.equals("Action")) {
             changeTurnState();
         } else if (turn.equals("Move") && checkPlayerMove(player, col, row)) {
+            //player.getLastPosition()[0] = col;
+            //player.getLastPosition()[1] = row;
+            //setBoardWindow(board.getBoard(),board.getListOfPlayers());
             changeTurnState();
         }
 
@@ -283,8 +286,8 @@ public class GameController {
     }
 
     private Boolean checkPlayerMove(Player player, int col, int row) {
-        int plCol = player.getLastPosition()[0];
-        int plRow = player.getLastPosition()[1];
+        int plRow = player.getLastPosition()[0] - 1;
+        int plCol = player.getLastPosition()[1];
 
         Boolean down = (plCol == col && plRow == row - 1);
         Boolean up = (plCol == col && plRow == row + 1);
