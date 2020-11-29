@@ -36,15 +36,21 @@ public class GameController {
     //Draw, Push, Action, Move
     private String turn = "Draw";
     private Board board;
+    private int numPlayers;
+    private int playerTurn = 0;
+
 
     @FXML
     private GridPane gp;
     @FXML
     private BorderPane borderPane;
 
+
     public void initialize() throws FileNotFoundException {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
+
+
         ArrayList<Profile> profileList = new ArrayList<Profile>();
         for (int i = 1; i <= numOfPlayers; i++) {
             String profileName = getPlayerName(i);
@@ -53,6 +59,10 @@ public class GameController {
         }
 
         board = new Board(boardSize, boardSize, profileList);
+
+        numOfPlayers = profileList.size();
+        System.out.println(board.getListOfPlayers().size());
+
 
         int width = board.getWidth();
         int height = board.getHeight();
@@ -84,15 +94,20 @@ public class GameController {
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
 
+        Player player = board.getListOfPlayers().get(playerTurn);
+
         if (turn.equals("Draw")) {
             changeTurnState();
-        } else if (turn.equals("Push")) {
+        } else if (turn.equals("Push") && checkInputPush(col, row)) {
             changeTurnState();
-        } else if (turn.equals("Push")) {
+        } else if (turn.equals("Action")) {
             changeTurnState();
-        } else if (turn.equals("Push")) {
+        } else if (turn.equals("Move") && checkPlayerMove(player, col, row)) {
             changeTurnState();
         }
+
+        System.out.println(turn);
+
         result[0] = col;
         result[1] = row;
 
@@ -105,7 +120,6 @@ public class GameController {
         int row;
         int width = tiles[0].length;
         int height = tiles.length;
-
         ImageView[] picOfPlayers = getImagesOfPlayers(players);
 
         ImageView pic;
@@ -262,22 +276,51 @@ public class GameController {
     private String getPlayerName(int playerNum) {
         return JOptionPane.showInputDialog("What is player " + playerNum + " name?");
     }
-    
+
     private int askBoardSize() {
-    	String[] options = {"6x6", "10x10", "12x12"};
-    	int choice = JOptionPane.showOptionDialog(null, "Select board size:",
+        String[] options = {"6x6", "10x10", "12x12"};
+        int choice = JOptionPane.showOptionDialog(null, "Select board size:",
                 "Click a button",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-    	switch(choice) {
-    	case 0:
-    		return 6;
-    	case 1:
-    		return 10;
-    	case 2:
-    		return 12;
-    	default:
-    		return 0;
-    	}
+        switch (choice) {
+            case 0:
+                return 6;
+            case 1:
+                return 10;
+            case 2:
+                return 12;
+            default:
+                return 0;
+        }
+    }
+
+    private Boolean checkPlayerMove(Player player, int col, int row) {
+        int plCol = player.getLastPosition()[0];
+        int plRow = player.getLastPosition()[1];
+
+        Boolean down = (plCol == col && plRow == row - 1);
+        Boolean up = (plCol == col && plRow == row + 1);
+        Boolean left = (plCol == col - 1 && plRow == row);
+        Boolean right = (plCol == col + 1 && plRow == row);
+
+        if (down || up || left || right) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private Boolean checkInputPush(int col, int row) {
+        int width = board.getWidth() - 1;
+        int height = board.getHeight() - 1;
+
+        Boolean leftTopCheck = (col == 0 || row == 0);
+        Boolean rightBottomCheck = (col == width || row == height);
+        if (leftTopCheck || rightBottomCheck) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void changeTurnState() {
@@ -296,6 +339,5 @@ public class GameController {
                 break;
         }
     }
-
 }
 
