@@ -34,7 +34,6 @@ public class Board {
         if(listOfProfiles.size() < 0) {
             System.out.println("Something is wrong, no players");
         }else {
-
             for(Profile prof : listOfProfiles) {
                 int[] startingPos = new int[2];
                 int x = -1;
@@ -47,7 +46,6 @@ public class Board {
                 startingPos[1] = y;
                 listOfPlayers.add(new Player(prof.getName(), startingPos));
             }
-
         }
         for(int i = 0; i < this.boardWidth; i++){
             for(int j = 0; j < this.boardHeight; j++){
@@ -79,10 +77,17 @@ public class Board {
 
                 }
             }
+<<<<<<< HEAD
          }
       }
        
         
+=======
+
+        }
+        board[(int) ((Math.random() * (this.boardHeight - 1) + 1))][(int) ((Math.random() * (this.boardHeight - 1)) + 1)] = new FloorTile("goal", 0.1, 0);
+
+>>>>>>> 18001cbb81d3c4d3ffc658f0092c7504cbf28d8a
 
     
 
@@ -105,6 +110,7 @@ public class Board {
     public Tile[][] getBoard(){
         return this.board;
     }
+<<<<<<< HEAD
     
     public void updateBoard(int rowOrColumn, Boolean isRow, Tile newTile) {
     	if(!rowOrColumnCamMove(rowOrColumn)) {
@@ -127,31 +133,42 @@ public class Board {
     		}
     		this.board[rowOrColumn][0] = newTile;
     	}
+=======
+
+    public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile tileToBeAdded) {
+        if(!rowOrColumnCamMove(rowOrColumn)) {
+            // Pop up, that cant move row / column
+            return;
+        }
+        if(isRow) {
+
+        }
+>>>>>>> 18001cbb81d3c4d3ffc658f0092c7504cbf28d8a
     }
-    
+
     private Boolean rowOrColumnCamMove(int rowOrColumn) {
-    	switch(this.boardHeight) {
-    	case 6:
-    		if(rowOrColumn == 2 || rowOrColumn == 4) {
-				return false;
-			}else {
-				return true;
-			}
-    	case 10:
-    		if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8) {
-				return false;
-			}else {
-				return true;
-			}
-    	case 12:
-    		if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8 || rowOrColumn == 10) {
-				return false;
-			}else {
-				return true;
-			}
-    	default:
-    		return false;
-    	}
+        switch(this.boardHeight) {
+            case 6:
+                if(rowOrColumn == 2 || rowOrColumn == 4) {
+                    return false;
+                }else {
+                    return true;
+                }
+            case 10:
+                if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8) {
+                    return false;
+                }else {
+                    return true;
+                }
+            case 12:
+                if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8 || rowOrColumn == 10) {
+                    return false;
+                }else {
+                    return true;
+                }
+            default:
+                return false;
+        }
     }
 
     /*

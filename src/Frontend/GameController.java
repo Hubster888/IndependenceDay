@@ -40,7 +40,6 @@ public class GameController {
     private int playerTurn = 0;
     private Tile nextFloorTile = null;
 
-
     @FXML
     private GridPane gp;
     @FXML
@@ -51,7 +50,6 @@ public class GameController {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
 
-
         ArrayList<Profile> profileList = new ArrayList<Profile>();
         for (int i = 1; i <= numOfPlayers; i++) {
             String profileName = getPlayerName(i);
@@ -60,10 +58,8 @@ public class GameController {
         }
 
         board = new Board(boardSize, boardSize, profileList);
-
         numOfPlayers = profileList.size();
         System.out.println(board.getListOfPlayers().size());
-
 
         int width = board.getWidth();
         int height = board.getHeight();
@@ -89,8 +85,7 @@ public class GameController {
         stage.show();
     }
 
-
-    public int[] getPositionOfMouse(MouseEvent event) {
+    public int[] getPositionOfMouse(MouseEvent event) throws FileNotFoundException {
         int[] result = new int[2];
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
@@ -119,15 +114,22 @@ public class GameController {
         } else if (turn.equals("Action")) {
             changeTurnState();
         } else if (turn.equals("Move") && checkPlayerMove(player, col, row)) {
+            player.getLastPosition()[0] = col;
+            player.getLastPosition()[1] = row;
+            setBoardWindow(board.getBoard(),board.getListOfPlayers());
             changeTurnState();
         }
 
         System.out.println(turn);
+<<<<<<< HEAD
 
         
+=======
+        result[0] = col;
+        result[1] = row;
+>>>>>>> 18001cbb81d3c4d3ffc658f0092c7504cbf28d8a
 
         return result;
-
     }
 
     private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
@@ -136,7 +138,6 @@ public class GameController {
         int width = tiles[0].length;
         int height = tiles.length;
         ImageView[] picOfPlayers = getImagesOfPlayers(players);
-
         ImageView pic;
         StackPane stackPane;
 
@@ -144,11 +145,9 @@ public class GameController {
             for (int j = 0; j < height; j++) {
                 stackPane = new StackPane();
                 pic = getImageTile((FloorTile) tiles[i][j]);
-
                 stackPane.getChildren().add(pic);
 
                 gp.add(stackPane, i, j);
-
             }
         }
 
@@ -157,8 +156,7 @@ public class GameController {
             col = player.getLastPosition()[0];
             row = player.getLastPosition()[1];
 
-            System.out.println(col + " " + row);
-            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width, col, row));
+            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width,col,row));
             pane.getChildren().add(picOfPlayers[i]);
         }
     }
@@ -178,7 +176,7 @@ public class GameController {
     }
 
     private int getPosOfGridPane(int orgWidth, int width, int height) {
-        return width + (height * orgWidth);
+        return (width * orgWidth) + height;
     }
 
     /**
@@ -274,7 +272,6 @@ public class GameController {
         int choice = JOptionPane.showOptionDialog(null, "Select number of players:",
                 "Click a button",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-
         switch (choice) {
             case 0:
                 return 2;
@@ -285,7 +282,6 @@ public class GameController {
             default:
                 return 0;
         }
-
     }
 
     private String getPlayerName(int playerNum) {
@@ -310,8 +306,8 @@ public class GameController {
     }
 
     private Boolean checkPlayerMove(Player player, int col, int row) {
-        int plCol = player.getLastPosition()[0];
         int plRow = player.getLastPosition()[1];
+        int plCol = player.getLastPosition()[0];
 
         Boolean down = (plCol == col && plRow == row - 1);
         Boolean up = (plCol == col && plRow == row + 1);
@@ -354,5 +350,7 @@ public class GameController {
                 break;
         }
     }
+
+    // private void change
 }
 
