@@ -1,6 +1,9 @@
 package Backend;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  * Board class that is responsible for board and actions
  * made on it.
@@ -75,11 +78,11 @@ public class Board {
                 }
             }
 
-        }
-        board[(int) ((Math.random() * (this.boardHeight - 1) + 1))][(int) ((Math.random() * (this.boardHeight - 1)) + 1)] = new FloorTile("goal", 0.1, 0);
+         }
+      }
 
 
-    }
+    
 
     public Tile getTile(int x, int y) {
         return this.board[x][y];
@@ -100,15 +103,28 @@ public class Board {
     public Tile[][] getBoard(){
         return this.board;
     }
+    
+    public void updateBoard(int rowOrColumn, Boolean isRow, Tile newTile) {
+    	if(!rowOrColumnCamMove(rowOrColumn)) {
+    		final JFrame parent = new JFrame();
 
-    public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile tileToBeAdded) {
-        if(!rowOrColumnCamMove(rowOrColumn)) {
-            // Pop up, that cant move row / column
-            return;
-        }
-        if(isRow) {
+    	      parent.pack();
+    	      parent.setVisible(true);
 
-        }
+    	      JOptionPane.showMessageDialog(parent,"This row or column can not be picked!");
+    		return;
+    	}
+    	if(isRow) {
+    		for(int j = 1; j < this.boardWidth; j++) {
+    			this.board[j][rowOrColumn] = this.board[j - 1][rowOrColumn];
+    		}
+    		this.board[0][rowOrColumn] = newTile;
+    	}else {
+    		for(int j = 1; j < this.boardWidth; j++) {
+    			this.board[rowOrColumn][j] = this.board[rowOrColumn][j - 1];
+    		}
+    		this.board[rowOrColumn][0] = newTile;
+    	}
     }
 
     private Boolean rowOrColumnCamMove(int rowOrColumn) {
