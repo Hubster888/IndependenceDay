@@ -42,11 +42,9 @@ public class GameController {
     @FXML
     private BorderPane borderPane;
 
-
     public void initialize() throws FileNotFoundException {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
-
         ArrayList<Profile> profileList = new ArrayList<Profile>();
         for (int i = 1; i <= numOfPlayers; i++) {
             String profileName = getPlayerName(i);
@@ -54,12 +52,14 @@ public class GameController {
             profileList.add(prof);
         }
 
+
         board = new Board(boardSize, boardSize, profileList);
 
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
         int height = board.getHeight();
+
 
         gp.getRowConstraints().remove(0);
         gp.getColumnConstraints().remove(0);
@@ -82,6 +82,7 @@ public class GameController {
         stage.show();
     }
 
+
     public int[] getPositionOfMouse(MouseEvent event) {
         int[] result = new int[2];
         int col = (int) event.getX() / EDGE;
@@ -100,6 +101,7 @@ public class GameController {
         result[1] = row;
 
         return result;
+
     }
 
     private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
@@ -107,7 +109,9 @@ public class GameController {
         int row;
         int width = tiles[0].length;
         int height = tiles.length;
+
         ImageView[] picOfPlayers = getImagesOfPlayers(players);
+
         ImageView pic;
         StackPane stackPane;
 
@@ -115,9 +119,11 @@ public class GameController {
             for (int j = 0; j < height; j++) {
                 stackPane = new StackPane();
                 pic = getImageTile((FloorTile) tiles[i][j]);
+
                 stackPane.getChildren().add(pic);
 
                 gp.add(stackPane, i, j);
+
             }
         }
 
@@ -243,6 +249,7 @@ public class GameController {
         int choice = JOptionPane.showOptionDialog(null, "Select number of players:",
                 "Click a button",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
         switch (choice) {
             case 0:
                 return 2;
@@ -253,10 +260,28 @@ public class GameController {
             default:
                 return 0;
         }
+
     }
 
     private String getPlayerName(int playerNum) {
         return JOptionPane.showInputDialog("What is player " + playerNum + " name?");
+    }
+    
+    private int askBoardSize() {
+    	String[] options = {"6x6", "10x10", "12x12"};
+    	int choice = JOptionPane.showOptionDialog(null, "Select board size:",
+                "Click a button",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+    	switch(choice) {
+    	case 0:
+    		return 6;
+    	case 1:
+    		return 10;
+    	case 2:
+    		return 12;
+    	default:
+    		return 0;
+    	}
     }
 
     private int askBoardSize() {
