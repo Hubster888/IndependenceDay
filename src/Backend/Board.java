@@ -42,7 +42,6 @@ public class Board {
 				startingPos[0] = x;
 				startingPos[1] = y;
 				listOfPlayers.add(new Player(prof.getName(), startingPos));
-				break;
         	}
         }
         for(int i = 0; i < this.boardWidth; i++){
