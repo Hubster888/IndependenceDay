@@ -34,7 +34,7 @@ public class GameController {
     private static final int EDGE = 100;
 
     //Draw, Push, Action, Move
-    private String turn = "Player";
+    private String turn = "Draw";
     private Board board;
 
     @FXML
@@ -275,14 +275,14 @@ public class GameController {
                 return 0;
         }
     }
-/*
+
     private Boolean checkInputPush(int col, int row) {
         if (col == 0 || col =)
-    }*/
+    }
 
     private void changeTurnState() {
         switch (turn) {
-            case "Player":
+            case "Draw":
                 turn = "Push";
                 break;
             case "Push":
@@ -292,7 +292,7 @@ public class GameController {
                 turn = "Move";
                 break;
             default:
-                turn = "Player";
+                turn = "Draw";
                 break;
         }
     }
