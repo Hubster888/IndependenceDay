@@ -25,7 +25,7 @@ import Backend.ProfileSave;
  * Represents the leader board.
  */
 public class Leaderboard {
-  private ArrayList<Profile> profiles;
+  private ArrayList<Profile> profiles = new ArrayList<Profile>();
 
  /* public static void main(String[] args) {
     ArrayList<Profile> p = new ArrayList<Profile>();
@@ -59,16 +59,18 @@ public class Leaderboard {
 			reader = new BufferedReader(new FileReader("profileList.txt"));
 			String line = reader.readLine();
 			while (line != null) {
-        String[] lineSplit = line.split(" ");
+				String[] lineSplit = line.split(" ");
 				Profile temp = new Profile(lineSplit[0], Integer.parseInt(lineSplit[1]), Integer.parseInt(lineSplit[2]));
-        this.profiles.add(temp);
+				this.profiles.add(temp);
 				line = reader.readLine();
 			}
 			reader.close();
-  	} catch (IOException e) {
-  		e.printStackTrace();
-  		ProfileSave.createFile();
-  	}
+		} catch (IOException e) {
+			e.printStackTrace();
+			ProfileSave.createFile();
+		} catch(NullPointerException e1) {
+			System.out.println("vv");
+		}
   }
 
   public void addProfile(Profile profile) {
