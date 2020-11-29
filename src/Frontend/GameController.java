@@ -98,6 +98,7 @@ public class GameController {
         result[1] = row;
 
         Player player = board.getListOfPlayers().get(playerTurn);
+        playerLab.setText("Player " + (playerTurn + 1));
 
         if (turn.equals("Draw")) {
         	/*Tile newTile = SilkBag.generateTile();
@@ -350,6 +351,7 @@ public class GameController {
                 turn = "Draw";
                 break;
         }
+        stateLab.setText(turn);
     }
 
     private void changePlayer(){
