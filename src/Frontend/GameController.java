@@ -112,6 +112,8 @@ public class GameController {
     }
 
     private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
+        gp.getChildren().clear();
+
         int col;
         int row;
         int width = tiles[0].length;
