@@ -27,10 +27,14 @@ public class Board {
         this.boardWidth = width;
         this.boardHeight = height;
         board = new Tile[width][height];
-
-        int xGoal = (int) ((Math.random() * (this.boardHeight - 1) + 1));
-        int yGoal = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
-        board[xGoal][yGoal] = new FloorTile("goal", 0.1, 0);
+        int xGoal = 0;
+        int yGoal = 0;
+        while(xGoal == 0 || yGoal == 0) {
+        	xGoal = (int) ((Math.random() * (this.boardHeight - 1) + 1));
+            yGoal = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
+        }
+        
+        
         if(listOfProfiles.size() < 0) {
             System.out.println("Something is wrong, no players");
         }else {
@@ -49,6 +53,7 @@ public class Board {
         }
         for(int i = 0; i < this.boardWidth; i++){
             for(int j = 0; j < this.boardHeight; j++){
+            	//if(i != xGoal && j != yGoal) {
                 if(i == 0 && j == 0) {
                     this.board[i][j] = new FloorTile("corner", 0.1, 0);
                 }else if(i == 0 && j == this.boardHeight - 1) {
@@ -79,6 +84,7 @@ public class Board {
             }
 
          }
+        board[xGoal][yGoal] = new FloorTile("goal", 0.1, 0);
       }
 
 
