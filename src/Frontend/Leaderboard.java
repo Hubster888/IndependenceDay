@@ -3,12 +3,6 @@ package Frontend;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -26,17 +20,6 @@ import Backend.ProfileSave;
  */
 public class Leaderboard {
   private ArrayList<Profile> profiles = new ArrayList<Profile>();
-
- /* public static void main(String[] args) {
-    ArrayList<Profile> p = new ArrayList<Profile>();
-    p.add(new Profile("Robbie", 5, 2));
-    p.add(new Profile("Tamzin", 9, 5));
-    p.add(new Profile("James", 4, 2));
-    p.add(new Profile("Anna", 3, 3));
-    System.out.println(p.size());
-    Leaderboard i = new Leaderboard();
-    i.display();
-  }*/
 
   /**
    * Creates a leader board from a given list of profiles.
@@ -81,7 +64,6 @@ public class Leaderboard {
    * Gets a sorted list of the top 10 players.
    */
   private void top10() {
-    ArrayList<Profile> temp = new ArrayList<Profile>();
 
     // Sorts the first 10 and removes any remaining.
     for (int i = 0; i < profiles.size() - 1; i++) {
@@ -113,10 +95,12 @@ public class Leaderboard {
     	}
     	
     	JTable table = new JTable(data, columnNames) {
-        // Disable table editing.
-        public boolean editCellAt(int row, int column, java.util.EventObject e) {
-          return false;
-       }
+			private static final long serialVersionUID = 1L;
+
+			// Disable table editing.
+	        public boolean editCellAt(int row, int column, java.util.EventObject e) {
+	        	return false;
+	        }
       };
 
         table.setBounds(30, 40, 200, 300);

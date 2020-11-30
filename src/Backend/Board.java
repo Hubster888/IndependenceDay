@@ -34,7 +34,6 @@ public class Board {
             yGoal = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
         }
         
-        
         if(listOfProfiles.size() < 0) {
             System.out.println("Something is wrong, no players");
         }else {
@@ -53,7 +52,6 @@ public class Board {
         }
         for(int i = 0; i < this.boardWidth; i++){
             for(int j = 0; j < this.boardHeight; j++){
-            	//if(i != xGoal && j != yGoal) {
                 if(i == 0 && j == 0) {
                     this.board[i][j] = new FloorTile("corner", 0.1, 0);
                 }else if(i == 0 && j == this.boardHeight - 1) {
@@ -157,21 +155,6 @@ public class Board {
                 return false;
         }
     }
-
-    /*
-    public static void main(String args[]) {
-        int[] a = new int[2];
-        a[0] = 1;
-        Board b = new Board(6,6,new ArrayList<Profile>(), a);
-        Tile[][] x = b.getBoard();
-        for(int i = 0; i < 6; i++) {
-            for(int j = 0; j< 6; j++) {
-                System.out.print(x[i][j].getTileType() + " | ");
-            }
-            System.out.println();
-        }
-    }*/
-
 }
 //Add method to say which columns / rows can not move
 //Make the method that takes in as input a row or column and adds a floor tile to that.

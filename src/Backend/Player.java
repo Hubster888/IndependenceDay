@@ -52,4 +52,8 @@ public class Player {
   public int[] getLastPosition() {
     return lastPosition;
   }
+  
+  public String getName() {
+	  return this.name;
+  }
 }
