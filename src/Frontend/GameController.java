@@ -36,9 +36,8 @@ public class GameController {
     //Draw, Push, Action, Move
     private String turn = "Draw";
     private Board board;
-    private int numPlayers;
     private int playerTurn = 0;
-    private Tile nextFloorTile = null;
+    private FloorTile nextFloorTile = new FloorTile("corner", 0.1, 0);
 
     @FXML
     private GridPane gp;
@@ -62,7 +61,6 @@ public class GameController {
         }
 
         board = new Board(boardSize, boardSize, profileList);
-        numOfPlayers = profileList.size();
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
@@ -89,7 +87,7 @@ public class GameController {
         stage.show();
     }
 
-    public int[] getPositionOfMouse(MouseEvent event) throws FileNotFoundException {
+    public int[] getPositionOfMouse(MouseEvent event) throws IOException {
         int[] result = new int[2];
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
@@ -108,22 +106,22 @@ public class GameController {
         	}*/
             changeTurnState();
         } else if (turn.equals("Push") && checkInputPush(col, row)) {
-        	if(col == 1) {
-    			this.board.updateBoard(row, true, this.nextFloorTile);
-    		}else if(row == 1) {
-    			this.board.updateBoard(col, false, this.nextFloorTile);
-    		}else {
-    			System.out.println("Not an option");
-    		}
+            if (col == 1) {
+                this.board.updateBoard(row, true, this.nextFloorTile);
+            } else if (row == 1) {
+                this.board.updateBoard(col, false, this.nextFloorTile);
+            } else {
+                System.out.println("Not an option");
+            }
             changeTurnState();
         } else if (turn.equals("Action")) {
             changeTurnState();
         } else if (turn.equals("Move") && checkPlayerMove(player, col, row)) {
-            player.getLastPosition()[0] = col;
-            player.getLastPosition()[1] = row;
-            setBoardWindow(board.getBoard(),board.getListOfPlayers());
+            player.setLastPosition(new int[]{col, row});
+            setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changePlayer();
             changeTurnState();
+            endOfGame(col, row);
         }
 
         System.out.println(turn);
@@ -157,7 +155,7 @@ public class GameController {
             col = player.getLastPosition()[0];
             row = player.getLastPosition()[1];
 
-            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width,col,row));
+            StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width, col, row));
             pane.getChildren().add(picOfPlayers[i]);
         }
     }
@@ -353,11 +351,25 @@ public class GameController {
         stateLab.setText(turn);
     }
 
-    private void changePlayer(){
-        if (playerTurn < board.getListOfPlayers().size() - 1){
+    private void changePlayer() {
+        if (playerTurn < board.getListOfPlayers().size() - 1) {
             playerTurn++;
-        }else {
+        } else {
             playerTurn = 0;
+        }
+    }
+
+    private void endOfGame(int col, int row) throws IOException {
+        if (board.getTile(col, row).getTileType().equals("goal")) {
+            exitToMenu();
+            Player player = board.getListOfPlayers().get(playerTurn);
+
+            if (player.getName().equals("")) {
+                JOptionPane.showMessageDialog(null, playerLab + " won!");
+            } else {
+                JOptionPane.showMessageDialog(null, player.getName() + " won!");
+            }
+
         }
     }
 }
