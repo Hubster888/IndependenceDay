@@ -1,4 +1,4 @@
-package Backend;
+/*package Backend;
 
 import java.io.IOException;
 import java.net.URI;
@@ -77,6 +77,6 @@ public class MOTD{
         System.out.println(getmotd());
     }
 
-}
+}*/
 
 
