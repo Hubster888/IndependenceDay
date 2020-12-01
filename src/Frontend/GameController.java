@@ -53,7 +53,7 @@ public class GameController {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
 
-        ArrayList<Profile> profileList = new ArrayList<Profile>();
+        ArrayList<Profile> profileList = new ArrayList<>();
         for (int i = 1; i <= numOfPlayers; i++) {
             String profileName = getPlayerName(i);
             Profile prof = ProfileSave.getProfile(profileName);
@@ -87,12 +87,9 @@ public class GameController {
         stage.show();
     }
 
-    public int[] getPositionOfMouse(MouseEvent event) throws IOException {
-        int[] result = new int[2];
+    public void mouseAction(MouseEvent event) throws IOException {
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
-        result[0] = col;
-        result[1] = row;
 
         Player player = board.getListOfPlayers().get(playerTurn);
 
@@ -121,8 +118,6 @@ public class GameController {
         }
 
         System.out.println(turn);
-
-        return result;
     }
 
     private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
