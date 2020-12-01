@@ -26,7 +26,7 @@
       </MenuBar>
     </top>
    <center>
-      <GridPane fx:id="gp" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#getPositionOfMouse" prefHeight="500.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <GridPane fx:id="gp" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#mouseAction" prefHeight="500.0" prefWidth="600.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
