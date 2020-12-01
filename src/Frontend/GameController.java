@@ -115,13 +115,6 @@ public class GameController {
             changeTurnState();
         } else if (turn.equals(PUSH) && checkInputPush(col, row)) {
             board.updateBoard(nextFloorTile,col,row);
-            if (col == 1) {
-                //this.board.updateBoard(row, true, this.nextFloorTile);
-            } else if (row == 1) {
-                //this.board.updateBoard(col, false, this.nextFloorTile);
-            } else {
-                System.out.println("Not an option");
-            }
             changeTurnState();
         } else if (turn.equals(ACTION)) {
             changeTurnState();
