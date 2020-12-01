@@ -56,4 +56,49 @@ public class Player {
   public String getName() {
 	  return this.name;
   }
+
+  public Boolean hasMove(Board board) {
+    int plRow = getLastPosition()[1];
+    int plCol = getLastPosition()[0];
+    boolean left = false;
+    boolean right = false;
+    boolean down = false;
+    boolean up = false;
+
+    FloorTile plTile = board.getTile(plCol, plRow);
+
+    if (0 < plCol) {
+      left = (board.getTile(plCol - 1, plRow).hasPath(1) && plTile.hasPath(3));
+    }
+
+    System.out.println(plCol + " " + plRow);
+    if (board.getWidth() - 1 > plCol) {
+      right = (board.getTile(plCol + 1, plRow).hasPath(3) && plTile.hasPath(1));
+    }
+
+    if (board.getHeight() - 1 > plRow) {
+      down = (board.getTile(plCol, plRow + 1).hasPath(0) && plTile.hasPath(2));
+    }
+
+    if (0 < plRow) {
+      up = (board.getTile(plCol, plRow - 1).hasPath(2) && plTile.hasPath(0));
+    }
+
+    return down || up || left || right;
+  }
+
+  public Boolean checkPlayerMove(Board board, int col, int row) {
+    int plRow = getLastPosition()[1];
+    int plCol = getLastPosition()[0];
+
+    FloorTile tile = board.getTile(col, row);
+    FloorTile plTile = board.getTile(plCol, plRow);
+
+    Boolean left = (plCol == col + 1 && plRow == row && tile.hasPath(1) && plTile.hasPath(3));
+    Boolean right = (plCol == col - 1 && plRow == row && tile.hasPath(3) && plTile.hasPath(1));
+    Boolean up = (plCol == col && plRow == row - 1 && tile.hasPath(0) && plTile.hasPath(2));
+    Boolean down = (plCol == col && plRow == row + 1 && tile.hasPath(2) && plTile.hasPath(0));
+
+    return down || up || left || right;
+  }
 }
