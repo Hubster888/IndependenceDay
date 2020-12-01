@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -54,6 +55,14 @@ public class GameController {
     public Label stateLab;
     @FXML
     public AnchorPane drawnTile;
+    @FXML
+    public Button fireBtn;
+    @FXML
+    public Button iceBtn;
+    @FXML
+    public Button doubleMoveBtn;
+    @FXML
+    public Button backTrackMove;
 
 
     public void initialize() throws FileNotFoundException {
@@ -82,6 +91,7 @@ public class GameController {
         setConstrains(width, height);
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
+
     }
 
     public void exitToMenu() throws IOException {
