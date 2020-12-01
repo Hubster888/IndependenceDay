@@ -30,12 +30,16 @@ public class GameController {
     private static final String PLAYER2 = "src/player_2.png";
     private static final String PLAYER3 = "src/player_3.png";
     private static final String PLAYER4 = "src/player_4.png";
+    private static final String DRAW = "Draw";
+    private static final String PUSH = "Push";
+    private static final String ACTION = "Action";
+    private static final String MOVE = "Move";
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
     private static final int DRAWN_EDGE = 150;
 
     //Draw, Push, Action, Move
-    private String turn = "Draw";
+    private String turn = DRAW;
     private Board board;
     private int playerTurn = 0;
     private FloorTile nextFloorTile = new FloorTile("corner", 0.1, 0);
@@ -96,10 +100,10 @@ public class GameController {
 
         Player player = board.getListOfPlayers().get(playerTurn);
 
-        if (turn.equals("Draw")) {
+        if (turn.equals(DRAW)) {
             actionDraw();
             changeTurnState();
-        } else if (turn.equals("Push") && checkInputPush(col, row)) {
+        } else if (turn.equals(PUSH) && checkInputPush(col, row)) {
             if (col == 1) {
                 this.board.updateBoard(row, true, this.nextFloorTile);
             } else if (row == 1) {
@@ -108,9 +112,9 @@ public class GameController {
                 System.out.println("Not an option");
             }
             changeTurnState();
-        } else if (turn.equals("Action")) {
+        } else if (turn.equals(ACTION)) {
             changeTurnState();
-        } else if ((turn.equals("Move") && player.canMove(board, col, row)) || !player.hasMove(board)) {
+        } else if ((turn.equals(MOVE) && player.canMove(board, col, row)) || !player.hasMove(board)) {
             actionPlayer(player, col, row);
             playerLab.setText("Player " + (playerTurn + 1));
         }
@@ -329,17 +333,17 @@ public class GameController {
 
     private void changeTurnState() {
         switch (turn) {
-            case "Draw":
-                turn = "Push";
+            case DRAW:
+                turn = PUSH;
                 break;
-            case "Push":
-                turn = "Action";
+            case PUSH:
+                turn = ACTION;
                 break;
-            case "Action":
-                turn = "Move";
+            case ACTION:
+                turn = MOVE;
                 break;
             default:
-                turn = "Draw";
+                turn = DRAW;
                 break;
         }
         stateLab.setText(turn);
