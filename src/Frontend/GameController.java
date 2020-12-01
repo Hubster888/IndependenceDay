@@ -92,14 +92,6 @@ public class GameController {
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
 
-        fireBtn.setStyle("-fx-background-image: url('/path_Corner.jpg');\n" +
-                "-fx-background-size: 100% 100%;");
-        iceBtn.setStyle("-fx-background-image: url('/path_Corner.jpg');\n" +
-                "-fx-background-size: 100% 100%;");
-        doubleMoveBtn.setStyle("-fx-background-image: url('/path_Corner.jpg');\n" +
-                "-fx-background-size: 100% 100%;");
-        backTrackMove.setStyle("-fx-background-image: url('/path_Corner.jpg');\n" +
-                "-fx-background-size: 100% 100%;");
     }
 
     public void exitToMenu() throws IOException {
