@@ -53,10 +53,9 @@ public class Board {
             	}else if(i == 2) {
             		int[] startingPos = new int[2];
             		startingPos[0] = 0;
-            		startingPos[1] = 1;
+            		startingPos[1] = 0;
             		Profile prof = listOfProfiles.get(i);
                 	listOfPlayers.add(new Player(prof.getName(), startingPos));
-                    startingPos[1] = 1;
             	}else if(i == 3) {
             		int[] startingPos = new int[2];
             		startingPos[0] = this.boardHeight - 1;
