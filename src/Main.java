@@ -18,9 +18,6 @@ public class Main extends Application {
 	public void start(Stage stage) throws IOException {
 		Parent main = FXMLLoader.load(getClass().getResource("Frontend/Menu.fxml"));
 
-		main.setStyle("-fx-background-image: url('america-flag.jpg');" +
-				"-fx-background-repeat: no-repeat;" +
-				"-fx-background-size: 100% 100%;");
 		stage.setTitle("Dev Launcher");
 
 		Scene scene = new Scene(main);
