@@ -37,17 +37,35 @@ public class Board {
         if(listOfProfiles.size() < 0) {
             System.out.println("Something is wrong, no players");
         }else {
-            for(Profile prof : listOfProfiles) {
-                int[] startingPos = new int[2];
-                int x = -1;
-                int y = -1;
-                while((x < 0 || x == xGoal) && (y < 0 || y == yGoal)) {
-                    x = (int) ((Math.random() * (this.boardHeight - 1) + 1));
-                    y = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
-                }
-                startingPos[0] = x;
-                startingPos[1] = y;
-                listOfPlayers.add(new Player(prof.getName(), startingPos));
+            for(int i = 0; i < listOfProfiles.size(); i++) {
+            	if(i == 0) {
+            		int[] startingPos = new int[2];
+            		startingPos[0] = this.boardHeight - 1;
+            		startingPos[1] = 0;
+                    Profile prof = listOfProfiles.get(i);
+                	listOfPlayers.add(new Player(prof.getName(), startingPos));
+            	}else if(i == 1) {
+            		int[] startingPos = new int[2];
+            		startingPos[0] = 0;
+                    startingPos[1] = this.boardHeight - 1;
+                    Profile prof = listOfProfiles.get(i);
+                	listOfPlayers.add(new Player(prof.getName(), startingPos));
+            	}else if(i == 2) {
+            		int[] startingPos = new int[2];
+            		startingPos[0] = 0;
+            		startingPos[1] = 1;
+            		Profile prof = listOfProfiles.get(i);
+                	listOfPlayers.add(new Player(prof.getName(), startingPos));
+                    startingPos[1] = 1;
+            	}else if(i == 3) {
+            		int[] startingPos = new int[2];
+            		startingPos[0] = this.boardHeight - 1;
+                    startingPos[1] = this.boardHeight - 1;
+                    Profile prof = listOfProfiles.get(i);
+                	listOfPlayers.add(new Player(prof.getName(), startingPos));
+            	}else {
+            		System.out.println("end");
+            	}
             }
         }
         for(int i = 0; i < this.boardWidth; i++){
