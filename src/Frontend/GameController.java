@@ -311,15 +311,10 @@ public class GameController {
         FloorTile tile = (FloorTile) board.getTile(col, row);
         FloorTile plTile = (FloorTile) board.getTile(plCol, plRow);
 
-        //plTile.hasPath(2);
-        System.out.println(col + " " + row);
-        System.out.println(plCol + " " + plRow);
-        System.out.println(tile.getTileType());
-
-        Boolean right = (plCol == col + 1 && plRow == row);
-        Boolean left = (plCol == col - 1 && plRow == row);
-        Boolean up = (plCol == col && plRow == row - 1);
-        Boolean down = (plCol == col && plRow == row + 1);
+        Boolean left = (plCol == col + 1 && plRow == row && tile.hasPath(1) && plTile.hasPath(3));
+        Boolean right = (plCol == col - 1 && plRow == row && tile.hasPath(3) && plTile.hasPath(1));
+        Boolean up = (plCol == col && plRow == row - 1 && tile.hasPath(0) && plTile.hasPath(2));
+        Boolean down = (plCol == col && plRow == row + 1 && tile.hasPath(2) && plTile.hasPath(0));
 
         if (down || up || left || right) {
             return true;

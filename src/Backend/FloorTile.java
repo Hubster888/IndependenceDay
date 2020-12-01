@@ -30,7 +30,7 @@ public class FloorTile extends Tile {
     public FloorTile(String type, double chanceOfAppearing, int orientation) {
         super(type, chanceOfAppearing);
         this.orientation = orientation;
-        //setPaths(type);
+        setPaths(type);
     }
 
     /**
@@ -77,13 +77,10 @@ public class FloorTile extends Tile {
         isOnFire = onFire;
     }
 
-    /*public boolean hasPath(int direction) {
-        int ordirect = rotate(direction);
+    public boolean hasPath(int direction) {
         boolean result = false;
-        System.out.println(this.orientation);
-        for (int i = 0; i < paths.length; i++) {
-            if (i == ordirect) {
-                System.out.print(i);
+        for (int i:this.paths){
+            if (rotate(i) == direction){
                 result = true;
             }
         }
@@ -111,10 +108,6 @@ public class FloorTile extends Tile {
     }
 
     private int rotate(int direction) {
-        if (direction + orientation <= 3) {
-            return direction + orientation;
-        } else {
-            return direction + orientation - 4;
-        }
-    }*/
+        return (direction + orientation) % 4;
+    }
 }
