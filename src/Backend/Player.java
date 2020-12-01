@@ -87,7 +87,7 @@ public class Player {
     return down || up || left || right;
   }
 
-  public Boolean checkPlayerMove(Board board, int col, int row) {
+  public Boolean canMove(Board board, int col, int row) {
     int plRow = getLastPosition()[1];
     int plCol = getLastPosition()[0];
 

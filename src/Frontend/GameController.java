@@ -95,7 +95,6 @@ public class GameController {
         result[1] = row;
 
         Player player = board.getListOfPlayers().get(playerTurn);
-        playerLab.setText("Player " + (playerTurn + 1));
 
         if (turn.equals("Draw")) {
         	/*Tile newTile = SilkBag.generateTile();
@@ -116,12 +115,9 @@ public class GameController {
             changeTurnState();
         } else if (turn.equals("Action")) {
             changeTurnState();
-        } else if ((turn.equals("Move") && player.checkPlayerMove(board, col, row)) || !player.hasMove(board)) {
-            player.setLastPosition(new int[]{col, row});
-            setBoardWindow(board.getBoard(), board.getListOfPlayers());
-            changePlayer();
-            changeTurnState();
-            endOfGame(col, row);
+        } else if ((turn.equals("Move") && player.canMove(board, col, row)) || !player.hasMove(board)) {
+            actionPlayer(player, col, row);
+            playerLab.setText("Player " + (playerTurn + 1));
         }
 
         System.out.println(turn);
@@ -304,6 +300,16 @@ public class GameController {
         }
     }
 
+    private void actionPlayer(Player player, int col, int row) throws IOException {
+        if (player.hasMove(board)) {
+            player.setLastPosition(new int[]{col, row});
+            setBoardWindow(board.getBoard(), board.getListOfPlayers());
+            endOfGame(col, row);
+        }
+
+        changePlayer();
+        changeTurnState();
+    }
 
     private Boolean checkInputPush(int col, int row) {
         int width = board.getWidth() - 1;
