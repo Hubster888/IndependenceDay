@@ -62,7 +62,7 @@ public class Board {
                     this.board[i][j] = new FloorTile("corner", 0.1, 2);
                 }else {
                     int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
-                    int orientationGen = (int) ((Math.random() * (5 - 1)) + 1);
+                    int orientationGen = (int) ((Math.random() * (5 - 1)));
                     switch (typeGen){
                         case 1:
                             this.board[i][j] = new FloorTile("corner", 0.1, orientationGen);
