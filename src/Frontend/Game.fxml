@@ -48,7 +48,11 @@
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Label>
+            <AnchorPane fx:id="drawnTile" layoutX="11.0" layoutY="306.0" prefHeight="150.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </left>
+   <bottom>
+      <AnchorPane prefHeight="105.0" prefWidth="829.0" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

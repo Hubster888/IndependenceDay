@@ -32,6 +32,7 @@ public class GameController {
     private static final String PLAYER4 = "src/player_4.png";
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
+    private static final int DRAWN_EDGE = 150;
 
     //Draw, Push, Action, Move
     private String turn = "Draw";
@@ -47,6 +48,8 @@ public class GameController {
     private Label playerLab;
     @FXML
     public Label stateLab;
+    @FXML
+    public AnchorPane drawnTile;
 
 
     public void initialize() throws FileNotFoundException {
@@ -94,12 +97,7 @@ public class GameController {
         Player player = board.getListOfPlayers().get(playerTurn);
 
         if (turn.equals("Draw")) {
-        	/*Tile newTile = SilkBag.generateTile();
-        	if(newTile instanceof FloorTile) {
-        		this.nextFloorTile = newTile;
-        	}else {
-        		player.addActionTile(newTile);
-        	}*/
+            actionDraw();
             changeTurnState();
         } else if (turn.equals("Push") && checkInputPush(col, row)) {
             if (col == 1) {
@@ -293,6 +291,19 @@ public class GameController {
             default:
                 return 0;
         }
+    }
+
+    private void actionDraw(){
+        ImageView tile = getImageTile(nextFloorTile);
+        tile.setFitHeight(DRAWN_EDGE);
+        tile.setFitWidth(DRAWN_EDGE);
+        drawnTile.getChildren().add(tile);
+        /*Tile newTile = SilkBag.generateTile();
+        	if(newTile instanceof FloorTile) {
+        		this.nextFloorTile = newTile;
+        	}else {
+        		player.addActionTile(newTile);
+        	}*/
     }
 
     private void actionPlayer(Player player, int col, int row) throws IOException {
