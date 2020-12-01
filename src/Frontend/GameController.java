@@ -308,10 +308,18 @@ public class GameController {
         int plRow = player.getLastPosition()[1];
         int plCol = player.getLastPosition()[0];
 
-        Boolean down = (plCol == col && plRow == row - 1);
-        Boolean up = (plCol == col && plRow == row + 1);
-        Boolean left = (plCol == col - 1 && plRow == row);
+        FloorTile tile = (FloorTile) board.getTile(col, row);
+        FloorTile plTile = (FloorTile) board.getTile(plCol, plRow);
+
+        //plTile.hasPath(2);
+        System.out.println(col + " " + row);
+        System.out.println(plCol + " " + plRow);
+        System.out.println(tile.getTileType());
+
         Boolean right = (plCol == col + 1 && plRow == row);
+        Boolean left = (plCol == col - 1 && plRow == row);
+        Boolean up = (plCol == col && plRow == row - 1);
+        Boolean down = (plCol == col && plRow == row + 1);
 
         if (down || up || left || right) {
             return true;
