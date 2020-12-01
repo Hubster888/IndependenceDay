@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="680.0" style="-fx-background-image: url('america-flag.jpg'); -fx-background-size: 100% 100%;" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Frontend.MenuController">
+<BorderPane fx:id="pane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="680.0" style="-fx-background-image: url('america-flag.jpg'); -fx-background-size: 100% 100%;" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Frontend.MenuController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
