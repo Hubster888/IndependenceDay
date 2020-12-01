@@ -15,7 +15,7 @@ public class Board {
     private int boardWidth;
     private int boardHeight;
     private ArrayList<Player> listOfPlayers = new ArrayList<Player>();
-    private Tile[][] board;
+    private FloorTile[][] board;
 
 
     /**
@@ -26,7 +26,7 @@ public class Board {
     public Board (int width, int height, ArrayList<Profile> listOfProfiles){
         this.boardWidth = width;
         this.boardHeight = height;
-        board = new Tile[width][height];
+        board = new FloorTile[width][height];
         int xGoal = 0;
         int yGoal = 0;
         while(xGoal == 0 || yGoal == 0) {
@@ -88,7 +88,7 @@ public class Board {
 
     
 
-    public Tile getTile(int x, int y) {
+    public FloorTile getTile(int x, int y) {
         return this.board[x][y];
     }
 
@@ -104,11 +104,11 @@ public class Board {
         return listOfPlayers;
     }
 
-    public Tile[][] getBoard(){
+    public FloorTile[][] getBoard(){
         return this.board;
     }
     
-    public void updateBoard(int rowOrColumn, Boolean isRow, Tile newTile) {
+    public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile newTile) {
     	if(!rowOrColumnCamMove(rowOrColumn)) {
     		final JFrame parent = new JFrame();
 
