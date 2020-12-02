@@ -23,6 +23,10 @@ public class MenuController {
     private BorderPane pane;
 
 
+    public void initialize() throws IOException, InterruptedException {
+        message.setText(MOTD.getMotd());
+    }
+
     public void gameBtn(ActionEvent event) throws IOException {
         FXMLLoader load = new FXMLLoader(getClass().getResource("Game.fxml"));
         Parent root = load.load();
