@@ -1,82 +1,106 @@
-package com.company;
-    import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
-        public class MOTD{
-            private static final String POST_API_URL_PUZZLE = "http://cswebcat.swansea.ac.uk/puzzle";
+public class MOTD{
+    private static final String POST_API_URL_PUZZLE = "http://cswebcat.swansea.ac.uk/puzzle";
 
-             public static String getmotd() throws IOException, InterruptedException {
-                 HttpClient client = HttpClient.newHttpClient();
-                 HttpRequest request = HttpRequest.newBuilder()
-                         .GET()
-                         .header("accept", "application")
-                         .uri(URI.create(POST_API_URL_PUZZLE))
-                         .build();
-                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                 String puzzle = response.body();
-                 String solved = weirdCaesar(puzzle);
-                 int numCharacters = solved.length();
-                 String urlForMotd = "CS-230" + solved + numCharacters;
+    public static String getPuzzle() throws IOException, InterruptedException {
 
-                 final String POST_API_URL_SOVED = "http://cswebcat.swansea.ac.uk/message?solution=" + urlForMotd;
-                 HttpClient motdClient = HttpClient.newHttpClient();
-                 HttpRequest motdRequest = HttpRequest.newBuilder()
-                         .GET()
-                         .header("accept", "application")
-                         .uri(URI.create(POST_API_URL_SOVED))
-                         .build();
-                 HttpResponse<String> motdResponse = motdClient.send(motdRequest, HttpResponse.BodyHandlers.ofString());
-                 String motd = motdResponse.body();
+        HttpURLConnection conn = (HttpURLConnection) new
+                URL(POST_API_URL_PUZZLE).openConnection();
+        conn.setRequestMethod("GET");
+        InputStream inputStream = conn.getInputStream();
+        String puzzle = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+        .lines()
+        .collect(Collectors.joining("\n"));
 
-                 return solved;
+        String solved = "CS-230" + weirdCaesar(puzzle);
+        int numCharacters = solved.length();
+        return solved + numCharacters;
+    }
 
-             }
+        private static String getMotd() throws IOException, InterruptedException {
+        final String POST_API_URL_SOlVED = "http://cswebcat.swansea.ac.uk/message?solution=" + getPuzzle();
+            HttpURLConnection conn = (HttpURLConnection) new
+                    URL(POST_API_URL_SOlVED).openConnection();
+            conn.setRequestMethod("GET");
+            InputStream inputStream = conn.getInputStream();
 
-            static String weirdCaesar(String value) {
-                // Convert to char array.
-                char[] buffer = value.toCharArray();
+            return new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
 
-                // Loop over characters.
-                for (int i = 0, shift = 1; i < buffer.length; i+=2,shift+=2) {
+    }
 
-                    // Shift letter, moving back or forward 26 places if needed.
-                    char letter = buffer[i];
-                    letter = (char) (letter - shift);
-                    if (letter > 'Z') {
-                        letter = (char) (letter + 26);
-                    } else if (letter < 'A') {
-                        letter = (char) (letter - 26);
-                    }
-                    buffer[i] = letter;
+    private static String weirdCaesar(String value) {
+        // Convert to char array.
+        char[] forwardsBuffer = value.toCharArray();
+        char[] backwardsBuffer = value.toCharArray();
 
-                    for ( i = 1, shift = 2; i < buffer.length; i+=2,shift+=2) {
+        // Loop over characters.
+        for (int i = 1, shift = 2; i < forwardsBuffer.length - 1; i+=2,shift+=2) {
+            // Shift letter, moving back or forward 26 places if needed.
+            char letter = forwardsBuffer[i];
+            letter = (char) (letter + shift);
+            if (letter > 'Z') {
+                letter = (char) (letter - 26);
+            } else if (letter < 'A') {
+                letter = (char) (letter + 26);
+            }
+            forwardsBuffer[i] = letter;
+        }
 
-                        // Shift letter, moving back or forward 26 places if needed.
-                        letter = buffer[i];
-                        letter = (char) (letter + shift);
-                        if (letter > 'Z') {
-                            letter = (char) (letter - 26);
-                        } else if (letter < 'A') {
-                            letter = (char) (letter + 26);
-                        }
-                        buffer[i] = letter;
-                    }
+            for (int i = 0, shift = 1; i < backwardsBuffer.length; i +=2 ,shift +=2 ) {
+                // Shift letter, moving back or forward 26 places if needed.
+                char letter = backwardsBuffer[i];
+                letter = (char) (letter - shift);
+                if (letter > 'Z') {
+                    letter = (char) (letter - 26);
+                } else if (letter < 'A') {
+                    letter = (char) (letter + 26);
                 }
-                // Return final string.
-                return new String(buffer);
+                backwardsBuffer[i] = letter;
+            }
+        // Return final string.
+        String forwardsSolved = new String(forwardsBuffer);
+        String backwardsSolved = new String(backwardsBuffer);
+        return merge(backwardsSolved, forwardsSolved);
+    }
+
+    private static String merge(String s1, String s2) {
+        // To store the final string
+        String backwards = s1.replaceAll("(.).?", "$1");
+        String forwards  = s2.replaceAll(".(.)?", "$1");
+
+        StringBuilder result = new StringBuilder();
+        // For every index in the strings
+
+        for (int i = 0; i < backwards.length() || i < s2.length(); i++) {
+
+            // First choose the ith character of the
+            // first string if it exists
+            if (i < backwards.length()) {
+                result.append(backwards.charAt(i));
             }
 
-
-
-
-            public static void main (String[]args ) throws IOException, InterruptedException {
-                System.out.println(getmotd());
+            // Then choose the ith character of the
+            // second string if it exists
+            if (i < forwards.length()) {
+                result.append(forwards.charAt(i));
             }
 
         }
+
+        return result.toString();
+
+    }
+}
 
 
 
