@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class MOTD{
     private static final String POST_API_URL_PUZZLE = "http://cswebcat.swansea.ac.uk/puzzle";
 
-    public static String getPuzzle() throws IOException, InterruptedException {
+    private static String getPuzzle() throws IOException, InterruptedException {
 
         HttpURLConnection conn = (HttpURLConnection) new
                 URL(POST_API_URL_PUZZLE).openConnection();
@@ -27,7 +27,7 @@ public class MOTD{
         return solved + numCharacters;
     }
 
-    private static String getMotd() throws IOException, InterruptedException {
+    public static String getMotd() throws IOException, InterruptedException {
         final String POST_API_URL_SOlVED = "http://cswebcat.swansea.ac.uk/message?solution=" + getPuzzle();
         HttpURLConnection conn = (HttpURLConnection) new
                 URL(POST_API_URL_SOlVED).openConnection();
