@@ -214,7 +214,7 @@ public class Board {
                 System.out.println("Something is wrong, no players");
             } else {
                 for(Profile prof : listOfProfiles) {
-                    int randPos;
+                    int randPos = 0;
                     int x = -1;
                     int y = -1;
 
@@ -235,7 +235,7 @@ public class Board {
      * @return A random tile type.
      */
     public static String getRandomTileType() {
-        int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
+        int typeGen = (int)((Math.random() * (4 - 1)) + 1);
         String type = "";
 
         switch (typeGen) {
