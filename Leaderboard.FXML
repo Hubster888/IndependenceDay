@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="590.0" prefWidth="490.0" styleClass="mainFxmlClass" stylesheets="@../css/FXMLMainUiCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.controller.FXMLLeaderBoardController">
+   <children>
+      <Label layoutX="157.0" layoutY="46.0" text="Leader Board">
+      </Label>
+      <TableView fx:id="leaderBoardTable" fixedCellSize="35.0" layoutX="79.0" layoutY="108.0" opacity="0.7" prefHeight="404.0" prefWidth="332.0" stylesheets="@../css/FXMLTableCSS.css">
+        <columns>
+            <TableColumn id="rank" fx:id="rankColumn" prefWidth="72.0" text="Rank" />
+            <TableColumn fx:id="nameColumn" prefWidth="171.0" text="Player" />
+            <TableColumn fx:id="winsColumn" prefWidth="88.0" text="Wins" />
+            <TableColumn fx:id="lossesColumn" prefWidth="88.0" text="Losses" />
+        </columns>
+      </TableView>
+      <Button id="back" fx:id="backBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onBackBtnClicked" prefHeight="50.0" prefWidth="50.0">
+         <cursor>
+            <Cursor fx:constant="HAND"/>
+         </cursor>
+      </Button>
+   </children>
+</AnchorPane>

@@ -20,7 +20,7 @@ public class Board {
      * @param width of board
      * @param height of board
      */
-    public Board (int width, int height, ArrayList<Profile> listOfProfiles){
+    public Board(int width, int height, ArrayList<Profile> listOfProfiles) {
         this.boardWidth = width;
         this.boardHeight = height;
         board = new Tile[width][height];
@@ -28,46 +28,55 @@ public class Board {
         int xGoal = (int) ((Math.random() * (this.boardHeight - 1) + 1));
         int yGoal = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
         board[xGoal][yGoal] = new FloorTile("goal", 0.1, 0);
+        
         if(listOfProfiles.size() < 0) {
             System.out.println("Something is wrong, no players");
-        }else {
+        } else {
 
             for(Profile prof : listOfProfiles) {
                 int[] startingPos = new int[2];
                 int x = -1;
                 int y = -1;
+
                 while((x < 0 || x == xGoal) && (y < 0 || y == yGoal)) {
                     x = (int) ((Math.random() * (this.boardHeight - 1) + 1));
                     y = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
                 }
+
                 startingPos[0] = x;
                 startingPos[1] = y;
                 listOfPlayers.add(new Player(prof.getName(), startingPos));
             }
 
         }
-        for(int i = 0; i < this.boardWidth; i++){
-            for(int j = 0; j < this.boardHeight; j++){
+
+        for(int i = 0; i < this.boardWidth; i++) {
+            for(int j = 0; j < this.boardHeight; j++) {
                 if(i == 0 && j == 0) {
                     this.board[i][j] = new FloorTile("corner", 0.1, 0);
-                }else if(i == 0 && j == this.boardHeight - 1) {
+                } else if(i == 0 && j == this.boardHeight - 1) {
                     this.board[i][j] = new FloorTile("corner", 0.1, 3);
-                }else if(j == 0 && i == this.boardWidth - 1) {
+                } else if(j == 0 && i == this.boardWidth - 1) {
                     this.board[i][j] = new FloorTile("corner", 0.1, 1);
-                }else if(j == this.boardHeight - 1 && i == this.boardWidth - 1){
+                } else if(
+                    j == this.boardHeight - 1 && i == this.boardWidth - 1) {
                     this.board[i][j] = new FloorTile("corner", 0.1, 2);
-                }else {
+                } else {
                     int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
                     int orientationGen = (int) ((Math.random() * (5 - 1)) + 1);
-                    switch (typeGen){
+
+                    switch(typeGen) {
                         case 1:
-                            this.board[i][j] = new FloorTile("corner", 0.1, orientationGen);
+                            this.board[i][j] = new FloorTile("corner", 0.1,
+                            orientationGen);
                             break;
                         case 2:
-                            this.board[i][j] = new FloorTile("straight", 0.1, orientationGen);
+                            this.board[i][j] = new FloorTile("straight", 0.1,
+                            orientationGen);
                             break;
                         case 3:
-                            this.board[i][j] = new FloorTile("tShape", 0.1, orientationGen);
+                            this.board[i][j] = new FloorTile("tShape", 0.1,
+                            orientationGen);
                             break;
                         default:
                             System.out.println("Something wrong!");
@@ -76,38 +85,35 @@ public class Board {
 
                 }
             }
-
-
-              }
-          }
-
         }
-        board[(int) ((Math.random() * (this.boardHeight - 1) + 1))][(int) ((Math.random() * (this.boardHeight - 1)) + 1)] = new FloorTile("goal", 0.1, 0);
-        
 
+        board[(int) ((Math.random() * (this.boardHeight - 1) + 1))][(int)
+            ((Math.random() * (this.boardHeight - 1)) + 1)] = new FloorTile(
+            "goal", 0.1, 0);
     }
 
     public Tile getTile(int x, int y) {
         return this.board[x][y];
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return this.boardWidth;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return this.boardHeight;
     }
 
-    public ArrayList<Player> getListOfPlayers(){
+    public ArrayList<Player> getListOfPlayers() {
         return listOfPlayers;
     }
 
-    public Tile[][] getBoard(){
+    public Tile[][] getBoard() {
         return this.board;
     }
     
-    public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile tileToBeAdded) {
+    public void updateBoard(int rowOrColumn, Boolean isRow,
+    FloorTile tileToBeAdded) {
     	if(!rowOrColumnCamMove(rowOrColumn)) {
     		// Pop up, that cant move row / column
     		return;
@@ -119,27 +125,25 @@ public class Board {
     
     private Boolean rowOrColumnCamMove(int rowOrColumn) {
     	switch(this.boardHeight) {
-    	case 6:
-    		if(rowOrColumn == 2 || rowOrColumn == 4) {
-				return false;
-			}else {
-				return true;
-			}
-    	case 10:
-    		if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8) {
-				return false;
-			}else {
-				return true;
-			}
-    	case 12:
-    		if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8 || rowOrColumn == 10) {
-				return false;
-			}else {
-				return true;
-			}
+        case 6:
+            return !(rowOrColumn == 2 || rowOrColumn == 4);
+        case 10:
+            return !(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 ||
+            rowOrColumn == 8);
+        case 12:
+            return !(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 ||
+            rowOrColumn == 8 || rowOrColumn == 10);
     	default:
     		return false;
     	}
+    }
+
+    public static void loadLevel() {
+        
+    }
+
+    public static void setUpLevel() {
+        
     }
 
     /*
