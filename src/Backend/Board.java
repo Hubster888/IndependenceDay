@@ -30,46 +30,75 @@ public class Board {
 
 
     /**
-     * Constructor
-     * @param width of board
-     * @param height of board
+     * Creates a board instance from given details.
+     * @param levelNo Level number to load.
+     * @param listOfProfiles List of profiles playing the game.
      */
     public Board(int levelNo, ArrayList<Profile> listOfProfiles) {
         ArrayList<String> level = this.getlevel(levelNo);
         this.setUpLevel(level, listOfProfiles);
     }
 
+    /**
+     * @param x The x position.
+     * @param y The y position.
+     * @return The tile at given position.
+     */
     public Tile getTile(int x, int y) {
         return this.board[x][y];
     }
 
+    /**
+     * @return Width of the board.
+     */
     public int getWidth() {
         return this.boardWidth;
     }
 
+    /**
+     * @return Height of the board.
+     */
     public int getHeight() {
         return this.boardHeight;
     }
 
+    /**
+     * @return List of players playing.
+     */
     public ArrayList<Player> getListOfPlayers() {
         return listOfPlayers;
     }
 
+    /**
+     * @return The board array.
+     */
     public Tile[][] getBoard() {
         return this.board;
     }
     
+    /**
+     * @return The number of floor tiles allowed in a players silk bag.
+     */
     public String getNoOfFloors() {
         return noOfFloors;
     }
     
+    /**
+     * @return The number of action tiles allowed in a players silk bag.
+     */
     public String getNoOfActions() {
         return noOfActions;
     }
     
+    /**
+     * Update the board.
+     * @param rowOrColumn
+     * @param isRow
+     * @param tileToBeAdded
+     */
     public void updateBoard(int rowOrColumn, Boolean isRow,
     FloorTile tileToBeAdded) {
-    	if(!rowOrColumnCamMove(rowOrColumn)) {
+    	if(!rowOrColumnCanMove(rowOrColumn)) {
     		// Pop up, that cant move row / column
     		return;
     	}
@@ -78,7 +107,12 @@ public class Board {
     	}
     }
     
-    private Boolean rowOrColumnCamMove(int rowOrColumn) {
+    /**
+     * Decides if the row can move.
+     * @param rowOrColumn Row or column to check.
+     * @return True if it can move false if not.
+     */
+    private Boolean rowOrColumnCanMove(int rowOrColumn) {
     	switch(this.boardHeight) {
         case 6:
             return !(rowOrColumn == 2 || rowOrColumn == 4);
@@ -196,9 +230,13 @@ public class Board {
             }
     }
 
+    /**
+     * Generate a random tile type for the board.
+     * @return A random tile type.
+     */
     public static String getRandomTileType() {
         int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
-        String type;
+        String type = "";
 
         switch (typeGen) {
             case 1:
@@ -228,8 +266,6 @@ public class Board {
             System.out.println();
         }
     }*/
-
-}
 
 }
 
