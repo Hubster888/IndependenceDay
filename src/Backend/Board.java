@@ -27,12 +27,8 @@ public class Board {
         this.boardWidth = width;
         this.boardHeight = height;
         board = new FloorTile[width][height];
-        int xGoal = 0;
-        int yGoal = 0;
-        while(xGoal == 0 || yGoal == 0) {
-        	xGoal = (int) ((Math.random() * (this.boardHeight - 1) + 1));
-            yGoal = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
-        }
+        int xGoal = (this.boardHeight / 2) - 1;
+        int yGoal = xGoal;
         
         if(listOfProfiles.size() < 0) {
             System.out.println("Something is wrong, no players");

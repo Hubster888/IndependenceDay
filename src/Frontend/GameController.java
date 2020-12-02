@@ -285,7 +285,7 @@ public class GameController {
     }
 
     private int askBoardSize() {
-        String[] options = {"6x6", "10x10", "12x12"};
+        String[] options = {"6x6", "8x8", "10x10"};
         int choice = JOptionPane.showOptionDialog(null, "Select board size:",
                 "Click a button",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
@@ -293,9 +293,9 @@ public class GameController {
             case 0:
                 return 6;
             case 1:
-                return 10;
+                return 8;
             case 2:
-                return 12;
+                return 10;
             default:
                 return 0;
         }
