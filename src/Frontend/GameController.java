@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,11 +31,16 @@ public class GameController {
     private static final String PLAYER2 = "src/player_2.png";
     private static final String PLAYER3 = "src/player_3.png";
     private static final String PLAYER4 = "src/player_4.png";
+    private static final String DRAW = "Draw";
+    private static final String PUSH = "Push";
+    private static final String ACTION = "Action";
+    private static final String MOVE = "Move";
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
+    private static final int DRAWN_EDGE = 150;
 
     //Draw, Push, Action, Move
-    private String turn = "Draw";
+    private String turn = DRAW;
     private Board board;
     private int playerTurn = 0;
     private FloorTile nextFloorTile = new FloorTile("corner", 0.1, 0);
@@ -47,6 +53,16 @@ public class GameController {
     private Label playerLab;
     @FXML
     public Label stateLab;
+    @FXML
+    public AnchorPane drawnTile;
+    @FXML
+    public Button fireBtn;
+    @FXML
+    public Button iceBtn;
+    @FXML
+    public Button doubleMoveBtn;
+    @FXML
+    public Button backTrackMove;
 
 
     public void initialize() throws FileNotFoundException {
@@ -75,6 +91,7 @@ public class GameController {
         setConstrains(width, height);
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
+
     }
 
     public void exitToMenu() throws IOException {
@@ -93,26 +110,22 @@ public class GameController {
 
         Player player = board.getListOfPlayers().get(playerTurn);
 
-        if (turn.equals("Draw")) {
-        	/*Tile newTile = SilkBag.generateTile();
-        	if(newTile instanceof FloorTile) {
-        		this.nextFloorTile = newTile;
-        	}else {
-        		player.addActionTile(newTile);
-        	}*/
+        if (turn.equals(DRAW)) {
+            actionDraw();
             changeTurnState();
-        } else if (turn.equals("Push") && checkInputPush(col, row)) {
+        } else if (turn.equals(PUSH) && checkInputPush(col, row)) {
+            board.updateBoard(nextFloorTile,col,row);
             if (col == 1) {
-                this.board.updateBoard(row, true, this.nextFloorTile);
+                //this.board.updateBoard(row, true, this.nextFloorTile);
             } else if (row == 1) {
-                this.board.updateBoard(col, false, this.nextFloorTile);
+                //this.board.updateBoard(col, false, this.nextFloorTile);
             } else {
                 System.out.println("Not an option");
             }
             changeTurnState();
-        } else if (turn.equals("Action")) {
+        } else if (turn.equals(ACTION)) {
             changeTurnState();
-        } else if ((turn.equals("Move") && player.canMove(board, col, row)) || !player.hasMove(board)) {
+        } else if ((turn.equals(MOVE) && player.canMove(board, col, row)) || !player.hasMove(board)) {
             actionPlayer(player, col, row);
             playerLab.setText("Player " + (playerTurn + 1));
         }
@@ -279,7 +292,7 @@ public class GameController {
     }
 
     private int askBoardSize() {
-        String[] options = {"6x6", "10x10", "12x12"};
+        String[] options = {"6x6", "8x8", "10x10"};
         int choice = JOptionPane.showOptionDialog(null, "Select board size:",
                 "Click a button",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
@@ -287,12 +300,25 @@ public class GameController {
             case 0:
                 return 6;
             case 1:
-                return 10;
+                return 8;
             case 2:
-                return 12;
+                return 10;
             default:
                 return 0;
         }
+    }
+
+    private void actionDraw() {
+        ImageView tile = getImageTile(nextFloorTile);
+        tile.setFitHeight(DRAWN_EDGE);
+        tile.setFitWidth(DRAWN_EDGE);
+        drawnTile.getChildren().add(tile);
+        /*Tile newTile = SilkBag.generateTile();
+        	if(newTile instanceof FloorTile) {
+        		this.nextFloorTile = newTile;
+        	}else {
+        		player.addActionTile(newTile);
+        	}*/
     }
 
     private void actionPlayer(Player player, int col, int row) throws IOException {
@@ -318,17 +344,17 @@ public class GameController {
 
     private void changeTurnState() {
         switch (turn) {
-            case "Draw":
-                turn = "Push";
+            case DRAW:
+                turn = PUSH;
                 break;
-            case "Push":
-                turn = "Action";
+            case PUSH:
+                turn = ACTION;
                 break;
-            case "Action":
-                turn = "Move";
+            case ACTION:
+                turn = MOVE;
                 break;
             default:
-                turn = "Draw";
+                turn = DRAW;
                 break;
         }
         stateLab.setText(turn);

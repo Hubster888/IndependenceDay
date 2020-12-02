@@ -27,12 +27,8 @@ public class Board {
         this.boardWidth = width;
         this.boardHeight = height;
         board = new FloorTile[width][height];
-        int xGoal = 0;
-        int yGoal = 0;
-        while(xGoal == 0 || yGoal == 0) {
-        	xGoal = (int) ((Math.random() * (this.boardHeight - 1) + 1));
-            yGoal = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
-        }
+        int xGoal = (this.boardHeight / 2) - 1;
+        int yGoal = xGoal;
         
         if(listOfProfiles.size() < 0) {
             System.out.println("Something is wrong, no players");
@@ -53,10 +49,9 @@ public class Board {
             	}else if(i == 2) {
             		int[] startingPos = new int[2];
             		startingPos[0] = 0;
-            		startingPos[1] = 1;
+            		startingPos[1] = 0;
             		Profile prof = listOfProfiles.get(i);
                 	listOfPlayers.add(new Player(prof.getName(), startingPos));
-                    startingPos[1] = 1;
             	}else if(i == 3) {
             		int[] startingPos = new int[2];
             		startingPos[0] = this.boardHeight - 1;
@@ -125,7 +120,55 @@ public class Board {
     public FloorTile[][] getBoard(){
         return this.board;
     }
-    
+
+    public FloorTile updateBoard(FloorTile newTile,int col, int row ){
+        FloorTile tile = null;
+        if (col == getWidth() - 1 && isMovable(board, false, row)){
+            tile = getTile(col,row);
+            for(int i = 1; i < this.boardWidth; i++) {
+                this.board[i - 1][row] = this.board[i][row];
+            }
+            this.board[col][row] = newTile;
+        } else if (col == 0 && isMovable(board,false,row)){
+            tile = getTile(col,row);
+            for(int i = this.boardWidth - 1; i > 0; i--) {
+                this.board[i][row] = this.board[i - 1][row];
+            }
+            this.board[col][row] = newTile;
+        } else if (row == getHeight() - 1 && isMovable(board,true,col)){
+            tile = getTile(col,row);
+            for(int i = 1; i < this.boardHeight; i++) {
+                this.board[col][i - 1] = this.board[col][i];
+            }
+            this.board[col][row] = newTile;
+        } else if (isMovable(board,true,col)){
+            tile = getTile(col,row);
+            for(int i = this.boardHeight - 1; i > 0; i--) {
+                this.board[col][i] = this.board[col][i - 1];
+            }
+            this.board[col][row] = newTile;
+        }
+
+        return tile;
+    }
+
+    private boolean isMovable(FloorTile [][] tiles, boolean col, int index){
+        if (col){
+            for (int i = 0; i < this.boardHeight; i++){
+                if(tiles[index][i].isFrozen()){
+                    return false;
+                }
+            }
+        } else {
+            for (int i = 0; i < this.boardWidth; i++){
+                if(tiles[0][index].isFrozen()){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    /*
     public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile newTile) {
     	if(!rowOrColumnCamMove(rowOrColumn)) {
     		final JFrame parent = new JFrame();
@@ -172,7 +215,7 @@ public class Board {
             default:
                 return false;
         }
-    }
+    }*/
 }
 //Add method to say which columns / rows can not move
 //Make the method that takes in as input a row or column and adds a floor tile to that.
