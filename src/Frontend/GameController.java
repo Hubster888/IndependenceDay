@@ -23,14 +23,14 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class GameController {
-    private static final String CORNER_PIC = "path_Corner.jpg";
-    private static final String STRAIGHT_PIC = "path_Straight.jpg";
-    private static final String T_SHAPE_PIC = "path_T_Shape.jpg";
-    private static final String GOAL_PIC = "Goal.jpg";
-    private static final String PLAYER1 = "src/player_1.png";
-    private static final String PLAYER2 = "src/player_2.png";
-    private static final String PLAYER3 = "src/player_3.png";
-    private static final String PLAYER4 = "src/player_4.png";
+    private static final String CORNER_PIC = "tiles/road_Corner.jpg";
+    private static final String STRAIGHT_PIC = "tiles/road_Straight.jpg";
+    private static final String T_SHAPE_PIC = "tiles/road_T_Shape.jpg";
+    private static final String GOAL_PIC = "tiles/goal.jpg";
+    private static final String PLAYER1 = "src/players/player_1.png";
+    private static final String PLAYER2 = "src/players/player_2.png";
+    private static final String PLAYER3 = "src/players/player_3.png";
+    private static final String PLAYER4 = "src/players/player_4.png";
     private static final String DRAW = "Draw";
     private static final String PUSH = "Push";
     private static final String ACTION = "Action";
