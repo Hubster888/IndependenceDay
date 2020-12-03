@@ -8,23 +8,23 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+    public static void main(String[] args) {
+        launch(args);
+    }
 
 
+    @Override
+    public void start(Stage stage) throws IOException {
+        Parent main = FXMLLoader.load(getClass().getResource("Frontend/Menu.fxml"));
 
-	@Override
-	public void start(Stage stage) throws IOException {
-		Parent main = FXMLLoader.load(getClass().getResource("Frontend/Menu.fxml"));
+        stage.setTitle("Dev Launcher");
 
-		stage.setTitle("Dev Launcher");
+        Scene scene = new Scene(main);
 
-		Scene scene = new Scene(main);
-
-		stage.setScene(scene);
-		//stage.setResizable(false);
-		stage.show();;
-	}
+        stage.setScene(scene);
+        //stage.setResizable(false);
+        stage.show();
+        ;
+    }
 
 }
