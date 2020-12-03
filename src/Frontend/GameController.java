@@ -77,6 +77,7 @@ public class GameController {
     public Button backTrackMove;
 
 
+
     public void initialize() throws FileNotFoundException {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
@@ -106,6 +107,11 @@ public class GameController {
 
         silkBag = new SilkBag();
         silkBag.fillBag();
+    }
+
+    public void saveGame(){
+        Save s = new Save();
+        s.formatBoard(board,board.getListOfPlayers(),"test");
     }
 
     public void exitToMenu() throws IOException {
@@ -432,5 +438,6 @@ public class GameController {
 
         }
     }
+
 }
 
