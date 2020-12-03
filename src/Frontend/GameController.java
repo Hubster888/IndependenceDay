@@ -51,8 +51,9 @@ public class GameController {
     private String turn = DRAW;
     private Board board;
     private int playerTurn = 0;
-    private FloorTile nextFloorTile = new FloorTile("corner", 0.1, 0);
+    private FloorTile nextFloorTile;
     private ActionTile actionTile = new ActionTile(BACK_TRACK, 0.1);
+    private SilkBag silkBag;
 
     @FXML
     private GridPane gp;
@@ -101,6 +102,7 @@ public class GameController {
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
 
+        silkBag = new SilkBag();
     }
 
     public void exitToMenu() throws IOException {
@@ -120,7 +122,7 @@ public class GameController {
         Player player = board.getListOfPlayers().get(playerTurn);
 
         if (turn.equals(DRAW)) {
-            actionDraw();
+            actionDraw(player);
             changeTurnState();
         } else if (turn.equals(PUSH) && checkInputPush(col, row)) {
             board.updateBoard(nextFloorTile, col, row);
@@ -330,17 +332,18 @@ public class GameController {
         }
     }
 
-    private void actionDraw() {
+    private void actionDraw(Player player) {
+        Tile newTile = silkBag.drawTile();
+        	if(newTile instanceof FloorTile) {
+        		this.nextFloorTile = (FloorTile) newTile;
+        	}else {
+        		player.addActionTile(newTile);
+        	}
+
         ImageView tile = getImageTile(nextFloorTile);
         tile.setFitHeight(DRAWN_EDGE);
         tile.setFitWidth(DRAWN_EDGE);
         drawnTile.getChildren().add(tile);
-        /*Tile newTile = SilkBag.generateTile();
-        	if(newTile instanceof FloorTile) {
-        		this.nextFloorTile = newTile;
-        	}else {
-        		player.addActionTile(newTile);
-        	}*/
     }
 
     private void actionAction(ActionTile tile, Player player, int col, int row) throws IOException {
@@ -401,6 +404,13 @@ public class GameController {
                 JOptionPane.showMessageDialog(null, playerLab.getText() + " won!");
             } else {
                 JOptionPane.showMessageDialog(null, player.getName() + " won!");
+            }
+
+            ProfileSave.updateProfile(new Profile(player.getName()), true);
+            for(Player play : board.getListOfPlayers()) {
+                if(!play.getName().equals(player.getName())) {
+                    ProfileSave.updateProfile(new Profile(play.getName()), false);
+                }
             }
 
         }
