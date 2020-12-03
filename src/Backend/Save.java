@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 public class Save {
 
-    public void newIncrementingFile(Board board, ArrayList<Profile> profiles){
+    private static final String FILE_DELIM = ",";
+
+    public void newIncrementingFile(Board board, ArrayList<Profile> profiles) {
         String fileName = "Testing";
         int fileNumber = 0;
         try{
@@ -72,31 +74,44 @@ public class Save {
         //File
     }
 
-    //Not needed
-    public ArrayList<String> getBoardData(String fileName) {
-        ArrayList contents = new ArrayList();
+  /**
+   * Gets the board data in file to be used when instantiating a board.
+   * @param fileName Name of the save file.
+   * @return The board data.
+   */
+    public ArrayList<ArrayList<String>> getBoardData(String fileName) {
+        ArrayList<String> contents = new ArrayList<String>();
+        ArrayList<ArrayList<String>> boardDetails =
+            new ArrayList<ArrayList<String>>();
         File specifiedFile = new File(fileName);
-        try {
-            Scanner myReader = new Scanner(specifiedFile);
+
+        try (Scanner myReader = new Scanner(specifiedFile)) {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 contents.add(data);
             }
-            myReader.close();
         } catch (Exception e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        return contents;
-    }
+        
+        for (String line : contents) {
+            ArrayList<String> t = new ArrayList<String>();
+            for (String detail : line.split(FILE_DELIM))
+                t.add(detail);
+            boardDetails.add(t);
+        }
 
+        return boardDetails;
+        
+    }
     //Not needed
     public int[] getBoardSize() {
         ArrayList cList;
         String tempString;
         cList = getBoardData("Testing.txt");
         tempString = cList.get(0).toString();
-        String[] stringToArray = tempString.split(", ", 0);
+        String[] stringToArray = tempString.split(",", 0);
         int[] stringAToIntA = {Integer.parseInt(stringToArray[0]), Integer.parseInt(stringToArray[1])};
         return (stringAToIntA);
     }
