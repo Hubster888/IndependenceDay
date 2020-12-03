@@ -386,6 +386,7 @@ public class GameController {
 
     private void actionPlayer(Player player, int col, int row) throws IOException {
         player.move(board, col, row);
+        player.setLastThreePositions();
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
         endOfGame(col, row);
         changePlayer();

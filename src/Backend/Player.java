@@ -11,6 +11,7 @@ import java.util.Queue;
 public class Player {
     private String name;
     private int[] lastPosition = new int[2];
+    private int[][] lastThreePositions = new int[3][2];
     private Queue<Tile> actionTiles;
 
     /**
@@ -23,6 +24,27 @@ public class Player {
         this.name = name;
         this.lastPosition = lastPosition;
         this.actionTiles = new LinkedList<>();
+        for (int i = 0; i < 3; i++){
+            lastThreePositions[i] = lastPosition;
+        }
+    }
+
+    public void setLastThreePositions() {
+        for(int i = 0; i < 2; i++){
+            this.lastThreePositions[i] = this.lastThreePositions[i + 1];
+        }
+        this.lastThreePositions[2] = lastPosition;
+        for(int i = 0; i < 3; i++){
+            System.out.println(lastThreePositions[i][0] + " " + lastThreePositions[i][1]);
+        }
+
+    }
+
+    public int[] getLastThreePositions() {
+        int [] result = lastThreePositions[0];
+        setLastThreePositions();
+
+        return result;
     }
 
     /*
