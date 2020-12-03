@@ -25,12 +25,12 @@ import javax.swing.JOptionPane;
 import static Backend.ActionTile.*;
 
 public class GameController {
-    private static final String FIRE_CORNER_PIC = "tiles/fire_Corner.jpg";
-    private static final String FIRE_STRAIGHT_PIC = "tiles/fire_Straight.jpg";
-    private static final String FIRE_T_SHAPE_PIC = "tiles/fire_T_Shape.jpg";
-    private static final String ICE_CORNER_PIC = "tiles/ice_Corner.jpg";
-    private static final String ICE_STRAIGHT_PIC = "tiles/ice_Straight.jpg";
-    private static final String ICE_T_SHAPE_PIC = "tiles/ice_T_Shape.jpg";
+    private static final String FIRE_CORNER_PIC = "tiles/fire_Corner.jpeg";
+    private static final String FIRE_STRAIGHT_PIC = "tiles/fire_Straight.jpeg";
+    private static final String FIRE_T_SHAPE_PIC = "tiles/fire_T_Shape.jpeg";
+    private static final String ICE_CORNER_PIC = "tiles/ice_Corner.jpeg";
+    private static final String ICE_STRAIGHT_PIC = "tiles/ice_Straight.jpeg";
+    private static final String ICE_T_SHAPE_PIC = "tiles/ice_T_Shape.jpeg";
     private static final String CORNER_PIC = "tiles/road_Corner.jpg";
     private static final String STRAIGHT_PIC = "tiles/road_Straight.jpg";
     private static final String T_SHAPE_PIC = "tiles/road_T_Shape.jpg";
@@ -52,7 +52,7 @@ public class GameController {
     private Board board;
     private int playerTurn = 0;
     private FloorTile nextFloorTile = new FloorTile("corner", 0.1, 0);
-    private ActionTile actionTile = null;
+    private ActionTile actionTile = new ActionTile(BACK_TRACK, 0.1);
 
     @FXML
     private GridPane gp;
@@ -127,12 +127,10 @@ public class GameController {
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
         } else if (turn.equals(ACTION)) {
-            //actionAction(,col,row);
+            actionAction(actionTile, player, col, row);
             changeTurnState();
         } else if ((turn.equals(MOVE) && player.canMove(board, col, row)) || !player.hasMove(board)) {
             actionPlayer(player, col, row);
-            changePlayer();
-            changeTurnState();
             playerLab.setText("Player " + (playerTurn + 1));
         }
 
@@ -345,30 +343,17 @@ public class GameController {
         	}*/
     }
 
-    private void actionAction(Tile tile, int col, int row) throws IOException {
-        switch (tile.getTileType()) {
-            case FIRE:
-                break;
-            case ICE:
-                break;
-            case DOUBLE_MOVE:
-                Player player = board.getListOfPlayers().get(playerTurn);
-                actionPlayer(player, col, row);
-                break;
-            case BACK_TRACK:
-                break;
-            default:
-                System.out.println("Something with action is wrong");
-                break;
-        }
+    private void actionAction(ActionTile tile, Player player, int col, int row) throws IOException {
+        tile.execute(board, player, col, row);
+        setBoardWindow(board.getBoard(), board.getListOfPlayers());
     }
 
     private void actionPlayer(Player player, int col, int row) throws IOException {
-        if (player.hasMove(board)) {
-            player.setLastPosition(new int[]{col, row});
-            setBoardWindow(board.getBoard(), board.getListOfPlayers());
-            endOfGame(col, row);
-        }
+        player.move(board,col,row);
+        setBoardWindow(board.getBoard(), board.getListOfPlayers());
+        endOfGame(col, row);
+        changePlayer();
+        changeTurnState();
     }
 
     private Boolean checkInputPush(int col, int row) {
