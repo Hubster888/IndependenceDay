@@ -28,9 +28,11 @@ public class GameController {
     private static final String FIRE_CORNER_PIC = "tiles/fire_Corner.jpeg";
     private static final String FIRE_STRAIGHT_PIC = "tiles/fire_Straight.jpeg";
     private static final String FIRE_T_SHAPE_PIC = "tiles/fire_T_Shape.jpeg";
+    private static final String FIRE_GOAL_PIC = "tiles/fire_goal.jpg";
     private static final String ICE_CORNER_PIC = "tiles/ice_Corner.jpeg";
     private static final String ICE_STRAIGHT_PIC = "tiles/ice_Straight.jpeg";
     private static final String ICE_T_SHAPE_PIC = "tiles/ice_T_Shape.jpeg";
+    private static final String ICE_GOAL_PIC = "tiles/ice_goal.jpg";
     private static final String CORNER_PIC = "tiles/road_Corner.jpg";
     private static final String STRAIGHT_PIC = "tiles/road_Straight.jpg";
     private static final String T_SHAPE_PIC = "tiles/road_T_Shape.jpg";
@@ -52,8 +54,8 @@ public class GameController {
     private Board board;
     private int playerTurn = 0;
     private FloorTile nextFloorTile;
-    private ActionTile actionTile = new ActionTile(BACK_TRACK, 0.1);
-    private SilkBag silkBag = new SilkBag();
+    private ActionTile actionTile = new ActionTile(ICE, 0.1);
+    private SilkBag silkBag;
 
     @FXML
     private GridPane gp;
@@ -102,6 +104,7 @@ public class GameController {
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
 
+        silkBag = new SilkBag();
         silkBag.fillBag();
     }
 
@@ -230,7 +233,13 @@ public class GameController {
                 }
                 break;
             case "goal":
-                pic = new Image(GOAL_PIC);
+                if (tile.isOnFire()) {
+                    pic = new Image(FIRE_GOAL_PIC);
+                } else if (tile.isFrozen()) {
+                    pic = new Image(ICE_GOAL_PIC);
+                } else {
+                    pic = new Image(GOAL_PIC);
+                }
                 break;
             default:
                 pic = new Image("");
