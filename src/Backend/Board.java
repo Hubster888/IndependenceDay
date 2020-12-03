@@ -141,7 +141,7 @@ public class Board {
                 this.board[col][i - 1] = this.board[col][i];
             }
             this.board[col][row] = newTile;
-        } else if (isMovable(board,true,col)){
+        } else if (row == 0 && isMovable(board,true,col)){
             tile = getTile(col,row);
             for(int i = this.boardHeight - 1; i > 0; i--) {
                 this.board[col][i] = this.board[col][i - 1];
@@ -153,21 +153,24 @@ public class Board {
     }
 
     private boolean isMovable(FloorTile [][] tiles, boolean col, int index){
+        boolean result = true;
         if (col){
             for (int i = 0; i < this.boardHeight; i++){
                 if(tiles[index][i].isFrozen()){
-                    return false;
+                    result = false;
                 }
             }
         } else {
             for (int i = 0; i < this.boardWidth; i++){
-                if(tiles[0][index].isFrozen()){
-                    return false;
+                if(tiles[i][index].isFrozen()){
+                    result = false;
                 }
             }
         }
-        return true;
+        System.out.println(result);
+        return result;
     }
+
     /*
     public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile newTile) {
     	if(!rowOrColumnCamMove(rowOrColumn)) {
