@@ -150,6 +150,14 @@ public class GameController {
         }
     }
 
+    public void rotateDrawnTile(){
+        nextFloorTile.setOrientation();
+        ImageView tile = getImageTile(nextFloorTile);
+        tile.setFitHeight(DRAWN_EDGE);
+        tile.setFitWidth(DRAWN_EDGE);
+        drawnTile.getChildren().add(tile);
+    }
+
     private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
         gp.getChildren().clear();
 

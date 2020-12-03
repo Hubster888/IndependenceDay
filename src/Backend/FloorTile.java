@@ -57,6 +57,11 @@ public class FloorTile extends Tile {
         return orientation;
     }
 
+    public void setOrientation() {
+        orientation++;
+        rotate(orientation);
+    }
+
 
     /**
      * @return True if floor tile is frozen.
