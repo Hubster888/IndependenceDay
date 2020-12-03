@@ -53,7 +53,7 @@ public class GameController {
     private int playerTurn = 0;
     private FloorTile nextFloorTile;
     private ActionTile actionTile = new ActionTile(BACK_TRACK, 0.1);
-    private SilkBag silkBag;
+    private SilkBag silkBag = new SilkBag();
 
     @FXML
     private GridPane gp;
@@ -102,7 +102,7 @@ public class GameController {
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
 
-        silkBag = new SilkBag();
+        silkBag.fillBag();
     }
 
     public void exitToMenu() throws IOException {
@@ -333,7 +333,7 @@ public class GameController {
     }
 
     private void actionDraw(Player player) {
-        Tile newTile = silkBag.drawTile();
+       Tile newTile = silkBag.drawTile();
         	if(newTile instanceof FloorTile) {
         		this.nextFloorTile = (FloorTile) newTile;
         	}else {

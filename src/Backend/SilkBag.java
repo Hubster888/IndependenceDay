@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author Mart Krol
  * @version 1.0
  */
-class SilkBag {
+public class SilkBag {
 
     private ArrayList<Tile> tiles = new ArrayList<Tile>(); //ArrayList holding the tiles
 
@@ -36,15 +36,31 @@ class SilkBag {
         tileType.add("tShape");
         tileType.add("straight");
 
-        FloorTile floorTile = new FloorTile(tileType.get(typeNo),0.2, orientationNo); //constructing a floorTile with a random tile type and random orientation
+        FloorTile floorTile = new FloorTile(tileType.get(typeNo), 0.0, orientationNo); //constructing a floorTile with a random tile type and random orientation
 
         tiles.add(floorTile);
+
+//        ArrayList<Tile> actionTileType = new ArrayList<Tile>();
+//
+//        FireTile fireTile = new FireTile();
+//        actionTileType.add(fireTile);
+//        IceTile iceTile = new IceTile();
+//        actionTileType.add(iceTile);
+//        DoubleMoveTile doubleMoveTile = new DoubleMoveTile();
+//        actionTileType.add(doubleMoveTile);
+//        BackTrackTile backTrackTile = new BackTrackTile();
+//        actionTileType.add(backTrackTile);
+
     }
 
     /**
      * Method that will draw tiles in canvas.
      */
-    public void drawTile() {
+    public Tile drawTile() {
+        Random randTile = new Random(); //instance of the imported random class
+        int tileNo = randTile.nextInt(tiles.size());
+        Tile tileDraw = tiles.get(tileNo);
 
+        return(tileDraw);
     }
 }
