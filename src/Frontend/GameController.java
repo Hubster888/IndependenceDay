@@ -138,8 +138,6 @@ public class GameController {
             actionPlayer(player, col, row);
             playerLab.setText("Player " + (playerTurn + 1));
         }
-
-        System.out.println(turn);
     }
 
     private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
@@ -341,19 +339,21 @@ public class GameController {
         }
     }
 
-    private void actionDraw(Player player) {
-        for (int i = 0; i < board.getWidth(); i++){
-            for (int j =0; j< board.getHeight();j++){
-                board.getTile(i,j).changeTime();
+    private void actionDraw(Player player) throws FileNotFoundException {
+        for (int i = 0; i < board.getWidth(); i++) {
+            for (int j = 0; j < board.getHeight(); j++) {
+                board.getTile(i, j).changeTime();
             }
         }
 
-       Tile newTile = silkBag.drawTile();
-        	if(newTile instanceof FloorTile) {
-        		this.nextFloorTile = (FloorTile) newTile;
-        	}else {
-        		player.addActionTile(newTile);
-        	}
+        setBoardWindow(board.getBoard(), board.getListOfPlayers());
+
+        Tile newTile = silkBag.drawTile();
+        if (newTile instanceof FloorTile) {
+            this.nextFloorTile = (FloorTile) newTile;
+        } else {
+            player.addActionTile(newTile);
+        }
 
         ImageView tile = getImageTile(nextFloorTile);
         tile.setFitHeight(DRAWN_EDGE);
@@ -367,7 +367,7 @@ public class GameController {
     }
 
     private void actionPlayer(Player player, int col, int row) throws IOException {
-        player.move(board,col,row);
+        player.move(board, col, row);
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
         endOfGame(col, row);
         changePlayer();
@@ -377,11 +377,13 @@ public class GameController {
     private Boolean checkInputPush(int col, int row) {
         int width = board.getWidth() - 1;
         int height = board.getHeight() - 1;
+        boolean columns = (col == width && board.isMovable(board.getBoard(), false, row)) ||
+                (col == 0 && board.isMovable(board.getBoard(), false, row));
 
-        Boolean leftTopCheck = (col == 0 || row == 0);
-        Boolean rightBottomCheck = (col == width || row == height);
+        boolean rows = (row == height && board.isMovable(board.getBoard(), true, col)) ||
+                (row == 0 && board.isMovable(board.getBoard(), true, col));
 
-        return leftTopCheck || rightBottomCheck;
+        return columns || rows;
     }
 
     private void changeTurnState() {
@@ -422,8 +424,8 @@ public class GameController {
             }
 
             ProfileSave.updateProfile(new Profile(player.getName()), true);
-            for(Player play : board.getListOfPlayers()) {
-                if(!play.getName().equals(player.getName())) {
+            for (Player play : board.getListOfPlayers()) {
+                if (!play.getName().equals(player.getName())) {
                     ProfileSave.updateProfile(new Profile(play.getName()), false);
                 }
             }

@@ -154,7 +154,7 @@ public class Board {
         return tile;
     }
 
-    private boolean isMovable(FloorTile [][] tiles, boolean col, int index){
+    public boolean isMovable(FloorTile [][] tiles, boolean col, int index){
         boolean result = true;
         if (col){
             for (int i = 0; i < this.boardHeight; i++){
