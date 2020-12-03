@@ -129,18 +129,21 @@ public class Board {
                 this.board[i - 1][row] = this.board[i][row];
             }
             this.board[col][row] = newTile;
+
         } else if (col == 0 && isMovable(board,false,row)){
             tile = getTile(col,row);
             for(int i = this.boardWidth - 1; i > 0; i--) {
                 this.board[i][row] = this.board[i - 1][row];
             }
             this.board[col][row] = newTile;
+
         } else if (row == getHeight() - 1 && isMovable(board,true,col)){
             tile = getTile(col,row);
             for(int i = 1; i < this.boardHeight; i++) {
                 this.board[col][i - 1] = this.board[col][i];
             }
             this.board[col][row] = newTile;
+
         } else if (row == 0 && isMovable(board,true,col)){
             tile = getTile(col,row);
             for(int i = this.boardHeight - 1; i > 0; i--) {
@@ -148,7 +151,6 @@ public class Board {
             }
             this.board[col][row] = newTile;
         }
-
         return tile;
     }
 

@@ -40,20 +40,24 @@ public class ActionTile extends Tile {
 
     private void fire(Board board, int col, int row){
         int [] square = setSquare(board,col,row);
+        int players = board.getListOfPlayers().size();
 
         for (int i = square[0]; i <= square[1]; i++){
             for (int j = square[2]; j <= square[3]; j++){
                 board.getTile(i,j).setOnFire(true);
+                board.getTile(i,j).setFireTime(players);
             }
         }
     }
 
     private void ice(Board board, int col, int row){
         int [] square = setSquare(board,col,row);
+        int players = board.getListOfPlayers().size();
 
         for (int i = square[0]; i <= square[1]; i++){
             for (int j = square[2]; j <= square[3]; j++){
                 board.getTile(i,j).setFrozen(true);
+                board.getTile(i,j).setFrozenTime(players);
             }
         }
     }

@@ -342,6 +342,12 @@ public class GameController {
     }
 
     private void actionDraw(Player player) {
+        for (int i = 0; i < board.getWidth(); i++){
+            for (int j =0; j< board.getHeight();j++){
+                board.getTile(i,j).changeTime();
+            }
+        }
+
        Tile newTile = silkBag.drawTile();
         	if(newTile instanceof FloorTile) {
         		this.nextFloorTile = (FloorTile) newTile;
