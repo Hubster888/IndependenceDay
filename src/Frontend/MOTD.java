@@ -13,13 +13,14 @@ import java.util.stream.Collectors;
  * @author Marcus Poole, 1908307@swansea.ac.uk
  * @version 1.0
  */
-public class MOTD{
+public class MOTD {
     private static final String POST_API_URL_PUZZLE = "http://cswebcat.swansea.ac.uk/puzzle";
 
     /**
      * method that retrieves the unsolved puzzle String and solves it by calling other methods
+     *
      * @return solved the solved puzzle with numChar add the number of characters in the solution added to the end
-     * @exception  IOException on input error
+     * @throws IOException on input error
      * @see IOException
      */
     private static String getPuzzle() throws IOException {
@@ -28,8 +29,8 @@ public class MOTD{
         conn.setRequestMethod("GET");
         InputStream inputStream = conn.getInputStream();
         String puzzle = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-        .lines()
-        .collect(Collectors.joining("\n"));
+                .lines()
+                .collect(Collectors.joining("\n"));
 
         String solved = "CS-230" + weirdCaesar(puzzle);
         int numCHar = solved.length();
@@ -38,20 +39,21 @@ public class MOTD{
 
     /**
      * Method that retrieves the message of the day from the URL solved from the puzzle.
+     *
      * @return the message of the day
-     * @exception  IOException On input error
+     * @throws IOException On input error
      * @see IOException
      */
-     public static String getMotd() throws IOException {
+    public static String getMotd() throws IOException {
         final String POST_API_URL_SOlVED = "http://cswebcat.swansea.ac.uk/message?solution=" + getPuzzle();
-            HttpURLConnection conn = (HttpURLConnection) new
-                    URL(POST_API_URL_SOlVED).openConnection();
-            conn.setRequestMethod("GET");
-            InputStream inputStream = conn.getInputStream();
+        HttpURLConnection conn = (HttpURLConnection) new
+                URL(POST_API_URL_SOlVED).openConnection();
+        conn.setRequestMethod("GET");
+        InputStream inputStream = conn.getInputStream();
 
-            return new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-                    .lines()
-                    .collect(Collectors.joining("\n"));
+        return new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+                .lines()
+                .collect(Collectors.joining("\n"));
 
     }
 
@@ -67,7 +69,7 @@ public class MOTD{
         char[] backwardsBuffer = value.toCharArray();
 
         // Loop over characters.
-        for (int i = 1, shift = 2; i < forwardsBuffer.length; i+=2,shift+=2) {
+        for (int i = 1, shift = 2; i < forwardsBuffer.length; i += 2, shift += 2) {
             // Shift letter, moving back or forward 26 places if needed.
             char letter = forwardsBuffer[i];
             letter = (char) (letter + shift);
@@ -79,17 +81,17 @@ public class MOTD{
             forwardsBuffer[i] = letter;
         }
 
-            for (int i = 0, shift = 1; i < backwardsBuffer.length; i +=2 ,shift +=2 ) {
-                // Shift letter, moving back or forward 26 places if needed.
-                char letter = backwardsBuffer[i];
-                letter = (char) (letter - shift);
-                if (letter > 'Z') {
-                    letter = (char) (letter - 26);
-                } else if (letter < 'A') {
-                    letter = (char) (letter + 26);
-                }
-                backwardsBuffer[i] = letter;
+        for (int i = 0, shift = 1; i < backwardsBuffer.length; i += 2, shift += 2) {
+            // Shift letter, moving back or forward 26 places if needed.
+            char letter = backwardsBuffer[i];
+            letter = (char) (letter - shift);
+            if (letter > 'Z') {
+                letter = (char) (letter - 26);
+            } else if (letter < 'A') {
+                letter = (char) (letter + 26);
             }
+            backwardsBuffer[i] = letter;
+        }
         // Return final string.
         String forwardsSolved = new String(forwardsBuffer);
         String backwardsSolved = new String(backwardsBuffer);
@@ -100,13 +102,13 @@ public class MOTD{
      * Method that merges the two Strings together and removes the duplicate/ excess places in the Strings
      *
      * @param s1 The first String, to be merged into
-     * @param s2 The second String, to merge into s1 
+     * @param s2 The second String, to merge into s1
      * @return The result of merging the two strings.
      */
     private static String merge(String s1, String s2) {
         // To store the final string
         String backwards = s1.replaceAll("(.).?", "$1");
-        String forwards  = s2.replaceAll(".(.)?", "$1");
+        String forwards = s2.replaceAll(".(.)?", "$1");
 
         StringBuilder result = new StringBuilder();
         // For every index in the strings
