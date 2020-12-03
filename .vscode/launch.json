@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Board",
+            "request": "launch",
+            "mainClass": "Backend.Board",
+            "projectName": "uni1"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Leaderboard",
             "request": "launch",
             "mainClass": "Frontend.Leaderboard",

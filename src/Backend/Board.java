@@ -14,12 +14,15 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class Board {
-    private static final String LEVEL_DIR = "levels/";
+    private static final String LEVEL_DIR = "src/Levels/";
     private static final String GOAL_TILE = "GOAL";
     private static final String CORNER_TILE = "CORNER";
     private static final String STRAIGHT_TILE = "STRAIGHT";
     private static final String TSHAPE_TILE = "TSHAPE";
     private static final String FILE_DELIM = ",";
+    private static final String NO_PLAYER_ERROR =
+    "Something is wrong, no players";
+    private static final String FILE_EXT = ".txt";
 
     private int boardWidth;
     private int boardHeight;
@@ -127,23 +130,28 @@ public class Board {
     	}
     }
 
+    /**
+     * Loads the level format from file.
+     * @param levelNo The level to load.
+     * @return An array containing the level format.
+     */
     public ArrayList<String> getlevel(int levelNo) {
         ArrayList<String> level = new ArrayList<>();
-        File file = new File(LEVEL_DIR + Integer.toString(levelNo));
+        File file = new File(LEVEL_DIR + Integer.toString(levelNo) + FILE_EXT);
         
         try(Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine())
                 level.add(scanner.nextLine());
         } catch(FileNotFoundException e) {
                 System.out.println(e);
-                System.exit(0);
-            }
+                // Handle exception
+        }
 
         return level;
     }
 
     /**
-     * Sets up level from given details.
+     * Sets up level from given format.
      * @param level A list of level details.
      * @param listOfProfiles List of profiles playing the level.
      */
@@ -153,10 +161,12 @@ public class Board {
             new ArrayList<ArrayList<String>>();
 
             for (String line : level) {
-                levelDetails.add(
-                    (ArrayList<String>) Arrays.asList(line.split(FILE_DELIM))
-                    );
+                ArrayList<String> t = new ArrayList<String>();
+                for (String detail : line.split(FILE_DELIM))
+                    t.add(detail);
+                levelDetails.add(t);
             }
+
 
             // First Line containing the dimensions of the board.
             this.boardWidth = Integer.parseInt(levelDetails.get(0).get(0));
@@ -179,26 +189,30 @@ public class Board {
                     ).toArray();
             }
 
+            // Setup the board.
+            this.board = new Tile[this.boardWidth][this.boardHeight];
+
             // Fixed tile details starts at line 8.
             for (int i = 8; i < fixedTiles; i++) {
-                
                 // Add the tile to the board with its given details.
                 this.board[Integer.parseInt(
                     levelDetails.get(i).get(0))][Integer.parseInt(
-                        levelDetails.get(i).get(1))] = new FloorTile(
+                        levelDetails.get(i).get(1)
+                        )] = new FloorTile(
                             levelDetails.get(i).get(2), 0.1,
                             Integer.parseInt(levelDetails.get(0).get(3))
                             );
+
             }
 
             // Set up the rest of the board tiles.
-            int xGoal = (int) ((Math.random() * (this.boardHeight - 1) + 1));
-            int yGoal = (int) ((Math.random() * (this.boardHeight - 1)) + 1);
-            board[xGoal][yGoal] = new FloorTile(GOAL_TILE, 0.1, 0);
+            int xGoal = (int)((Math.random() * (this.boardWidth - 1) + 1));
+            int yGoal = (int)((Math.random() * (this.boardHeight - 1)) + 1);
+            this.board[xGoal][yGoal] = new FloorTile(GOAL_TILE, 0.1, 0);
 
             for (int x = 0; x < this.boardWidth; x++) {
                 for (int y = 0; y < this.boardHeight; y++) {
-                    if (this.board[x][y] != null) {
+                    if (this.board[x][y] == null) {
                         this.board[x][y] = new FloorTile(
                             getRandomTileType(), 0.1, (int)((
                                 Math.random() * (5 - 1)) + 1
@@ -211,7 +225,7 @@ public class Board {
             // Set up players with random position.
             if(listOfProfiles.size() < 0) {
                 // Throw an error.
-                System.out.println("Something is wrong, no players");
+                System.out.println(NO_PLAYER_ERROR);
             } else {
                 for(Profile prof : listOfProfiles) {
                     int randPos = 0;
@@ -253,22 +267,36 @@ public class Board {
         return type;
     }
 
-    /*
-    public static void main(String args[]) {
-        int[] a = new int[2];
-        a[0] = 1;
-        Board b = new Board(6,6,new ArrayList<Profile>(), a);
-        Tile[][] x = b.getBoard();
-        for(int i = 0; i < 6; i++) {
-            for(int j = 0; j< 6; j++) {
-                System.out.print(x[i][j].getTileType() + " | ");
+    /*public static void main(String[] args) {
+        ArrayList<Profile> players = new ArrayList<Profile>();
+        players.add(new Profile("Robbie"));
+        Board board = new Board(1, players);
+
+        // Test with visual representation of the board.
+        for (int y = 0; y < board.boardHeight; y++) {
+            for (int x = 0; x < board.boardWidth; x++)
+            switch(board.board[x][y].getTileType()){
+                case "CORNER":
+                    System.out.print("¬");
+                    break;
+                case "STRAIGHT":
+                    System.out.print("-");
+                    break;
+                case "TSHAPE":
+                    System.out.print("T");
+                    break;
+                default:
+                    System.out.print("*");
+                        break;
             }
+
             System.out.println();
         }
     }*/
 
+/* TODO
+Add method to say which columns / rows can not move
+Make the method that takes in as input a row or column and adds
+a floor tile to that.
+*/
 }
-
-//Add method to say which columns / rows can not move
-//Make the method that takes in as input a row or column and adds a floor tile to that.
-
