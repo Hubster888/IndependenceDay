@@ -33,7 +33,7 @@ public class Save {
         FloorTile[][] T = board.getBoard();
         ArrayList<Player> Players = board.getListOfPlayers();
 
-
+        BoardAList.add(Integer.toString(profiles.size()));
         for (int i = 0; i < Players.size(); i++) {
             int[] lastPosition = Players.get(i).getLastPosition();
             BoardAList.add(Players.get(i).getName() + ", " + lastPosition[0] + ", " + lastPosition[1]);
