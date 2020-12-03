@@ -92,7 +92,7 @@ public class ProfileSave {
       if(profileExists(profile)) {
         try {
           // PrintWriter object for output.txt
-          PrintWriter pw = new PrintWriter("output.txt");
+          PrintWriter pw = new PrintWriter("profileList.txt");
 
           // BufferedReader object for input.txt
           BufferedReader br1 = new BufferedReader(new FileReader("profileList.txt"));
@@ -117,7 +117,7 @@ public class ProfileSave {
 
           pw.flush();
 
-          Path source = Paths.get("output.txt");
+          Path source = Paths.get("profileList.txt");
           File file1 = new File("profileList.txt");
           file1.delete();
           Files.move(source, source.resolveSibling("profileList.txt"));
