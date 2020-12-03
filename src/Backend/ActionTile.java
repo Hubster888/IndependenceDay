@@ -55,8 +55,6 @@ public class ActionTile extends Tile {
         int[] square = setSquare(board, col, row);
         int players = board.getListOfPlayers().size();
 
-        System.out.println(square[0] + " " + square[1] + " " + square[2] + " " + square[3]);
-
         for (int i = square[0]; i <= square[1]; i++) {
             for (int j = square[2]; j <= square[3]; j++) {
                 board.getTile(i, j).setFrozen(true);
