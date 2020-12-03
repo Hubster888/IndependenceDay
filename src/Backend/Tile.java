@@ -8,17 +8,14 @@ package Backend;
 
 public abstract class Tile {
 
-    private double chanceOfAppearanceInBag;
     private final String type;
 
     /**
      * Constructor
      * @param type Type of Tile.
-     * @param chanceOfAppearanceInBag Chance of appearing in a game.
      */
-    public Tile(String type, double chanceOfAppearanceInBag) {
+    public Tile(String type) {
         this.type = type;
-        this.chanceOfAppearanceInBag = chanceOfAppearanceInBag;
     }
 
     /**
@@ -26,13 +23,6 @@ public abstract class Tile {
      */
     public String getTileType() {
         return type;
-    }
-
-    /**
-     * @return Chance of appearing in the game.
-     */
-    public double getChanceOfAppearing() {
-        return chanceOfAppearanceInBag;
     }
 
 }

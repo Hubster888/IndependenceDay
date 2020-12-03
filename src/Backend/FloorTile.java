@@ -1,10 +1,5 @@
 package Backend;
 
-import com.sun.xml.internal.ws.policy.EffectiveAlternativeSelector;
-import javafx.scene.image.Image;
-
-import java.util.Arrays;
-
 /**
  * FloorTile is class that floor tiles. It stores the
  * type and orientation of a floor tile.
@@ -28,7 +23,7 @@ public class FloorTile extends Tile {
      * @param orientation       of a Tile
      */
     public FloorTile(String type, double chanceOfAppearing, int orientation) {
-        super(type, chanceOfAppearing);
+        super(type);
         this.orientation = orientation;
         setPaths(type);
     }

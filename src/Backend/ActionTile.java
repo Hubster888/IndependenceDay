@@ -14,8 +14,8 @@ public class ActionTile extends Tile {
     public static final String DOUBLE_MOVE = "DoubleMove";
     public static final String BACK_TRACK = "BackTrack";
 
-    public ActionTile(String type, double chanceOfAppearing) {
-        super(type,chanceOfAppearing);
+    public ActionTile(String type) {
+        super(type);
     }
 
     public void execute(Board board,Player player, int col, int row) {
