@@ -7,20 +7,20 @@ import java.util.ArrayList;
 
 public class Save {
 
-    public void newIncrementingFile(GameController GameState){
+    public void newIncrementingFile(Board board, ArrayList<Profile> profiles){
         String fileName = "Testing";
         int fileNumber = 0;
         try{
             File newFile = new File(fileName + fileNumber + ".txt");
             if (newFile.createNewFile()){
-                //FormatBoard(GameState, fileName + fileNumber + ".txt");
+                FormatBoard(board, profiles, fileName + fileNumber + ".txt");
             }
             else{
                 while(newFile.createNewFile() == false){
                     fileNumber = fileNumber + 1;
                     newFile = new File(fileName + fileNumber + ".txt");
                 }
-                //FormatBoard(GameState, fileName + fileNumber + ".txt");
+                FormatBoard(board, profiles, fileName + fileNumber + ".txt");
             }
         }catch(Exception e){
             System.err.println(e);

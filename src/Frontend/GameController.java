@@ -112,7 +112,7 @@ public class GameController {
 
     public void saveGame(){
         Save s = new Save();
-        s.FormatBoard(this.board,this.profileList,"Testing0.txt");
+        s.newIncrementingFile(this.board,this.profileList);
     }
 
     public void exitToMenu() throws IOException {
@@ -126,6 +126,9 @@ public class GameController {
     }
 
     public void mouseAction(MouseEvent event) throws IOException {
+        Save s = new Save();
+        s.FormatBoard(this.board,this.profileList,"Data.txt");
+
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
 
