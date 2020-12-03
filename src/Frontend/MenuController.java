@@ -16,6 +16,7 @@ import java.io.IOException;
 import Frontend.Leaderboard;
 
 public class MenuController {
+    private static final String NOT_FOUND = "Message of the day is not found.";
 
     @FXML
     private Label message;
@@ -24,7 +25,11 @@ public class MenuController {
 
 
     public void initialize() throws IOException, InterruptedException {
-        message.setText(MOTD.getMotd());
+        try {
+            message.setText(MOTD.getMotd());
+        } catch (Exception e){
+            message.setText(NOT_FOUND);
+        }
     }
 
     public void gameBtn(ActionEvent event) throws IOException {
