@@ -69,9 +69,9 @@ public class Save {
         }
     }
 
-    public void DeleteFile(String fileName){
+    /*public void DeleteFile(String fileName){
         File
-    }
+    }*/
 
     //Not needed
     public ArrayList<String> getBoardData(String fileName) {

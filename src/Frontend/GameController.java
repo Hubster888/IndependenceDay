@@ -432,5 +432,13 @@ public class GameController {
 
         }
     }
+
+    public FloorTile[][] getBoard() {
+        return board.getBoard();
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        return board.getListOfPlayers();
+    }
 }
 
