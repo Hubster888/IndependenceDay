@@ -25,6 +25,12 @@ import javax.swing.JOptionPane;
 import static Backend.ActionTile.*;
 
 public class GameController {
+    private static final String FIRE_CORNER_PIC = "tiles/fire_Corner.jpg";
+    private static final String FIRE_STRAIGHT_PIC = "tiles/fire_Straight.jpg";
+    private static final String FIRE_T_SHAPE_PIC = "tiles/fire_T_Shape.jpg";
+    private static final String ICE_CORNER_PIC = "tiles/ice_Corner.jpg";
+    private static final String ICE_STRAIGHT_PIC = "tiles/ice_Straight.jpg";
+    private static final String ICE_T_SHAPE_PIC = "tiles/ice_T_Shape.jpg";
     private static final String CORNER_PIC = "tiles/road_Corner.jpg";
     private static final String STRAIGHT_PIC = "tiles/road_Straight.jpg";
     private static final String T_SHAPE_PIC = "tiles/road_T_Shape.jpg";
@@ -117,8 +123,8 @@ public class GameController {
             actionDraw();
             changeTurnState();
         } else if (turn.equals(PUSH) && checkInputPush(col, row)) {
-            board.updateBoard(nextFloorTile,col,row);
-            setBoardWindow(board.getBoard(),board.getListOfPlayers());
+            board.updateBoard(nextFloorTile, col, row);
+            setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
         } else if (turn.equals(ACTION)) {
             //actionAction(,col,row);
@@ -197,13 +203,31 @@ public class GameController {
 
         switch (type) {
             case "corner":
-                pic = new Image(CORNER_PIC);
+                if (tile.isOnFire()) {
+                    pic = new Image(FIRE_CORNER_PIC);
+                } else if (tile.isFrozen()) {
+                    pic = new Image(ICE_CORNER_PIC);
+                } else {
+                    pic = new Image(CORNER_PIC);
+                }
                 break;
             case "straight":
-                pic = new Image(STRAIGHT_PIC);
+                if (tile.isOnFire()) {
+                    pic = new Image(FIRE_STRAIGHT_PIC);
+                } else if (tile.isFrozen()) {
+                    pic = new Image(ICE_STRAIGHT_PIC);
+                } else {
+                    pic = new Image(STRAIGHT_PIC);
+                }
                 break;
             case "tShape":
-                pic = new Image(T_SHAPE_PIC);
+                if (tile.isOnFire()) {
+                    pic = new Image(FIRE_T_SHAPE_PIC);
+                } else if (tile.isFrozen()) {
+                    pic = new Image(ICE_T_SHAPE_PIC);
+                } else {
+                    pic = new Image(T_SHAPE_PIC);
+                }
                 break;
             case "goal":
                 pic = new Image(GOAL_PIC);
@@ -322,7 +346,7 @@ public class GameController {
     }
 
     private void actionAction(Tile tile, int col, int row) throws IOException {
-        switch (tile.getTileType()){
+        switch (tile.getTileType()) {
             case FIRE:
                 break;
             case ICE:
