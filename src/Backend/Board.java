@@ -167,7 +167,6 @@ public class Board {
                 levelDetails.add(t);
             }
 
-
             // First Line containing the dimensions of the board.
             this.boardWidth = Integer.parseInt(levelDetails.get(0).get(0));
             this.boardHeight = Integer.parseInt(levelDetails.get(0).get(1));
@@ -195,15 +194,12 @@ public class Board {
             // Fixed tile details starts at line 8.
             for (int i = 7; i < fixedTiles + 7; i++) {
                 // Add the tile to the board with its given details.
-                System.out.println(levelDetails.get(i).get(0));
-                System.out.println(levelDetails.get(i).get(1));
-                System.out.println(levelDetails.get(i).get(2));
                 this.board[Integer.parseInt(
                     levelDetails.get(i).get(0))][Integer.parseInt(
                         levelDetails.get(i).get(1)
                         )] = new FloorTile(
                             levelDetails.get(i).get(2), 0.1,
-                            Integer.parseInt(levelDetails.get(0).get(3))
+                            Integer.parseInt(levelDetails.get(i).get(3))
                             );
 
             }
@@ -258,7 +254,7 @@ public class Board {
         return type;
     }
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         ArrayList<Profile> players = new ArrayList<Profile>();
         players.add(new Profile("Robbie"));
         Board board = new Board(1, players);
@@ -280,11 +276,11 @@ public class Board {
                         System.out.print("*");
                             break;
                 }
-                System.out.println("(" + x + "," + y + ")");
             }
                 System.out.println();
         }
     }
+*/
 
 /* TODO
 Add method to say which columns / rows can not move
