@@ -9,11 +9,23 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
-public class MOTD{
+/**
+ * The MOTD class gets the motd from the api provided.
+ *
+ * @author Marcus Poole, 1908307@swansea.ac.uk
+ * @version 1.0
+ */
+public class MOTD {
     private static final String POST_API_URL_PUZZLE = "http://cswebcat.swansea.ac.uk/puzzle";
 
-    private static String getPuzzle() throws IOException, InterruptedException {
-
+    /**
+     * method that retrieves the unsolved puzzle String and solves it by calling other methods
+     *
+     * @return solved the solved puzzle with numChar add the number of characters in the solution added to the end
+     * @throws IOException on input error
+     * @see IOException
+     */
+    private static String getPuzzle() throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new
                 URL(POST_API_URL_PUZZLE).openConnection();
         conn.setRequestMethod("GET");
@@ -23,11 +35,18 @@ public class MOTD{
                 .collect(Collectors.joining("\n"));
 
         String solved = "CS-230" + weirdCaesar(puzzle);
-        int numCharacters = solved.length();
-        return solved + numCharacters;
+        int numCHar = solved.length();
+        return solved + numCHar;
     }
 
-    public static String getMotd() throws IOException, InterruptedException {
+    /**
+     * Method that retrieves the message of the day from the URL solved from the puzzle.
+     *
+     * @return the message of the day
+     * @throws IOException On input error
+     * @see IOException
+     */
+    public static String getMotd() throws IOException {
         final String POST_API_URL_SOlVED = "http://cswebcat.swansea.ac.uk/message?solution=" + getPuzzle();
         HttpURLConnection conn = (HttpURLConnection) new
                 URL(POST_API_URL_SOlVED).openConnection();
@@ -40,13 +59,19 @@ public class MOTD{
 
     }
 
+    /**
+     * method that solves the puzzle using same method as to solve Caesar cyphers
+     *
+     * @param value This is the unsolved puzzle String
+     * @return the solved puzzle.
+     */
     private static String weirdCaesar(String value) {
         // Convert to char array.
         char[] forwardsBuffer = value.toCharArray();
         char[] backwardsBuffer = value.toCharArray();
 
         // Loop over characters.
-        for (int i = 1, shift = 2; i < forwardsBuffer.length - 1; i+=2,shift+=2) {
+        for (int i = 1, shift = 2; i < forwardsBuffer.length; i += 2, shift += 2) {
             // Shift letter, moving back or forward 26 places if needed.
             char letter = forwardsBuffer[i];
             letter = (char) (letter + shift);
@@ -58,7 +83,7 @@ public class MOTD{
             forwardsBuffer[i] = letter;
         }
 
-        for (int i = 0, shift = 1; i < backwardsBuffer.length; i +=2 ,shift +=2 ) {
+        for (int i = 0, shift = 1; i < backwardsBuffer.length; i += 2, shift += 2) {
             // Shift letter, moving back or forward 26 places if needed.
             char letter = backwardsBuffer[i];
             letter = (char) (letter - shift);
@@ -75,10 +100,17 @@ public class MOTD{
         return merge(backwardsSolved, forwardsSolved);
     }
 
+    /**
+     * Method that merges the two Strings together and removes the duplicate/ excess places in the Strings
+     *
+     * @param s1 The first String, to be merged into
+     * @param s2 The second String, to merge into s1
+     * @return The result of merging the two strings.
+     */
     private static String merge(String s1, String s2) {
         // To store the final string
         String backwards = s1.replaceAll("(.).?", "$1");
-        String forwards  = s2.replaceAll(".(.)?", "$1");
+        String forwards = s2.replaceAll(".(.)?", "$1");
 
         StringBuilder result = new StringBuilder();
         // For every index in the strings
