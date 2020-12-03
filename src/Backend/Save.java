@@ -1,39 +1,39 @@
 package Backend;
 
+import Frontend.GameController;
 import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Save {
 
-
-    /*public void newIncrementingFile(Board GameState){
+    public void newIncrementingFile(Board board, ArrayList<Profile> profiles){
         String fileName = "Testing";
         int fileNumber = 0;
         try{
             File newFile = new File(fileName + fileNumber + ".txt");
             if (newFile.createNewFile()){
-                formatBoard(GameState, fileName + fileNumber + ".txt");
+                FormatBoard(board, profiles, fileName + fileNumber + ".txt");
             }
             else{
                 while(newFile.createNewFile() == false){
                     fileNumber = fileNumber + 1;
                     newFile = new File(fileName + fileNumber + ".txt");
                 }
-                formatBoard(GameState, fileName + fileNumber + ".txt");
+                FormatBoard(board, profiles, fileName + fileNumber + ".txt");
             }
         }catch(Exception e){
             System.err.println(e);
         }
-    }*/
+    }
 
 
-    public void formatBoard(Board board, ArrayList<Player> players, String fileName) {
+    public void FormatBoard(Board board, ArrayList<Profile> profiles, String fileName) {
         ArrayList BoardAList = new ArrayList();
         FloorTile[][] T = board.getBoard();
-        ArrayList<Player> Players = players;
+        ArrayList<Player> Players = board.getListOfPlayers();
 
-
+        BoardAList.add(Integer.toString(profiles.size()));
         for (int i = 0; i < Players.size(); i++) {
             int[] lastPosition = Players.get(i).getLastPosition();
             BoardAList.add(Players.get(i).getName() + ", " + lastPosition[0] + ", " + lastPosition[1]);
@@ -46,13 +46,12 @@ public class Save {
 
             }
         }
-        writeToFile(BoardAList, fileName);
+        WriteToFile(BoardAList, fileName);
     }
 
 
 
-    public void writeToFile(ArrayList<String> aList, String namingFile) {
-        System.out.println(namingFile);
+    public void WriteToFile(ArrayList<String> aList, String namingFile) {
         File fileName = new File(namingFile);
         try {
             FileWriter fw = new FileWriter(fileName);
@@ -69,9 +68,9 @@ public class Save {
         }
     }
 
-    /*public void DeleteFile(String fileName){
-        File
-    }*/
+    public void DeleteFile(String fileName){
+        //File
+    }
 
     //Not needed
     public ArrayList<String> getBoardData(String fileName) {

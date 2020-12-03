@@ -52,6 +52,7 @@ public class GameController {
     //Draw, Push, Action, Move
     private String turn = DRAW;
     private Board board;
+    private ArrayList<Profile> profileList;
     private int playerTurn = 0;
     private FloorTile nextFloorTile;
     private ActionTile actionTile = new ActionTile(ICE);
@@ -82,7 +83,7 @@ public class GameController {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
 
-        ArrayList<Profile> profileList = new ArrayList<>();
+        /*ArrayList<Profile>*/ profileList = new ArrayList<>();
         for (int i = 1; i <= numOfPlayers; i++) {
             String profileName = getPlayerName(i);
             Profile prof = ProfileSave.getProfile(profileName);
@@ -111,7 +112,7 @@ public class GameController {
 
     public void saveGame(){
         Save s = new Save();
-        s.formatBoard(board,board.getListOfPlayers(),"test");
+        s.newIncrementingFile(this.board,this.profileList);
     }
 
     public void exitToMenu() throws IOException {
@@ -125,6 +126,9 @@ public class GameController {
     }
 
     public void mouseAction(MouseEvent event) throws IOException {
+        Save s = new Save();
+        s.FormatBoard(this.board,this.profileList,"Data.txt");
+
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
 
