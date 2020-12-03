@@ -39,14 +39,16 @@ public class FloorTile extends Tile {
         if (fireTime == 0){
             setOnFire(false);
         } else {
-            this.fireTime--;
+            this.fireTime -= 1;
         }
 
         if (frozenTime == 0){
             setFrozen(false);
         } else {
-            this.frozenTime--;
+            this.frozenTime -= 1;
         }
+
+        System.out.println(fireTime + " " + frozenTime);
     }
 
     /**
