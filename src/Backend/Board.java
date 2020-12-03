@@ -27,7 +27,7 @@ public class Board {
     private int boardWidth;
     private int boardHeight;
     private ArrayList<Player> listOfPlayers = new ArrayList<Player>();
-    private Tile[][] board;
+    private FloorTile[][] board;
     private String noOfFloors;
     private String noOfActions;
 
@@ -47,7 +47,7 @@ public class Board {
      * @param y The y position.
      * @return The tile at given position.
      */
-    public Tile getTile(int x, int y) {
+    public FloorTile getTile(int x, int y) {
         return this.board[x][y];
     }
 
@@ -75,7 +75,7 @@ public class Board {
     /**
      * @return The board array.
      */
-    public Tile[][] getBoard() {
+    public FloorTile[][] getBoard() {
         return this.board;
     }
     
@@ -190,11 +190,14 @@ public class Board {
             }
 
             // Setup the board.
-            this.board = new Tile[this.boardWidth][this.boardHeight];
+            this.board = new FloorTile[this.boardWidth][this.boardHeight];
 
             // Fixed tile details starts at line 8.
-            for (int i = 8; i < fixedTiles; i++) {
+            for (int i = 7; i < fixedTiles + 7; i++) {
                 // Add the tile to the board with its given details.
+                System.out.println(levelDetails.get(i).get(0));
+                System.out.println(levelDetails.get(i).get(1));
+                System.out.println(levelDetails.get(i).get(2));
                 this.board[Integer.parseInt(
                     levelDetails.get(i).get(0))][Integer.parseInt(
                         levelDetails.get(i).get(1)
@@ -206,10 +209,6 @@ public class Board {
             }
 
             // Set up the rest of the board tiles.
-            int xGoal = (int)((Math.random() * (this.boardWidth - 1) + 1));
-            int yGoal = (int)((Math.random() * (this.boardHeight - 1)) + 1);
-            this.board[xGoal][yGoal] = new FloorTile(GOAL_TILE, 0.1, 0);
-
             for (int x = 0; x < this.boardWidth; x++) {
                 for (int y = 0; y < this.boardHeight; y++) {
                     if (this.board[x][y] == null) {
@@ -228,15 +227,7 @@ public class Board {
                 System.out.println(NO_PLAYER_ERROR);
             } else {
                 for(Profile prof : listOfProfiles) {
-                    int randPos = 0;
-                    int x = -1;
-                    int y = -1;
-
-                    while((x < 0 || x == xGoal) && (y < 0 || y == yGoal)) {
-                        randPos = (int)((Math.random() * 4));
-                        x = spawns[randPos][0];
-                        y = spawns[randPos][1];
-                    }
+                    int randPos = (int)((Math.random() * 4));
  
 					listOfPlayers.add(new Player(prof.getName(),
                         spawns[randPos]));
@@ -267,32 +258,33 @@ public class Board {
         return type;
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         ArrayList<Profile> players = new ArrayList<Profile>();
         players.add(new Profile("Robbie"));
         Board board = new Board(1, players);
 
         // Test with visual representation of the board.
         for (int y = 0; y < board.boardHeight; y++) {
-            for (int x = 0; x < board.boardWidth; x++)
-            switch(board.board[x][y].getTileType()){
-                case "CORNER":
-                    System.out.print("¬");
-                    break;
-                case "STRAIGHT":
-                    System.out.print("-");
-                    break;
-                case "TSHAPE":
-                    System.out.print("T");
-                    break;
-                default:
-                    System.out.print("*");
+            for (int x = 0; x < board.boardWidth; x++){
+                switch(board.board[x][y].getTileType()){
+                    case "CORNER":
+                        System.out.print("¬");
                         break;
+                    case "STRAIGHT":
+                        System.out.print("-");
+                        break;
+                    case "TSHAPE":
+                        System.out.print("T");
+                        break;
+                    default:
+                        System.out.print("*");
+                            break;
+                }
+                System.out.println("(" + x + "," + y + ")");
             }
-
-            System.out.println();
+                System.out.println();
         }
-    }*/
+    }
 
 /* TODO
 Add method to say which columns / rows can not move
