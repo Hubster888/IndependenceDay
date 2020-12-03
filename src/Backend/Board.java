@@ -1,8 +1,10 @@
 package Backend;
-import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * Board class that is responsible for board and actions
@@ -12,216 +14,278 @@ import javax.swing.JOptionPane;
  * @version 1.0
  */
 public class Board {
+    private static final String LEVEL_DIR = "src/Levels/";
+    private static final String GOAL_TILE = "goal";
+    private static final String CORNER_TILE = "corner";
+    private static final String STRAIGHT_TILE = "straight";
+    private static final String TSHAPE_TILE = "tShape";
+    private static final String FILE_DELIM = ",";
+    private static final String NO_PLAYER_ERROR =
+    "Something is wrong, no players";
+    private static final String FILE_EXT = ".txt";
+
     private int boardWidth;
     private int boardHeight;
     private ArrayList<Player> listOfPlayers = new ArrayList<Player>();
     private FloorTile[][] board;
+    private String noOfFloors;
+    private String noOfActions;
 
 
     /**
-     * Constructor
-     * @param width of board
-     * @param height of board
+     * Creates a board instance from given details.
+     * @param levelNo Level number to load.
+     * @param listOfProfiles List of profiles playing the game.
      */
-    public Board (int width, int height, ArrayList<Profile> listOfProfiles){
-        this.boardWidth = width;
-        this.boardHeight = height;
-        board = new FloorTile[width][height];
-        int xGoal = (this.boardHeight / 2) - 1;
-        int yGoal = xGoal;
-        
-        if(listOfProfiles.size() < 0) {
-            System.out.println("Something is wrong, no players");
-        }else {
-            for(int i = 0; i < listOfProfiles.size(); i++) {
-            	if(i == 0) {
-            		int[] startingPos = new int[2];
-            		startingPos[0] = this.boardHeight - 1;
-            		startingPos[1] = 0;
-                    Profile prof = listOfProfiles.get(i);
-                	listOfPlayers.add(new Player(prof.getName(), startingPos));
-            	}else if(i == 1) {
-            		int[] startingPos = new int[2];
-            		startingPos[0] = 0;
-                    startingPos[1] = this.boardHeight - 1;
-                    Profile prof = listOfProfiles.get(i);
-                	listOfPlayers.add(new Player(prof.getName(), startingPos));
-            	}else if(i == 2) {
-            		int[] startingPos = new int[2];
-            		startingPos[0] = 0;
-            		startingPos[1] = 0;
-            		Profile prof = listOfProfiles.get(i);
-                	listOfPlayers.add(new Player(prof.getName(), startingPos));
-            	}else if(i == 3) {
-            		int[] startingPos = new int[2];
-            		startingPos[0] = this.boardHeight - 1;
-                    startingPos[1] = this.boardHeight - 1;
-                    Profile prof = listOfProfiles.get(i);
-                	listOfPlayers.add(new Player(prof.getName(), startingPos));
-            	}else {
-            		System.out.println("end");
-            	}
-            }
-        }
-        for(int i = 0; i < this.boardWidth; i++){
-            for(int j = 0; j < this.boardHeight; j++){
-                if(i == 0 && j == 0) {
-                    this.board[i][j] = new FloorTile("corner", 0.1, 0);
-                }else if(i == 0 && j == this.boardHeight - 1) {
-                    this.board[i][j] = new FloorTile("corner", 0.1, 3);
-                }else if(j == 0 && i == this.boardWidth - 1) {
-                    this.board[i][j] = new FloorTile("corner", 0.1, 1);
-                }else if(j == this.boardHeight - 1 && i == this.boardWidth - 1){
-                    this.board[i][j] = new FloorTile("corner", 0.1, 2);
-                }else {
-                    int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
-                    int orientationGen = (int) ((Math.random() * (5 - 1)));
-                    switch (typeGen){
-                        case 1:
-                            this.board[i][j] = new FloorTile("corner", 0.1, orientationGen);
-                            break;
-                        case 2:
-                            this.board[i][j] = new FloorTile("straight", 0.1, orientationGen);
-                            break;
-                        case 3:
-                            this.board[i][j] = new FloorTile("tShape", 0.1, orientationGen);
-                            break;
-                        default:
-                            System.out.println("Something wrong!");
-                            break;
-                    }
+    public Board(int levelNo, ArrayList<Profile> listOfProfiles) {
+        ArrayList<String> level = this.getlevel(levelNo);
+        this.setUpLevel(level, listOfProfiles);
+    }
 
-                }
-            }
-
-         }
-        board[xGoal][yGoal] = new FloorTile("goal", 0.1, 0);
-      }
-
-
-    
-
+    /**
+     * @param x The x position.
+     * @param y The y position.
+     * @return The tile at given position.
+     */
     public FloorTile getTile(int x, int y) {
         return this.board[x][y];
     }
 
-    public int getWidth(){
+    /**
+     * @return Width of the board.
+     */
+    public int getWidth() {
         return this.boardWidth;
     }
 
-    public int getHeight(){
+    /**
+     * @return Height of the board.
+     */
+    public int getHeight() {
         return this.boardHeight;
     }
 
-    public ArrayList<Player> getListOfPlayers(){
+    /**
+     * @return List of players playing.
+     */
+    public ArrayList<Player> getListOfPlayers() {
         return listOfPlayers;
     }
 
-    public FloorTile[][] getBoard(){
+    /**
+     * @return The board array.
+     */
+    public FloorTile[][] getBoard() {
         return this.board;
     }
-
-    public FloorTile updateBoard(FloorTile newTile,int col, int row ){
-        FloorTile tile = null;
-        if (col == getWidth() - 1 && isMovable(board, false, row)){
-            tile = getTile(col,row);
-            for(int i = 1; i < this.boardWidth; i++) {
-                this.board[i - 1][row] = this.board[i][row];
-            }
-            this.board[col][row] = newTile;
-
-        } else if (col == 0 && isMovable(board,false,row)){
-            tile = getTile(col,row);
-            for(int i = this.boardWidth - 1; i > 0; i--) {
-                this.board[i][row] = this.board[i - 1][row];
-            }
-            this.board[col][row] = newTile;
-
-        } else if (row == getHeight() - 1 && isMovable(board,true,col)){
-            tile = getTile(col,row);
-            for(int i = 1; i < this.boardHeight; i++) {
-                this.board[col][i - 1] = this.board[col][i];
-            }
-            this.board[col][row] = newTile;
-
-        } else if (row == 0 && isMovable(board,true,col)){
-            tile = getTile(col,row);
-            for(int i = this.boardHeight - 1; i > 0; i--) {
-                this.board[col][i] = this.board[col][i - 1];
-            }
-            this.board[col][row] = newTile;
-        }
-        return tile;
+    
+    /**
+     * @return The number of floor tiles allowed in a players silk bag.
+     */
+    public String getNoOfFloors() {
+        return noOfFloors;
     }
-
-    public boolean isMovable(FloorTile [][] tiles, boolean col, int index){
-        boolean result = true;
-        if (col){
-            for (int i = 0; i < this.boardHeight; i++){
-                if(tiles[index][i].isFrozen()){
-                    result = false;
-                }
-            }
-        } else {
-            for (int i = 0; i < this.boardWidth; i++){
-                if(tiles[i][index].isFrozen()){
-                    result = false;
-                }
-            }
-        }
-        System.out.println(result);
-        return result;
+    
+    /**
+     * @return The number of action tiles allowed in a players silk bag.
+     */
+    public String getNoOfActions() {
+        return noOfActions;
     }
-
-    /*
-    public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile newTile) {
-    	if(!rowOrColumnCamMove(rowOrColumn)) {
-    		final JFrame parent = new JFrame();
-
-    	      parent.pack();
-    	      parent.setVisible(true);
-
-    	      JOptionPane.showMessageDialog(parent,"This row or column can not be picked!");
+    
+    /**
+     * Update the board.
+     * @param rowOrColumn
+     * @param isRow
+     * @param tileToBeAdded
+     */
+    public void updateBoard(int rowOrColumn, Boolean isRow,
+    FloorTile tileToBeAdded) {
+    	if(!rowOrColumnCanMove(rowOrColumn)) {
+    		// Pop up, that cant move row / column
     		return;
     	}
     	if(isRow) {
-    		for(int j = 1; j < this.boardWidth; j++) {
-    			this.board[j][rowOrColumn] = this.board[j - 1][rowOrColumn];
-    		}
-    		this.board[0][rowOrColumn] = newTile;
-    	}else {
-    		for(int j = 1; j < this.boardWidth; j++) {
-    			this.board[rowOrColumn][j] = this.board[rowOrColumn][j - 1];
-    		}
-    		this.board[rowOrColumn][0] = newTile;
+    		
+    	}
+    }
+    
+    /**
+     * Decides if the row can move.
+     * @param rowOrColumn Row or column to check.
+     * @return True if it can move false if not.
+     */
+    private Boolean rowOrColumnCanMove(int rowOrColumn) {
+    	switch(this.boardHeight) {
+        case 6:
+            return !(rowOrColumn == 2 || rowOrColumn == 4);
+        case 10:
+            return !(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 ||
+            rowOrColumn == 8);
+        case 12:
+            return !(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 ||
+            rowOrColumn == 8 || rowOrColumn == 10);
+    	default:
+    		return false;
     	}
     }
 
-    private Boolean rowOrColumnCamMove(int rowOrColumn) {
-        switch(this.boardHeight) {
-            case 6:
-                if(rowOrColumn == 2 || rowOrColumn == 4) {
-                    return false;
-                }else {
-                    return true;
-                }
-            case 10:
-                if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8) {
-                    return false;
-                }else {
-                    return true;
-                }
-            case 12:
-                if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8 || rowOrColumn == 10) {
-                    return false;
-                }else {
-                    return true;
-                }
-            default:
-                return false;
+    /**
+     * Loads the level format from file.
+     * @param levelNo The level to load.
+     * @return An array containing the level format.
+     */
+    public ArrayList<String> getlevel(int levelNo) {
+        ArrayList<String> level = new ArrayList<>();
+        File file = new File(LEVEL_DIR + Integer.toString(levelNo) + FILE_EXT);
+        
+        try(Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine())
+                level.add(scanner.nextLine());
+        } catch(FileNotFoundException e) {
+                System.out.println(e);
+                // Handle exception
         }
-    }*/
-}
-//Add method to say which columns / rows can not move
-//Make the method that takes in as input a row or column and adds a floor tile to that.
 
+        return level;
+    }
+
+    /**
+     * Sets up level from given format.
+     * @param level A list of level details.
+     * @param listOfProfiles List of profiles playing the level.
+     */
+    public void setUpLevel(ArrayList<String> level,
+        ArrayList<Profile> listOfProfiles) {
+            ArrayList<ArrayList<String>> levelDetails =
+            new ArrayList<ArrayList<String>>();
+
+            for (String line : level) {
+                ArrayList<String> t = new ArrayList<String>();
+                for (String detail : line.split(FILE_DELIM))
+                    t.add(detail);
+                levelDetails.add(t);
+            }
+
+            // First Line containing the dimensions of the board.
+            this.boardWidth = Integer.parseInt(levelDetails.get(0).get(0));
+            this.boardHeight = Integer.parseInt(levelDetails.get(0).get(1));
+
+            // Second line gives the number of fixed tiles.
+            int fixedTiles = Integer.parseInt(levelDetails.get(1).get(0));
+
+            // Third line gives the number of floor and action tiles to go ito the
+            // silk bag.
+            this.noOfFloors = levelDetails.get(2).get(0);
+            this.noOfActions = levelDetails.get(2).get(0);
+
+            // Lines 4-7 give player starting positions.
+            int[][] spawns = new int[4][2];
+
+            for (int i = 0; i < 4; i++) {
+                spawns[i] = levelDetails.get(4).stream().mapToInt(
+                    Integer::parseInt
+                    ).toArray();
+            }
+
+            // Setup the board.
+            this.board = new FloorTile[this.boardWidth][this.boardHeight];
+
+            // Fixed tile details starts at line 8.
+            for (int i = 7; i < fixedTiles + 7; i++) {
+                // Add the tile to the board with its given details.
+                this.board[Integer.parseInt(
+                    levelDetails.get(i).get(0))][Integer.parseInt(
+                        levelDetails.get(i).get(1)
+                        )] = new FloorTile(
+                            levelDetails.get(i).get(2), 0.1,
+                            Integer.parseInt(levelDetails.get(i).get(3))
+                            );
+
+            }
+
+            // Set up the rest of the board tiles.
+            for (int x = 0; x < this.boardWidth; x++) {
+                for (int y = 0; y < this.boardHeight; y++) {
+                    if (this.board[x][y] == null) {
+                        this.board[x][y] = new FloorTile(
+                            getRandomTileType(), 0.1, (int)((
+                                Math.random() * (5 - 1)) + 1
+                                )
+                            );
+                    }
+                }
+            }
+
+            // Set up players with random position.
+            if(listOfProfiles.size() < 0) {
+                // Throw an error.
+                System.out.println(NO_PLAYER_ERROR);
+            } else {
+                for(Profile prof : listOfProfiles) {
+                    int randPos = (int)((Math.random() * 4));
+ 
+					listOfPlayers.add(new Player(prof.getName(),
+                        spawns[randPos]));
+                }
+            }
+    }
+
+    /**
+     * Generate a random tile type for the board.
+     * @return A random tile type.
+     */
+    public static String getRandomTileType() {
+        int typeGen = (int)((Math.random() * (4 - 1)) + 1);
+        String type = "";
+
+        switch (typeGen) {
+            case 1:
+                type = CORNER_TILE;
+                break;
+            case 2:
+                type = STRAIGHT_TILE;
+                break;
+            case 3:
+                type = TSHAPE_TILE;
+                break;
+        }
+
+        return type;
+    }
+
+/*
+    public static void main(String[] args) {
+        ArrayList<Profile> players = new ArrayList<Profile>();
+        players.add(new Profile("Robbie"));
+        Board board = new Board(1, players);
+
+        // Test with visual representation of the board.
+        for (int y = 0; y < board.boardHeight; y++) {
+            for (int x = 0; x < board.boardWidth; x++){
+                switch(board.board[x][y].getTileType()){
+                    case "corner":
+                        System.out.print("¬");
+                        break;
+                    case "straight":
+                        System.out.print("-");
+                        break;
+                    case "tShape":
+                        System.out.print("T");
+                        break;
+                    default:
+                        System.out.print("*");
+                            break;
+                }
+            }
+                System.out.println();
+        }
+    }
+*/
+
+/* TODO
+Add method to say which columns / rows can not move
+Make the method that takes in as input a row or column and adds
+a floor tile to that.
+*/
+}
