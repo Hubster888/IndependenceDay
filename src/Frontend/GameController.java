@@ -44,6 +44,7 @@ public class GameController {
     private Board board;
     private int playerTurn = 0;
     private FloorTile nextFloorTile = new FloorTile("corner", 0.1, 0);
+    private ActionTile actionTile = null;
 
     @FXML
     private GridPane gp;
@@ -115,11 +116,15 @@ public class GameController {
             changeTurnState();
         } else if (turn.equals(PUSH) && checkInputPush(col, row)) {
             board.updateBoard(nextFloorTile,col,row);
+            setBoardWindow(board.getBoard(),board.getListOfPlayers());
             changeTurnState();
         } else if (turn.equals(ACTION)) {
+            //actionAction(,col,row);
             changeTurnState();
         } else if ((turn.equals(MOVE) && player.canMove(board, col, row)) || !player.hasMove(board)) {
             actionPlayer(player, col, row);
+            changePlayer();
+            changeTurnState();
             playerLab.setText("Player " + (playerTurn + 1));
         }
 
@@ -314,15 +319,30 @@ public class GameController {
         	}*/
     }
 
+    private void actionAction(Tile tile, int col, int row) throws IOException {
+        switch (tile.getTileType()){
+            case "Fire":
+                break;
+            case "Ice":
+                break;
+            case "DoubleMove":
+                Player player = board.getListOfPlayers().get(playerTurn);
+                actionPlayer(player, col, row);
+                break;
+            case "BackTrack":
+                break;
+            default:
+                System.out.println("Something with action is wrong");
+                break;
+        }
+    }
+
     private void actionPlayer(Player player, int col, int row) throws IOException {
         if (player.hasMove(board)) {
             player.setLastPosition(new int[]{col, row});
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             endOfGame(col, row);
         }
-
-        changePlayer();
-        changeTurnState();
     }
 
     private Boolean checkInputPush(int col, int row) {
