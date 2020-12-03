@@ -67,7 +67,7 @@ public class MOTD{
         char[] backwardsBuffer = value.toCharArray();
 
         // Loop over characters.
-        for (int i = 1, shift = 2; i < forwardsBuffer.length - 1; i+=2,shift+=2) {
+        for (int i = 1, shift = 2; i < forwardsBuffer.length; i+=2,shift+=2) {
             // Shift letter, moving back or forward 26 places if needed.
             char letter = forwardsBuffer[i];
             letter = (char) (letter + shift);
@@ -131,5 +131,3 @@ public class MOTD{
 
     }
 }
-
-
