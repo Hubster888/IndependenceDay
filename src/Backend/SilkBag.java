@@ -19,10 +19,14 @@ public class SilkBag {
     }
 
     public void fillBag() {
+
+        ArrayList<String> tileType = new ArrayList<String>(); //ArrayList holding the types of tiles
+        tileType.add("corner");
+        tileType.add("tShape");
+        tileType.add("straight");
+
         Random randTileType = new Random(); //instance of the imported random class
-        int maxType = 4;
-        //generate random int from 0-3
-        int typeNo = randTileType.nextInt(maxType);
+        int typeNo = randTileType.nextInt(tileType.size());
         System.out.println(typeNo);
 
         Random randOrientation = new Random(); //instance of the imported random class
@@ -31,12 +35,7 @@ public class SilkBag {
         int orientationNo = randOrientation.nextInt(maxOrientation);
         System.out.println(orientationNo);
 
-        ArrayList<String> tileType = new ArrayList<String>(); //ArrayList holding the types of tiles
-        tileType.add("corner");
-        tileType.add("tShape");
-        tileType.add("straight");
-
-        FloorTile floorTile = new FloorTile(tileType.get(typeNo), 0.0, orientationNo); //constructing a floorTile with a random tile type and random orientation
+        FloorTile floorTile = new FloorTile(tileType.get(typeNo),0.1, orientationNo); //constructing a floorTile with a random tile type and random orientation
 
         tiles.add(floorTile);
 
