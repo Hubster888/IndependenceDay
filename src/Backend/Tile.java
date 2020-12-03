@@ -35,8 +35,4 @@ public abstract class Tile {
         return chanceOfAppearanceInBag;
     }
 
-    /**
-     * Abstract method that performs the tile action.
-     */
-    public abstract void executeTile();
 }
