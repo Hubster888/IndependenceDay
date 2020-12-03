@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import static Backend.ActionTile.*;
+
 public class GameController {
     private static final String CORNER_PIC = "tiles/road_Corner.jpg";
     private static final String STRAIGHT_PIC = "tiles/road_Straight.jpg";
@@ -321,15 +323,15 @@ public class GameController {
 
     private void actionAction(Tile tile, int col, int row) throws IOException {
         switch (tile.getTileType()){
-            case "Fire":
+            case FIRE:
                 break;
-            case "Ice":
+            case ICE:
                 break;
-            case "DoubleMove":
+            case DOUBLE_MOVE:
                 Player player = board.getListOfPlayers().get(playerTurn);
                 actionPlayer(player, col, row);
                 break;
-            case "BackTrack":
+            case BACK_TRACK:
                 break;
             default:
                 System.out.println("Something with action is wrong");
