@@ -1,6 +1,8 @@
 package Backend;
+
 import java.util.Random;
 import java.util.ArrayList;
+
 /**
  * The Silk Bag class is responsible for holding tiles not on the board or in the Player's hand.
  *
@@ -35,7 +37,7 @@ public class SilkBag {
         int orientationNo = randOrientation.nextInt(maxOrientation);
         System.out.println(orientationNo);
 
-        FloorTile floorTile = new FloorTile(tileType.get(typeNo),0.1, orientationNo); //constructing a floorTile with a random tile type and random orientation
+        FloorTile floorTile = new FloorTile(tileType.get(typeNo), orientationNo); //constructing a floorTile with a random tile type and random orientation
 
         tiles.add(floorTile);
 
@@ -60,6 +62,6 @@ public class SilkBag {
         int tileNo = randTile.nextInt(tiles.size());
         Tile tileDraw = tiles.get(tileNo);
 
-        return(tileDraw);
+        return (tileDraw);
     }
 }

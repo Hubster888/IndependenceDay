@@ -22,10 +22,9 @@ public class FloorTile extends Tile {
      * Constructor
      *
      * @param type              default FloorTile
-     * @param chanceOfAppearing in the Silk bag
      * @param orientation       of a Tile
      */
-    public FloorTile(String type, double chanceOfAppearing, int orientation) {
+    public FloorTile(String type, int orientation) {
         super(type);
         this.orientation = orientation;
         setPaths(type);

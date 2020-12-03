@@ -1,9 +1,6 @@
 package Backend;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 /**
  * Board class that is responsible for board and actions
  * made on it.
@@ -66,25 +63,25 @@ public class Board {
         for(int i = 0; i < this.boardWidth; i++){
             for(int j = 0; j < this.boardHeight; j++){
                 if(i == 0 && j == 0) {
-                    this.board[i][j] = new FloorTile("corner", 0.1, 0);
+                    this.board[i][j] = new FloorTile("corner", 0);
                 }else if(i == 0 && j == this.boardHeight - 1) {
-                    this.board[i][j] = new FloorTile("corner", 0.1, 3);
+                    this.board[i][j] = new FloorTile("corner", 3);
                 }else if(j == 0 && i == this.boardWidth - 1) {
-                    this.board[i][j] = new FloorTile("corner", 0.1, 1);
+                    this.board[i][j] = new FloorTile("corner", 1);
                 }else if(j == this.boardHeight - 1 && i == this.boardWidth - 1){
-                    this.board[i][j] = new FloorTile("corner", 0.1, 2);
+                    this.board[i][j] = new FloorTile("corner", 2);
                 }else {
                     int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
                     int orientationGen = (int) ((Math.random() * (5 - 1)));
                     switch (typeGen){
                         case 1:
-                            this.board[i][j] = new FloorTile("corner", 0.1, orientationGen);
+                            this.board[i][j] = new FloorTile("corner", orientationGen);
                             break;
                         case 2:
-                            this.board[i][j] = new FloorTile("straight", 0.1, orientationGen);
+                            this.board[i][j] = new FloorTile("straight", orientationGen);
                             break;
                         case 3:
-                            this.board[i][j] = new FloorTile("tShape", 0.1, orientationGen);
+                            this.board[i][j] = new FloorTile("tShape", orientationGen);
                             break;
                         default:
                             System.out.println("Something wrong!");
@@ -95,7 +92,7 @@ public class Board {
             }
 
          }
-        board[xGoal][yGoal] = new FloorTile("goal", 0.1, 0);
+        board[xGoal][yGoal] = new FloorTile("goal", 0);
       }
 
 
