@@ -66,22 +66,26 @@ public class Player {
     boolean up = false;
 
     FloorTile plTile = board.getTile(plCol, plRow);
+    FloorTile tile;
 
     if (0 < plCol) {
-      left = (board.getTile(plCol - 1, plRow).hasPath(1) && plTile.hasPath(3));
+      tile = board.getTile(plCol - 1, plRow);
+      left = (tile.hasPath(1) && plTile.hasPath(3) && !tile.isOnFire());
     }
 
-    System.out.println(plCol + " " + plRow);
     if (board.getWidth() - 1 > plCol) {
-      right = (board.getTile(plCol + 1, plRow).hasPath(3) && plTile.hasPath(1));
+      tile = board.getTile(plCol + 1, plRow);
+      right = (tile.hasPath(3) && plTile.hasPath(1)&& !tile.isOnFire());
     }
 
     if (board.getHeight() - 1 > plRow) {
-      down = (board.getTile(plCol, plRow + 1).hasPath(0) && plTile.hasPath(2));
+      tile = board.getTile(plCol, plRow + 1);
+      down = (tile.hasPath(0) && plTile.hasPath(2)&& !tile.isOnFire());
     }
 
     if (0 < plRow) {
-      up = (board.getTile(plCol, plRow - 1).hasPath(2) && plTile.hasPath(0));
+      tile = board.getTile(plCol, plRow - 1);
+      up = (tile.hasPath(2) && plTile.hasPath(0)&& !tile.isOnFire());
     }
 
     return down || up || left || right;
@@ -99,6 +103,6 @@ public class Player {
     Boolean up = (plCol == col && plRow == row - 1 && tile.hasPath(0) && plTile.hasPath(2));
     Boolean down = (plCol == col && plRow == row + 1 && tile.hasPath(2) && plTile.hasPath(0));
 
-    return down || up || left || right;
+    return (down || up || left || right) && !tile.isOnFire();
   }
 }
