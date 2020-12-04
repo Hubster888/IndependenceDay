@@ -1,5 +1,3 @@
-
-
 package Frontend;
 
 import Backend.*;
@@ -11,18 +9,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.scene.input.MouseEvent;
 
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
-import static Backend.ActionTile.*;
+import static Backend.ActionTile.BACK_TRACK;
 
 public class GameController {
     private static final String FIRE_CORNER_PIC = "tiles/fire_Corner.jpeg";
@@ -49,33 +46,24 @@ public class GameController {
     private static final int EDGE = 100;
     private static final int DRAWN_EDGE = 150;
 
-    //Draw, Push, Action, Move
-    private String turn = DRAW;
+    private String turn = DRAW; //Draw, Push, Action, Move
     private Board board;
     private ArrayList<Profile> profileList;
     private int playerTurn = 0;
     private FloorTile nextFloorTile;
-    private ActionTile actionTile = new ActionTile(ICE);
+    private ActionTile actionTile = new ActionTile(BACK_TRACK);
     private SilkBag silkBag;
 
     @FXML
-    private GridPane gp;
-    @FXML
     private BorderPane borderPane;
     @FXML
-    private Label playerLab;
-    @FXML
-    public Label stateLab;
+    private GridPane gp;
     @FXML
     public AnchorPane drawnTile;
     @FXML
-    public Button fireBtn;
+    public Label stateLab,playerLab;
     @FXML
-    public Button iceBtn;
-    @FXML
-    public Button doubleMoveBtn;
-    @FXML
-    public Button backTrackMove;
+    public Button fireBtn,iceBtn,doubleMoveBtn,backTrackMove;
 
 
 
@@ -83,7 +71,8 @@ public class GameController {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
 
-        /*ArrayList<Profile>*/ profileList = new ArrayList<>();
+        /*ArrayList<Profile>*/
+        profileList = new ArrayList<>();
         for (int i = 1; i <= numOfPlayers; i++) {
             String profileName = getPlayerName(i);
             Profile prof = ProfileSave.getProfile(profileName);
@@ -110,9 +99,9 @@ public class GameController {
         silkBag.fillBag();
     }
 
-    public void saveGame(){
+    public void saveGame() {
         Save s = new Save();
-        s.newIncrementingFile(this.board,this.profileList);
+        s.newIncrementingFile(this.board, this.profileList);
     }
 
     public void exitToMenu() throws IOException {
@@ -127,7 +116,7 @@ public class GameController {
 
     public void mouseAction(MouseEvent event) throws IOException {
         Save s = new Save();
-        s.FormatBoard(this.board,this.profileList,"Data.txt");
+        s.FormatBoard(this.board, this.profileList, "Data.txt");
 
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
@@ -150,7 +139,7 @@ public class GameController {
         }
     }
 
-    public void rotateDrawnTile(){
+    public void rotateDrawnTile() {
         nextFloorTile.setOrientation();
         ImageView tile = getImageTile(nextFloorTile);
         tile.setFitHeight(DRAWN_EDGE);
@@ -386,7 +375,7 @@ public class GameController {
 
     private void actionPlayer(Player player, int col, int row) throws IOException {
         player.move(board, col, row);
-        player.setLastThreePositions();
+        player.setLastFourPositions();
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
         endOfGame(col, row);
         changePlayer();

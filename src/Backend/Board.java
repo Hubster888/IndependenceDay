@@ -1,4 +1,5 @@
 package Backend;
+
 import java.util.ArrayList;
 
 /**
@@ -17,63 +18,64 @@ public class Board {
 
     /**
      * Constructor
-     * @param width of board
+     *
+     * @param width  of board
      * @param height of board
      */
-    public Board (int width, int height, ArrayList<Profile> listOfProfiles){
+    public Board(int width, int height, ArrayList<Profile> listOfProfiles) {
         this.boardWidth = width;
         this.boardHeight = height;
         board = new FloorTile[width][height];
         int xGoal = (this.boardHeight / 2) - 1;
         int yGoal = xGoal;
-        
-        if(listOfProfiles.size() < 0) {
+
+        if (listOfProfiles.size() < 0) {
             System.out.println("Something is wrong, no players");
-        }else {
-            for(int i = 0; i < listOfProfiles.size(); i++) {
-            	if(i == 0) {
-            		int[] startingPos = new int[2];
-            		startingPos[0] = this.boardHeight - 1;
-            		startingPos[1] = 0;
+        } else {
+            for (int i = 0; i < listOfProfiles.size(); i++) {
+                if (i == 0) {
+                    int[] startingPos = new int[2];
+                    startingPos[0] = this.boardHeight - 1;
+                    startingPos[1] = 0;
                     Profile prof = listOfProfiles.get(i);
-                	listOfPlayers.add(new Player(prof.getName(), startingPos));
-            	}else if(i == 1) {
-            		int[] startingPos = new int[2];
-            		startingPos[0] = 0;
+                    listOfPlayers.add(new Player(prof.getName(), startingPos));
+                } else if (i == 1) {
+                    int[] startingPos = new int[2];
+                    startingPos[0] = 0;
                     startingPos[1] = this.boardHeight - 1;
                     Profile prof = listOfProfiles.get(i);
-                	listOfPlayers.add(new Player(prof.getName(), startingPos));
-            	}else if(i == 2) {
-            		int[] startingPos = new int[2];
-            		startingPos[0] = 0;
-            		startingPos[1] = 0;
-            		Profile prof = listOfProfiles.get(i);
-                	listOfPlayers.add(new Player(prof.getName(), startingPos));
-            	}else if(i == 3) {
-            		int[] startingPos = new int[2];
-            		startingPos[0] = this.boardHeight - 1;
+                    listOfPlayers.add(new Player(prof.getName(), startingPos));
+                } else if (i == 2) {
+                    int[] startingPos = new int[2];
+                    startingPos[0] = 0;
+                    startingPos[1] = 0;
+                    Profile prof = listOfProfiles.get(i);
+                    listOfPlayers.add(new Player(prof.getName(), startingPos));
+                } else if (i == 3) {
+                    int[] startingPos = new int[2];
+                    startingPos[0] = this.boardHeight - 1;
                     startingPos[1] = this.boardHeight - 1;
                     Profile prof = listOfProfiles.get(i);
-                	listOfPlayers.add(new Player(prof.getName(), startingPos));
-            	}else {
-            		System.out.println("end");
-            	}
+                    listOfPlayers.add(new Player(prof.getName(), startingPos));
+                } else {
+                    System.out.println("end");
+                }
             }
         }
-        for(int i = 0; i < this.boardWidth; i++){
-            for(int j = 0; j < this.boardHeight; j++){
-                if(i == 0 && j == 0) {
+        for (int i = 0; i < this.boardWidth; i++) {
+            for (int j = 0; j < this.boardHeight; j++) {
+                if (i == 0 && j == 0) {
                     this.board[i][j] = new FloorTile("corner", 0);
-                }else if(i == 0 && j == this.boardHeight - 1) {
+                } else if (i == 0 && j == this.boardHeight - 1) {
                     this.board[i][j] = new FloorTile("corner", 3);
-                }else if(j == 0 && i == this.boardWidth - 1) {
+                } else if (j == 0 && i == this.boardWidth - 1) {
                     this.board[i][j] = new FloorTile("corner", 1);
-                }else if(j == this.boardHeight - 1 && i == this.boardWidth - 1){
+                } else if (j == this.boardHeight - 1 && i == this.boardWidth - 1) {
                     this.board[i][j] = new FloorTile("corner", 2);
-                }else {
+                } else {
                     int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
                     int orientationGen = (int) ((Math.random() * (5 - 1)));
-                    switch (typeGen){
+                    switch (typeGen) {
                         case 1:
                             this.board[i][j] = new FloorTile("corner", orientationGen);
                             break;
@@ -91,77 +93,80 @@ public class Board {
                 }
             }
 
-         }
+        }
         board[xGoal][yGoal] = new FloorTile("goal", 0);
-      }
+    }
 
-
-    
 
     public FloorTile getTile(int x, int y) {
         return this.board[x][y];
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return this.boardWidth;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return this.boardHeight;
     }
 
-    public ArrayList<Player> getListOfPlayers(){
+    public ArrayList<Player> getListOfPlayers() {
         return listOfPlayers;
     }
 
-    public FloorTile[][] getBoard(){
+    public FloorTile[][] getBoard() {
         return this.board;
     }
 
-    public FloorTile updateBoard(FloorTile newTile,int col, int row ){
+    public FloorTile updateBoard(FloorTile newTile, int col, int row) {
         FloorTile tile = null;
-        if (col == getWidth() - 1 && isMovable(board, false, row)){
-            tile = getTile(col,row);
-            for(int i = 1; i < this.boardWidth; i++) {
+        if (col == getWidth() - 1 && isMovable(board, false, row)) {
+            tile = getTile(col, row);
+            for (int i = 1; i < this.boardWidth; i++) {
                 this.board[i - 1][row] = this.board[i][row];
             }
             this.board[col][row] = newTile;
+            shiftPlayers(false,row,-1);
 
-        } else if (col == 0 && isMovable(board,false,row)){
-            tile = getTile(col,row);
-            for(int i = this.boardWidth - 1; i > 0; i--) {
+        } else if (col == 0 && isMovable(board, false, row)) {
+            tile = getTile(col, row);
+            for (int i = this.boardWidth - 1; i > 0; i--) {
                 this.board[i][row] = this.board[i - 1][row];
             }
             this.board[col][row] = newTile;
+            shiftPlayers(false,row,1);
 
-        } else if (row == getHeight() - 1 && isMovable(board,true,col)){
-            tile = getTile(col,row);
-            for(int i = 1; i < this.boardHeight; i++) {
+        } else if (row == getHeight() - 1 && isMovable(board, true, col)) {
+            tile = getTile(col, row);
+            for (int i = 1; i < this.boardHeight; i++) {
                 this.board[col][i - 1] = this.board[col][i];
             }
             this.board[col][row] = newTile;
+            shiftPlayers(true,col,-1);
 
-        } else if (row == 0 && isMovable(board,true,col)){
-            tile = getTile(col,row);
-            for(int i = this.boardHeight - 1; i > 0; i--) {
+        } else if (row == 0 && isMovable(board, true, col)) {
+            tile = getTile(col, row);
+            for (int i = this.boardHeight - 1; i > 0; i--) {
                 this.board[col][i] = this.board[col][i - 1];
             }
             this.board[col][row] = newTile;
+            shiftPlayers(true,col,1);
+
         }
         return tile;
     }
 
-    public boolean isMovable(FloorTile [][] tiles, boolean col, int index){
+    public boolean isMovable(FloorTile[][] tiles, boolean col, int index) {
         boolean result = true;
-        if (col){
-            for (int i = 0; i < this.boardHeight; i++){
-                if(tiles[index][i].isFrozen()){
+        if (col) {
+            for (int i = 0; i < this.boardHeight; i++) {
+                if (tiles[index][i].isFrozen()) {
                     result = false;
                 }
             }
         } else {
-            for (int i = 0; i < this.boardWidth; i++){
-                if(tiles[i][index].isFrozen()){
+            for (int i = 0; i < this.boardWidth; i++) {
+                if (tiles[i][index].isFrozen()) {
                     result = false;
                 }
             }
@@ -169,6 +174,48 @@ public class Board {
         System.out.println(result);
         return result;
     }
+
+    private void shiftPlayers(boolean column, int index, int move) {
+        for (Player player : listOfPlayers) {
+            int col = player.getLastPosition()[0];
+            int row = player.getLastPosition()[1];
+
+            if (column) {
+                if (col == index && row > 0 && row < boardHeight) {
+                    shiftPlayer(player, col, row + move);
+                }
+            } else {
+                if (row == index && row > 0 && row < boardHeight) {
+                    shiftPlayer(player, col + move, row);
+                }
+            }
+
+        }
+    }
+
+    private void shiftPlayer(Player player, int col, int row) {
+        if (col < 0) {
+            player.setLastPosition(new int[]{boardWidth, row});
+        } else if (col >= boardWidth) {
+            player.setLastPosition(new int[]{0, row});
+        } else if (row < 0) {
+            player.setLastPosition(new int[]{col, boardHeight});
+        } else if (row >= boardHeight) {
+            player.setLastPosition(new int[]{col, 0});
+        } else {
+            player.setLastPosition(new int[]{col, row});
+        }
+    }
+    /*private FloorTile shift(int startIndex, int lastIndex, int col, int row, boolean column, boolean minus){
+        FloorTile tile = getTile(col,row);
+        if (col){
+            for(int i = startIndex; i > lastIndex; i--) {
+                this.board[col][i] = this.board[col][i - 1];
+            }
+            this.board[col][row] = newTile;
+        }
+
+    }*/
 
     /*
     public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile newTile) {
