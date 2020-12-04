@@ -10,10 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
-
-import Frontend.Leaderboard;
 
 public class MenuController {
     private static final String NOT_FOUND = "Message of the day is not found.";
@@ -26,9 +23,8 @@ public class MenuController {
 
     public void initialize() throws IOException, InterruptedException {
         try {
-            String[] text = MOTD.getMotd().split("\\(");
-            message.setText(text[0] + "\n" + "(" +text[1]);
-        } catch (Exception e){
+            message.setText(MOTD.getMotd());
+        } catch (Exception e) {
             message.setText(NOT_FOUND);
         }
     }
@@ -43,12 +39,12 @@ public class MenuController {
         stage.show();
     }
 
-    public void leaderboardBtn(ActionEvent event){
+    public void leaderboardBtn(ActionEvent event) {
         Leaderboard leaderBoard = new Leaderboard();
         leaderBoard.display();
     }
 
-    public void exitGame(ActionEvent event){
+    public void exitGame(ActionEvent event) {
         Platform.exit();
     }
 }
