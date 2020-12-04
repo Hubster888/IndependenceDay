@@ -10,19 +10,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 /**
- * The MOTD class gets the motd from the api provided.
+ * The MOTD class gets the message of the day from the api provided.
  *
- * @author Marcus Poole, 1908307@swansea.ac.uk
+ * @author Marcus Poole
  * @version 1.0
  */
 public class MOTD {
     private static final String POST_API_URL_PUZZLE = "http://cswebcat.swansea.ac.uk/puzzle";
 
     /**
-     * method that retrieves the unsolved puzzle String and solves it by calling other methods
+     * Method that retrieves the unsolved puzzle String and solves it by calling other methods.
      *
-     * @return solved the solved puzzle with numChar add the number of characters in the solution added to the end
-     * @throws IOException on input error
+     * @return Solved the solved puzzle with numChar add the number of characters in the solution added to the end.
+     * @throws IOException On input error.
      * @see IOException
      */
     private static String getPuzzle() throws IOException {
@@ -42,8 +42,8 @@ public class MOTD {
     /**
      * Method that retrieves the message of the day from the URL solved from the puzzle.
      *
-     * @return the message of the day
-     * @throws IOException On input error
+     * @return The message of the day.
+     * @throws IOException On input error.
      * @see IOException
      */
     public static String getMotd() throws IOException {
@@ -60,10 +60,10 @@ public class MOTD {
     }
 
     /**
-     * method that solves the puzzle using same method as to solve Caesar cyphers
+     * Method that solves the puzzle using same method as to solve Caesar cyphers.
      *
-     * @param value This is the unsolved puzzle String
-     * @return the solved puzzle.
+     * @param value This is the unsolved puzzle String.
+     * @return The solved puzzle.
      */
     private static String weirdCaesar(String value) {
         // Convert to char array.
@@ -101,10 +101,10 @@ public class MOTD {
     }
 
     /**
-     * Method that merges the two Strings together and removes the duplicate/ excess places in the Strings
+     * Method that merges the two Strings together and removes the duplicate/ excess places in the Strings.
      *
-     * @param s1 The first String, to be merged into
-     * @param s2 The second String, to merge into s1
+     * @param s1 The first String, to be merged into.
+     * @param s2 The second String, to merge into s1,
      * @return The result of merging the two strings.
      */
     private static String merge(String s1, String s2) {
