@@ -144,19 +144,15 @@ public class GameController {
         } else if (turn.equals(ACTION)) {
             fireBtn.setOnAction(event1 -> {
                 nextTile = new ActionTile(fireBtn.getText());
-                System.out.println("Hello");
             });
             iceBtn.setOnAction(event13 -> {
                 nextTile = new ActionTile(iceBtn.getText());
-                System.out.println("Hello");
             });
             doubleBtn.setOnAction(event12 -> {
                 nextTile = new ActionTile(doubleBtn.getText());
-                System.out.println("Hello");
             });
             backTrackBtn.setOnAction(event14 -> {
                 nextTile = new ActionTile(backTrackBtn.getText());
-                System.out.println("Hello");
             });
             actionAction((ActionTile) nextTile, player, col, row);
             changeTurnState();
