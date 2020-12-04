@@ -71,7 +71,17 @@ public class ActionTile extends Tile {
         ArrayList<Player> players = board.getListOfPlayers();
         for (Player player : players) {
             if (Arrays.equals(player.getLastPosition(), new int[]{col, row})) {
-                player.setLastPosition(new int[]{0, 0});
+                int[] positions2 = player.getLastSecondPosition();
+                int history2Col = positions2[0];
+                int history2Row = positions2[1];
+                int[] positions3 = player.getLastThirdPositions();
+                int history3Col = positions3[0];
+                int history3Row = positions3[1];
+                if(!board.getTile(history2Col,history2Row).isOnFire()){
+                    player.setLastPosition(positions2);
+                } else if(!board.getTile(history3Col,history3Row).isOnFire()){
+                    player.setLastPosition(positions3);
+                }
             }
         }
     }
