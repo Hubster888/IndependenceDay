@@ -69,7 +69,7 @@ public class Player {
     /*
      * @return returns an action tile from the queue that will be played
      */
-    public Tile useActionTile(ActionTile newTile) throws NullPointerException{
+    public Tile useActionTile(ActionTile newTile){
         String type = newTile.getTileType();
         int num = actionTiles.get(type);
         if (num != 0) {
