@@ -1,26 +1,14 @@
 
 package Backend;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
-import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-
+import javax.swing.*;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.io.*;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProfileSave {
 
@@ -119,7 +107,7 @@ public class ProfileSave {
 
           Path source = Paths.get("profileList.txt");
           File file1 = new File("profileList.txt");
-          file1.delete();
+          //file1.delete();
           Files.move(source, source.resolveSibling("profileList.txt"));
           if(playerWon){tempProfile.addWin();}else{tempProfile.addLoss();}
           addProfile(tempProfile);

@@ -40,8 +40,6 @@ public class FloorTile extends Tile {
         } else {
             this.timer -= 1;
         }
-
-        System.out.println(timer);
     }
 
     /**

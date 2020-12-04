@@ -62,8 +62,6 @@ public class Player {
         String type = newTile.getTileType();
         int num = actionTiles.get(type);
         actionTiles.replace(type, ++num);
-        System.out.println(num + " " + type);
-
     }
 
     /*
