@@ -10,6 +10,7 @@ import java.util.Arrays;
  * @version 1.0
  */
 public class ActionTile extends Tile {
+    private static final String ERROR_ACTION_TILES = "Something with action is wrong";
     public static final String FIRE = "Fire";
     public static final String ICE = "Ice";
     public static final String DOUBLE_MOVE = "DoubleMove";
@@ -34,7 +35,7 @@ public class ActionTile extends Tile {
                 backTrackMove(board, col, row);
                 break;
             default:
-                System.out.println("Something with action is wrong");
+                System.out.println(ERROR_ACTION_TILES);
                 break;
         }
     }

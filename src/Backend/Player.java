@@ -1,7 +1,6 @@
 package Backend;
 
 import java.util.HashMap;
-import Backend.ActionTile;
 
 import static Backend.ActionTile.*;
 
@@ -10,6 +9,7 @@ import static Backend.ActionTile.*;
  * Represents a player.
  */
 public class Player {
+    private static final String MESSAGE_NUM_OF_TILES = "No. action tiles: ";
     private String name;
     private int[] lastPosition = new int[2];
     private int[][] lastThreePositions = new int[4][2];
@@ -117,7 +117,7 @@ public class Player {
             result += type + " " + actionTiles.get(type) + "\n";
         }
 
-        result = "No. action tiles: " + num + "\n" + result;
+        result = MESSAGE_NUM_OF_TILES + num + "\n" + result;
         return result;
     }
 

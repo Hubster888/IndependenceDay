@@ -8,6 +8,11 @@ package Backend;
  * @version 1.0
  */
 public class FloorTile extends Tile {
+    public static final String CORNER= "corner";
+    public static final String STRAIGHT= "straight";
+    public static final String T_SHAPE= "tShape";
+    public static final String GOAL= "goal";
+    private static final String ERROR_NO_SUCH_TILE = "There is no such floor tile";
 
     private boolean isFrozen = false;
     private boolean isOnFire = false;
@@ -98,20 +103,20 @@ public class FloorTile extends Tile {
 
     private void setPaths(String type) {
         switch (type) {
-            case "corner":
+            case CORNER:
                 this.paths = new int[]{1, 2};
                 break;
-            case "straight":
+            case STRAIGHT:
                 this.paths = new int[]{1, 3};
                 break;
-            case "tShape":
+            case T_SHAPE:
                 this.paths = new int[]{1, 2, 3};
                 break;
-            case "goal":
+            case GOAL:
                 this.paths = new int[]{0, 1, 2, 3};
                 break;
             default:
-                System.out.println("There is no such floor tile");
+                System.out.println(ERROR_NO_SUCH_TILE);
                 break;
         }
     }

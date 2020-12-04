@@ -22,7 +22,12 @@ import java.util.ArrayList;
 import static Backend.ActionTile.*;
 
 public class GameController {
-    public static final String MENU_FXML = "Menu.fxml";
+    private static final String DATA_PERSISTENCE = "Data.txt";
+    private static final String PLAYER = "Player ";
+    private static final String MESSAGE_WON = " won!";
+    private static final String ERROR_TOO_MANY_PLAYERS = "There are too many players";
+    private static final String ERROR_TILE_NOT_FOUND = "Tile was not found";
+    private static final String MENU_FXML = "Menu.fxml";
     private static final String FIRE_CORNER_PIC = "tiles/fire_Corner.jpeg";
     private static final String FIRE_STRAIGHT_PIC = "tiles/fire_Straight.jpeg";
     private static final String FIRE_T_SHAPE_PIC = "tiles/fire_T_Shape.jpeg";
@@ -123,7 +128,7 @@ public class GameController {
 
     public void mouseAction(MouseEvent event) throws IOException {
         Save s = new Save();
-        s.FormatBoard(this.board, this.profileList, "Data.txt");
+        s.FormatBoard(this.board, this.profileList, DATA_PERSISTENCE);
 
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
@@ -146,7 +151,7 @@ public class GameController {
             setNotClickable();
         } else if ((turn.equals(MOVE) && player.canMove(board, col, row)) || !player.hasMove(board)) {
             actionPlayer(player, col, row);
-            playerLab.setText("Player " + (playerTurn + 1));
+            playerLab.setText(PLAYER + (playerTurn + 1));
         }
     }
 
@@ -224,7 +229,7 @@ public class GameController {
         int orientation = tile.getOrientation();
 
         switch (type) {
-            case "corner":
+            case FloorTile.CORNER:
                 if (tile.isOnFire()) {
                     pic = new Image(FIRE_CORNER_PIC);
                 } else if (tile.isFrozen()) {
@@ -233,7 +238,7 @@ public class GameController {
                     pic = new Image(CORNER_PIC);
                 }
                 break;
-            case "straight":
+            case FloorTile.STRAIGHT:
                 if (tile.isOnFire()) {
                     pic = new Image(FIRE_STRAIGHT_PIC);
                 } else if (tile.isFrozen()) {
@@ -242,7 +247,7 @@ public class GameController {
                     pic = new Image(STRAIGHT_PIC);
                 }
                 break;
-            case "tShape":
+            case FloorTile.T_SHAPE:
                 if (tile.isOnFire()) {
                     pic = new Image(FIRE_T_SHAPE_PIC);
                 } else if (tile.isFrozen()) {
@@ -251,7 +256,7 @@ public class GameController {
                     pic = new Image(T_SHAPE_PIC);
                 }
                 break;
-            case "goal":
+            case FloorTile.GOAL:
                 if (tile.isOnFire()) {
                     pic = new Image(FIRE_GOAL_PIC);
                 } else if (tile.isFrozen()) {
@@ -304,7 +309,7 @@ public class GameController {
                 pic = new Image(GO_BACK_TILE);
                 break;
             default:
-                System.out.println("Tile was not found");
+                System.out.println(ERROR_TILE_NOT_FOUND);
                 pic = new Image("");
                 break;
         }
@@ -336,7 +341,7 @@ public class GameController {
                     pic = new Image(inputstream);
                     break;
                 default:
-                    System.out.println("There are too many players");
+                    System.out.println(ERROR_TOO_MANY_PLAYERS);
                     pic = new Image("");
                     break;
             }
@@ -423,7 +428,7 @@ public class GameController {
             tile.execute(board, player, col, row);
             player.useActionTile(tile);
         } catch (NullPointerException e) {
-            System.out.println("No tile");
+            System.out.println(ERROR_TILE_NOT_FOUND);
         }
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
     }
@@ -525,14 +530,14 @@ public class GameController {
     }
 
     private void endOfGame(int col, int row) throws IOException {
-        if (board.getTile(col, row).getTileType().equals("goal")) {
+        if (board.getTile(col, row).getTileType().equals(FloorTile.GOAL)) {
             exitToMenu();
             Player player = board.getListOfPlayers().get(playerTurn);
 
             if (player.getName().equals("")) {
-                JOptionPane.showMessageDialog(null, playerLab.getText() + " won!");
+                JOptionPane.showMessageDialog(null, playerLab.getText() + MESSAGE_WON);
             } else {
-                JOptionPane.showMessageDialog(null, player.getName() + " won!");
+                JOptionPane.showMessageDialog(null, player.getName() + MESSAGE_WON);
             }
 
             ProfileSave.updateProfile(new Profile(player.getName()), true);
