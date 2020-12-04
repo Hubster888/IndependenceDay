@@ -1,8 +1,9 @@
-
 package Backend;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.HashMap;
+import Backend.ActionTile;
+
+import static Backend.ActionTile.*;
 
 
 /**
@@ -12,7 +13,7 @@ public class Player {
     private String name;
     private int[] lastPosition = new int[2];
     private int[][] lastThreePositions = new int[4][2];
-    private Queue<Tile> actionTiles;
+    private HashMap<String, Integer> actionTiles = new HashMap<>();
 
     /**
      * Creates a player object fron given values.
@@ -23,24 +24,28 @@ public class Player {
     public Player(String name, int[] lastPosition) {
         this.name = name;
         this.lastPosition = lastPosition;
-        this.actionTiles = new LinkedList<>();
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             lastThreePositions[i] = lastPosition;
         }
+
+        this.actionTiles.put(FIRE, 0);
+        this.actionTiles.put(ICE, 0);
+        this.actionTiles.put(DOUBLE_MOVE, 0);
+        this.actionTiles.put(BACK_TRACK, 0);
+
     }
 
     public void setLastFourPositions() {
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             this.lastThreePositions[i] = this.lastThreePositions[i + 1];
         }
         this.lastThreePositions[3] = lastPosition;
-        for(int i = 0; i < 4; i++){
-            System.out.println(lastThreePositions[i][0] + " " + lastThreePositions[i][1]);
+        for (int i = 0; i < 4; i++) {
         }
 
     }
 
-    public int[] getLastSecondPosition(){
+    public int[] getLastSecondPosition() {
         return lastThreePositions[1];
     }
 
@@ -48,27 +53,32 @@ public class Player {
         return lastThreePositions[0];
     }
 
-    /*
-     * @param position is a set of coordinates passed from the board class.
-     */
-    public void setLastPosition(int[] position) {
-        this.lastPosition = position;
-    }
-
     /**
      * Gives a given action tile to the player.
      *
      * @param newTile
      */
-    public void addActionTile(Tile newTile) {
-        actionTiles.add(newTile);
+    public void addActionTile(ActionTile newTile) {
+        String type = newTile.getTileType();
+        int num = actionTiles.get(type);
+        actionTiles.replace(type, ++num);
+        System.out.println(num + " " + type);
+
     }
 
     /*
      * @return returns an action tile from the queue that will be played
      */
-    public Tile useTile(int positionOfTiles) {
-        return actionTiles.remove();
+    public Tile useActionTile(ActionTile newTile) throws NullPointerException{
+        String type = newTile.getTileType();
+        int num = actionTiles.get(type);
+        if (num != 0) {
+            actionTiles.replace(type, num, --num);
+            return newTile;
+        } else {
+            return null;
+        }
+
     }
 
     /**
@@ -80,12 +90,32 @@ public class Player {
         return lastPosition;
     }
 
+    /*
+     * @param position is a set of coordinates passed from the board class.
+     */
+    public void setLastPosition(int[] position) {
+        this.lastPosition = position;
+    }
+
     public String getName() {
         return this.name;
     }
 
-    public void move(Board board,int col, int row) {
-        if (hasMove(board) && canMove(board,col,row)) {
+    public String getNumOfActionTiles(){
+        String result = "";
+        int num = 0;
+        String [] types = actionTiles.keySet().toArray(new String[4]);
+        for (String type: types){
+            num += actionTiles.get(type);
+            result += type + " " + actionTiles.get(type) + "\n";
+        }
+
+        result = "No. action tiles: " + num + "\n" + result;
+        return result;
+    }
+
+    public void move(Board board, int col, int row) {
+        if (hasMove(board) && canMove(board, col, row)) {
             setLastPosition(new int[]{col, row});
         }
     }
