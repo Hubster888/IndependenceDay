@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MenuController {
-    public static final String GAME_CONTROLLER_FXML = "Game.fxml";
+    private static final String GAME_CONTROLLER_FXML = "Game.fxml";
     private static final String NOT_FOUND = "Message of the day is not found.";
 
     @FXML
