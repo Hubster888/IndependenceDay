@@ -1,8 +1,6 @@
 package Frontend;
 
 import Backend.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -103,9 +101,9 @@ public class GameController {
         setConstrains(width, height);
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
-
+        setNotClickable();
         silkBag = new SilkBag();
-        silkBag.fillBag();
+        silkBag.fillBag(0,5);
     }
 
     public void saveGame() {
@@ -139,23 +137,13 @@ public class GameController {
             board.updateBoard((FloorTile) nextTile, col, row);
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
+            setClickable();
             chooseActionTile(player);
             nextTile = null;
         } else if (turn.equals(ACTION)) {
-            fireBtn.setOnAction(event1 -> {
-                nextTile = new ActionTile(fireBtn.getText());
-            });
-            iceBtn.setOnAction(event13 -> {
-                nextTile = new ActionTile(iceBtn.getText());
-            });
-            doubleBtn.setOnAction(event12 -> {
-                nextTile = new ActionTile(doubleBtn.getText());
-            });
-            backTrackBtn.setOnAction(event14 -> {
-                nextTile = new ActionTile(backTrackBtn.getText());
-            });
             actionAction((ActionTile) nextTile, player, col, row);
             changeTurnState();
+            setNotClickable();
         } else if ((turn.equals(MOVE) && player.canMove(board, col, row)) || !player.hasMove(board)) {
             actionPlayer(player, col, row);
             playerLab.setText("Player " + (playerTurn + 1));
@@ -420,6 +408,7 @@ public class GameController {
             player.addActionTile(actionTile);
             tile = getImageTile(actionTile);
             changeTurnState();
+            setClickable();
             chooseActionTile(player);
         }
 
@@ -472,6 +461,20 @@ public class GameController {
                 nextTile = null;
             }
         });
+    }
+
+    private void setNotClickable(){
+        fireBtn.setDisable(true);
+        iceBtn.setDisable(true);
+        doubleBtn.setDisable(true);
+        backTrackBtn.setDisable(true);
+    }
+
+    private void setClickable(){
+        fireBtn.setDisable(false);
+        iceBtn.setDisable(false);
+        doubleBtn.setDisable(false);
+        backTrackBtn.setDisable(false);
     }
 
     private void actionPlayer(Player player, int col, int row) throws IOException {
