@@ -52,8 +52,7 @@ public class FloorTile extends Tile {
     }
 
     public void setOrientation() {
-        orientation++;
-        rotate(orientation);
+        orientation = (orientation + 1) % 4;
     }
 
 
