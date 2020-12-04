@@ -45,8 +45,12 @@ public class ActionTile extends Tile {
 
         for (int i = square[0]; i <= square[1]; i++) {
             for (int j = square[2]; j <= square[3]; j++) {
-                board.getTile(i, j).setOnFire(true);
-                board.getTile(i, j).setFireTime(players * 2);
+                FloorTile tile = board.getTile(i, j);
+                if(tile.isFrozen()){
+                    tile.setFrozen(false);
+                }
+                tile.setOnFire(true);
+                tile.setTimer(players * 2);
             }
         }
     }
@@ -57,8 +61,12 @@ public class ActionTile extends Tile {
 
         for (int i = square[0]; i <= square[1]; i++) {
             for (int j = square[2]; j <= square[3]; j++) {
-                board.getTile(i, j).setFrozen(true);
-                board.getTile(i, j).setFrozenTime(players);
+                FloorTile tile = board.getTile(i, j);
+                if(tile.isOnFire()){
+                    tile.setOnFire(false);
+                }
+                tile.setFrozen(true);
+                tile.setTimer(players);
             }
         }
     }

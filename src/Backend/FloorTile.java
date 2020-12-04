@@ -12,8 +12,7 @@ public class FloorTile extends Tile {
     private boolean isFrozen = false;
     private boolean isOnFire = false;
 
-    private int frozenTime = 0;
-    private int fireTime = 0;
+    private int timer = 0;
 
     private int orientation;
     private int[] paths; //top 0, right 1, bottom 2, left 3
@@ -35,19 +34,14 @@ public class FloorTile extends Tile {
      * Inherited from Tile.java.
      */
     public void changeTime() {
-        if (fireTime == 0){
+        if (timer == 0){
+            setFrozen(false);
             setOnFire(false);
         } else {
-            this.fireTime -= 1;
+            this.timer -= 1;
         }
 
-        if (frozenTime == 0){
-            setFrozen(false);
-        } else {
-            this.frozenTime -= 1;
-        }
-
-        System.out.println(fireTime + " " + frozenTime);
+        System.out.println(timer);
     }
 
     /**
@@ -77,8 +71,8 @@ public class FloorTile extends Tile {
         isFrozen = frozen;
     }
 
-    public void setFrozenTime(int frozenTime) {
-        this.frozenTime = frozenTime;
+    public void setTimer(int timer) {
+        this.timer = timer;
     }
 
     /**
@@ -93,10 +87,6 @@ public class FloorTile extends Tile {
      */
     public void setOnFire(boolean onFire) {
         isOnFire = onFire;
-    }
-
-    public void setFireTime(int fireTime) {
-        this.fireTime = fireTime;
     }
 
     public boolean hasPath(int direction) {
