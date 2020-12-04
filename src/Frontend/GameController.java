@@ -1,10 +1,13 @@
 package Frontend;
 
 import Backend.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +24,7 @@ import java.util.ArrayList;
 import static Backend.ActionTile.*;
 
 public class GameController {
-    public static final String MENU_FXML ="Menu.fxml";
+    public static final String MENU_FXML = "Menu.fxml";
     private static final String FIRE_CORNER_PIC = "tiles/fire_Corner.jpeg";
     private static final String FIRE_STRAIGHT_PIC = "tiles/fire_Straight.jpeg";
     private static final String FIRE_T_SHAPE_PIC = "tiles/fire_T_Shape.jpeg";
@@ -49,7 +52,22 @@ public class GameController {
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
     private static final int DRAWN_EDGE = 150;
-
+    @FXML
+    public BorderPane borderPane;
+    @FXML
+    public GridPane gp;
+    @FXML
+    public AnchorPane drawnTile;
+    @FXML
+    public Label stateLab, playerLab, numOfActionTiles;
+    @FXML
+    public Button fireBtn;
+    @FXML
+    public Button iceBtn;
+    @FXML
+    public Button doubleBtn;
+    @FXML
+    public Button backTrackBtn;
     private String turn = DRAW; //Draw, Push, Action, Move
     private Board board;
     private ArrayList<Profile> profileList;
@@ -57,17 +75,6 @@ public class GameController {
     private Tile nextTile;
     private ActionTile actionTile = new ActionTile(BACK_TRACK);
     private SilkBag silkBag;
-
-    @FXML
-    private BorderPane borderPane;
-    @FXML
-    private GridPane gp;
-    @FXML
-    public AnchorPane drawnTile;
-    @FXML
-    public Label stateLab,playerLab,numOfActionTiles;
-
-
 
     public void initialize() throws FileNotFoundException {
         int boardSize = askBoardSize();
@@ -132,8 +139,25 @@ public class GameController {
             board.updateBoard((FloorTile) nextTile, col, row);
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
+            chooseActionTile(player);
         } else if (turn.equals(ACTION)) {
-            actionAction(actionTile, player, col, row);
+            fireBtn.setOnAction(event1 -> {
+                nextTile = new ActionTile(fireBtn.getText());
+                System.out.println("Hello");
+            });
+            iceBtn.setOnAction(event13 -> {
+                nextTile = new ActionTile(iceBtn.getText());
+                System.out.println("Hello");
+            });
+            doubleBtn.setOnAction(event12 -> {
+                nextTile = new ActionTile(doubleBtn.getText());
+                System.out.println("Hello");
+            });
+            backTrackBtn.setOnAction(event14 -> {
+                nextTile = new ActionTile(backTrackBtn.getText());
+                System.out.println("Hello");
+            });
+            actionAction((ActionTile) nextTile, player, col, row);
             changeTurnState();
         } else if ((turn.equals(MOVE) && player.canMove(board, col, row)) || !player.hasMove(board)) {
             actionPlayer(player, col, row);
@@ -180,46 +204,6 @@ public class GameController {
 
             StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width, col, row));
             pane.getChildren().add(picOfPlayers[i]);
-        }
-    }
-
-    public  void fireBtn(MouseEvent event){
-        event.getButton();
-        if (turn == ACTION) {
-            nextTile = new ActionTile(FIRE);
-            ImageView tile = getImageTile((ActionTile) nextTile);
-            System.out.println("fire");
-            /*tile.setFitHeight(DRAWN_EDGE);
-            tile.setFitWidth(DRAWN_EDGE);
-            drawnTile.getChildren().add(tile);*/
-        }
-    }
-
-    public void iceBtn(MouseEvent event){
-        if (turn == ACTION) {
-            nextTile = new ActionTile(FIRE);
-            ImageView tile = getImageTile((ActionTile) nextTile);
-            tile.setFitHeight(DRAWN_EDGE);
-            tile.setFitWidth(DRAWN_EDGE);
-            drawnTile.getChildren().add(tile);
-        }
-    }
-    public void doubleMoveBtn(MouseEvent event){
-        if (turn == ACTION) {
-            nextTile = new ActionTile(FIRE);
-            ImageView tile = getImageTile((ActionTile) nextTile);
-            tile.setFitHeight(DRAWN_EDGE);
-            tile.setFitWidth(DRAWN_EDGE);
-            drawnTile.getChildren().add(tile);
-        }
-    }
-    public void backTrackBtn(MouseEvent event){
-        if (turn == ACTION) {
-            nextTile = new ActionTile(FIRE);
-            ImageView tile = getImageTile((ActionTile) nextTile);
-            tile.setFitHeight(DRAWN_EDGE);
-            tile.setFitWidth(DRAWN_EDGE);
-            drawnTile.getChildren().add(tile);
         }
     }
 
@@ -318,10 +302,10 @@ public class GameController {
         return image;
     }
 
-    private ImageView getImageTile (ActionTile tile){
+    private ImageView getImageTile(ActionTile tile) {
         Image pic;
 
-        switch (tile.getTileType()){
+        switch (tile.getTileType()) {
             case FIRE:
                 pic = new Image(FIRE_TILE);
                 break;
@@ -434,6 +418,7 @@ public class GameController {
             this.nextTile = newTile;
             tile = getImageTile((FloorTile) nextTile);
         } else {
+            this.nextTile = null;
             this.actionTile = (ActionTile) newTile;
             player.addActionTile(actionTile);
             tile = getImageTile(actionTile);
@@ -447,10 +432,44 @@ public class GameController {
     }
 
     private void actionAction(ActionTile tile, Player player, int col, int row) throws IOException {
-        if (player.useActionTile(tile) != null){
+        try {
             tile.execute(board, player, col, row);
+            player.useActionTile(tile);
+        } catch (NullPointerException e) {
+            System.out.println("No tile");
         }
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
+    }
+
+    private void chooseActionTile(Player player){
+        fireBtn.setOnAction(event1 -> {
+            if (player.hasActionTile(new ActionTile(fireBtn.getText()))) {
+                nextTile = new ActionTile(fireBtn.getText());
+            } else {
+                nextTile = null;
+            }
+        });
+        iceBtn.setOnAction(event13 -> {
+            if (player.hasActionTile(new ActionTile(iceBtn.getText()))) {
+                nextTile = new ActionTile(iceBtn.getText());
+            } else {
+                nextTile = null;
+            }
+        });
+        doubleBtn.setOnAction(event12 -> {
+            if (player.hasActionTile(new ActionTile(doubleBtn.getText()))) {
+                nextTile = new ActionTile(doubleBtn.getText());
+            } else {
+                nextTile = null;
+            }
+        });
+        backTrackBtn.setOnAction(event14 -> {
+            if (player.hasActionTile(new ActionTile(backTrackBtn.getText()))) {
+                nextTile = new ActionTile(backTrackBtn.getText());
+            } else {
+                nextTile = null;
+            }
+        });
     }
 
     private void actionPlayer(Player player, int col, int row) throws IOException {

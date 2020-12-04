@@ -61,22 +61,22 @@
    <bottom>
       <AnchorPane prefHeight="120.0" prefWidth="829.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="87.0" layoutY="22.0" mnemonicParsing="false" onAction="#fireBtn" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/fire_Card.jpeg'); -fx-background-size: 100% 100%;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="10.0">
+            <Button fx:id="fireBtn" ellipsisString="0" layoutX="87.0" layoutY="22.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/fire_Card.jpeg'); -fx-background-size: 100% 100%;" text="Fire" textFill="TRANSPARENT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>
             </Button>
-            <Button layoutX="287.0" layoutY="31.0" mnemonicParsing="false" onAction="#iceBtn" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/ice_Card.jpeg'); -fx-background-size: 100% 100%;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="10.0">
+            <Button fx:id="iceBtn" layoutX="287.0" layoutY="31.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/ice_Card.jpeg'); -fx-background-size: 100% 100%;" text="Ice" textFill="TRANSPARENT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>
             </Button>
-            <Button layoutX="505.0" layoutY="47.0" mnemonicParsing="false" onAction="#doubleMoveBtn" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/double_Card.jpeg'); -fx-background-size: 100% 100%;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="10.0">
+            <Button fx:id="doubleBtn" layoutX="505.0" layoutY="47.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/double_Card.jpeg'); -fx-background-size: 100% 100%;" text="DoubleMove" textFill="TRANSPARENT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>
             </Button>
-            <Button layoutX="615.0" layoutY="16.0" mnemonicParsing="false" onAction="#backTrackBtn" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/go_Back_Card.jpeg'); -fx-background-size: 100% 100%;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="650.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="10.0">
+            <Button fx:id="backTrackBtn" layoutX="615.0" layoutY="16.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/go_Back_Card.jpeg'); -fx-background-size: 100% 100%;" text="BackTrack" textFill="TRANSPARENT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="650.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>

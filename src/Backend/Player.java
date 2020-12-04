@@ -69,16 +69,25 @@ public class Player {
     /*
      * @return returns an action tile from the queue that will be played
      */
-    public Tile useActionTile(ActionTile newTile){
-        String type = newTile.getTileType();
+    public Tile useActionTile(ActionTile tile){
+        String type = tile.getTileType();
         int num = actionTiles.get(type);
         if (num != 0) {
             actionTiles.replace(type, num, --num);
-            return newTile;
+            return tile;
         } else {
             return null;
         }
+    }
 
+    public boolean hasActionTile(ActionTile tile){
+        String type = tile.getTileType();
+        int num = actionTiles.get(type);
+        if (num != 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
