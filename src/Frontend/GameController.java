@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -425,15 +424,17 @@ public class GameController {
             }
         }
 
+
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
 
-        Tile newTile = silkBag.drawTile();
+       // Tile newTile = silkBag.drawTile();
+        Tile newTile = new ActionTile(BACK_TRACK);
         if (newTile instanceof FloorTile) {
             this.nextTile = newTile;
             tile = getImageTile((FloorTile) nextTile);
         } else {
             this.actionTile = (ActionTile) newTile;
-            player.addActionTile(newTile);
+            player.addActionTile(actionTile);
             tile = getImageTile(actionTile);
             changeTurnState();
         }
@@ -441,6 +442,7 @@ public class GameController {
         tile.setFitHeight(DRAWN_EDGE);
         tile.setFitWidth(DRAWN_EDGE);
         drawnTile.getChildren().add(tile);
+        numOfActionTiles.setText(player.getNumOfActionTiles());
     }
 
     private void actionAction(ActionTile tile, Player player, int col, int row) throws IOException {
