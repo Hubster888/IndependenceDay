@@ -28,7 +28,7 @@ public class Board {
     private int boardWidth;
     private int boardHeight;
     private ArrayList<Player> listOfPlayers = new ArrayList<Player>();
-    private Tile[][] board;
+    private FloorTile[][] board;
     private String noOfFloors;
     private String noOfActions;
 
@@ -63,27 +63,26 @@ public class Board {
                     Integer.parseInt(game.get(1).get(2))}));
         }
 
-        List<String> floorTypes = Arrays.asList(
-            STRAIGHT_TILE, CORNER_TILE,TSHAPE_TILE, GOAL_TILE
-            );
 
         for (int i = playerNo + 2; i < game.size(); i++) {
+            // Create the tile with type and orientation.
+            FloorTile tempTile = new FloorTile(
+                game.get(i).get(2), 0.1, Integer.parseInt(game.get(i).get(7))
+                );
             
-            // To be able to use i in the if statement.
-            int innerI = i;
-
-            // Check if floor tile or action tile.
-            if (floorTypes.stream().anyMatch(s -> game.get(innerI).get(2).contains(s))) {
-                board[Integer.parseInt(game.get(i).get(0))]
-                [Integer.parseInt(game.get(i).get(1))] = new FloorTile(
-                    game.get(i).get(2), 0.1, Integer.parseInt(game.get(i).get(3))
-                    );
-            } else {
-                board[Integer.parseInt(game.get(i).get(0))]
-                [Integer.parseInt(game.get(i).get(1))] = new ActionTile(
-                    game.get(i).get(2)
-                    );
+            // Check if action tile has been used.
+            if (game.get(i).get(3) == "true") {
+                tempTile.setOnFire(true);
+                tempTile.setFireTime(Integer.parseInt(game.get(i).get(5)));
+            } else if (game.get(i).get(4) == "true") {
+                tempTile.setFrozen(true);
+                tempTile.setFrozenTime(Integer.parseInt(game.get(i).get(6)));
             }
+
+            // Add the tile to the board.
+            board[Integer.parseInt(game.get(i).get(0))]
+            [Integer.parseInt(game.get(i).get(1))] = tempTile;
+
             
         }
     }
@@ -93,7 +92,7 @@ public class Board {
      * @param y The y position.
      * @return The tile at given position.
      */
-    public Tile getTile(int x, int y) {
+    public FloorTile getTile(int x, int y) {
         return this.board[x][y];
     }
 
@@ -121,7 +120,7 @@ public class Board {
     /**
      * @return The board array.
      */
-    public Tile[][] getBoard() {
+    public FloorTile[][] getBoard() {
         return this.board;
     }
     

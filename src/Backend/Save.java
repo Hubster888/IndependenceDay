@@ -6,45 +6,62 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Save {
-
     private static final String FILE_DELIM = ",";
+    private static final String FILE_EXT = ".txt";
 
     public void newIncrementingFile(Board board, ArrayList<Profile> profiles) {
         String fileName = "Testing";
         int fileNumber = 0;
-        try{
-            File newFile = new File(fileName + fileNumber + ".txt");
-            if (newFile.createNewFile()){
-                FormatBoard(board, profiles, fileName + fileNumber + ".txt");
-            }
-            else{
-                while(newFile.createNewFile() == false){
+
+        try {
+            File newFile = new File(fileName + fileNumber + FILE_EXT);
+
+            if (newFile.createNewFile()) {
+                FormatBoard(board, profiles, fileName + fileNumber + FILE_EXT);
+            } else {
+                while(newFile.createNewFile() == false) {
                     fileNumber = fileNumber + 1;
-                    newFile = new File(fileName + fileNumber + ".txt");
+                    newFile = new File(fileName + fileNumber + FILE_EXT);
                 }
-                FormatBoard(board, profiles, fileName + fileNumber + ".txt");
+
+                FormatBoard(board, profiles, fileName + fileNumber + FILE_EXT);
             }
-        }catch(Exception e){
+        } catch(Exception e) {
             System.err.println(e);
         }
     }
 
-
-    public void FormatBoard(Board board, ArrayList<Profile> profiles, String fileName) {
+    /**
+     * Turns the board into a savable format.
+     * @param board The board to save.
+     * @param profiles The profiles playing on the board to save.
+     * @param fileName The file name of the board.
+     */
+    public void FormatBoard(
+        Board board, ArrayList<Profile> profiles, String fileName
+        ) {
         ArrayList<String> BoardAList = new ArrayList<String>();
-        Tile[][] T = board.getBoard();
+        FloorTile[][] T = board.getBoard();
         ArrayList<Player> Players = board.getListOfPlayers();
+        BoardAList.add(T.length + FILE_DELIM + T[0].length);
 
         BoardAList.add(Integer.toString(profiles.size()));
         for (int i = 0; i < Players.size(); i++) {
             int[] lastPosition = Players.get(i).getLastPosition();
-            BoardAList.add(Players.get(i).getName() + ", " + lastPosition[0] + ", " + lastPosition[1]);
+            BoardAList.add(Players.get(i).getName() + FILE_DELIM +
+                lastPosition[0] + FILE_DELIM + lastPosition[1]);
         }
 
 
         for (int y = 0; y < T[0].length; y++) {
             for (int x = 0; x < T.length; x++) {
-                BoardAList.add((x + 1) + ", " + (y + 1) + ", " + T[x][y].getTileType().toUpperCase() + ", " + T[x][y].getOrientation());
+                BoardAList.add(
+                    x + FILE_DELIM + y + FILE_DELIM + T[x][y].getTileType() + FILE_DELIM +
+                    T[x][y].isOnFire() + FILE_DELIM + T[x][y].isFrozen() + FILE_DELIM +
+                    FILE_DELIM + T[x][y].getFireTime() + FILE_DELIM +
+                    T[x][y].getFrozenTime() + FILE_DELIM
+                    );
+                 
 
             }
         }
@@ -52,7 +69,11 @@ public class Save {
     }
 
 
-
+    /**
+     * Writes the given data to the save file.
+     * @param aList The list of data.
+     * @param namingFile The name of the file to write to.
+     */
     public void WriteToFile(ArrayList<String> aList, String namingFile) {
         File fileName = new File(namingFile);
         try {
@@ -107,7 +128,7 @@ public class Save {
     }
     //Not needed
     public int[] getBoardSize() {
-        ArrayList cList;
+        ArrayList<ArrayList<String>> cList;
         String tempString;
         cList = getBoardData("Testing.txt");
         tempString = cList.get(0).toString();

@@ -128,4 +128,18 @@ public class FloorTile extends Tile {
     private int rotate(int direction) {
         return (direction + orientation) % 4;
     }
+
+    /**
+     * @return The amount of time that the tile is frozen for.
+     */
+    public int getFrozenTime(){
+        return frozenTime;
+    }
+
+    /**
+     * @return The amount of time that the tile is frozen for.
+     */
+    public int getFireTime(){
+        return fireTime;
+    }
 }

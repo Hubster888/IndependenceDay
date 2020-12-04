@@ -97,4 +97,5 @@ public class ActionTile extends Tile {
 
         return new int[]{indexCol, maxIndexCol, indexRow, maxIndexRow};
     }
+    
 }

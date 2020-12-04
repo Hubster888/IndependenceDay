@@ -85,7 +85,7 @@ public class Leaderboard {
    */
   public void display() {
     // Creates a table view and adds all the columns needed.
-    String[] columnNames = { "Rank", "Name", "Wins", "Losses" };
+    String[] columnNames = {"Rank", "Name", "Wins", "Losses"};
     try {
     	Object[][] data = new Object[profiles.size()][4];
     	
@@ -123,13 +123,5 @@ public class Leaderboard {
         jF.add(label);
         jF.setVisible(true);
     }
-
-    
-
-    
-
-    
-    
-
   }
 }
