@@ -26,7 +26,8 @@ public class MenuController {
 
     public void initialize() throws IOException, InterruptedException {
         try {
-            message.setText(MOTD.getMotd());
+            String[] text = MOTD.getMotd().split("\\(");
+            message.setText(text[0] + "\n" + "(" +text[1]);
         } catch (Exception e){
             message.setText(NOT_FOUND);
         }
