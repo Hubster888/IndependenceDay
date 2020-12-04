@@ -423,6 +423,7 @@ public class GameController {
             player.addActionTile(actionTile);
             tile = getImageTile(actionTile);
             changeTurnState();
+            chooseActionTile(player);
         }
 
         tile.setFitHeight(DRAWN_EDGE);
