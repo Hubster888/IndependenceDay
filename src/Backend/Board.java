@@ -181,7 +181,7 @@ public class Board {
             int row = player.getLastPosition()[1];
 
             if (column) {
-                if (col == index && row > 0 && row < boardHeight) {
+                if (col == index && col > 0 && col < boardWidth) {
                     shiftPlayer(player, col, row + move);
                 }
             } else {
@@ -195,11 +195,11 @@ public class Board {
 
     private void shiftPlayer(Player player, int col, int row) {
         if (col < 0) {
-            player.setLastPosition(new int[]{boardWidth, row});
+            player.setLastPosition(new int[]{boardWidth - 1, row});
         } else if (col >= boardWidth) {
             player.setLastPosition(new int[]{0, row});
         } else if (row < 0) {
-            player.setLastPosition(new int[]{col, boardHeight});
+            player.setLastPosition(new int[]{col, boardHeight - 1});
         } else if (row >= boardHeight) {
             player.setLastPosition(new int[]{col, 0});
         } else {
