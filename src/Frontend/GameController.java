@@ -140,6 +140,7 @@ public class GameController {
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
             chooseActionTile(player);
+            nextTile = null;
         } else if (turn.equals(ACTION)) {
             fireBtn.setOnAction(event1 -> {
                 nextTile = new ActionTile(fireBtn.getText());
@@ -444,28 +445,32 @@ public class GameController {
 
     private void chooseActionTile(Player player){
         fireBtn.setOnAction(event1 -> {
-            if (player.hasActionTile(new ActionTile(fireBtn.getText()))) {
+            ActionTile tile = new ActionTile(fireBtn.getText());
+            if (player.hasActionTile(tile) && !actionTile.getTileType().equals(tile.getTileType())) {
                 nextTile = new ActionTile(fireBtn.getText());
             } else {
                 nextTile = null;
             }
         });
         iceBtn.setOnAction(event13 -> {
-            if (player.hasActionTile(new ActionTile(iceBtn.getText()))) {
+            ActionTile tile = new ActionTile(iceBtn.getText());
+            if (player.hasActionTile(tile) && !actionTile.getTileType().equals(tile.getTileType())) {
                 nextTile = new ActionTile(iceBtn.getText());
             } else {
                 nextTile = null;
             }
         });
         doubleBtn.setOnAction(event12 -> {
-            if (player.hasActionTile(new ActionTile(doubleBtn.getText()))) {
+            ActionTile tile = new ActionTile(doubleBtn.getText());
+            if (player.hasActionTile(tile) && !actionTile.getTileType().equals(tile.getTileType())) {
                 nextTile = new ActionTile(doubleBtn.getText());
             } else {
                 nextTile = null;
             }
         });
         backTrackBtn.setOnAction(event14 -> {
-            if (player.hasActionTile(new ActionTile(backTrackBtn.getText()))) {
+            ActionTile tile = new ActionTile(backTrackBtn.getText());
+            if (player.hasActionTile(tile) && !actionTile.getTileType().equals(tile.getTileType())) {
                 nextTile = new ActionTile(backTrackBtn.getText());
             } else {
                 nextTile = null;
