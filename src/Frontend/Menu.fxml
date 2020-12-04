@@ -53,19 +53,24 @@
       </GridPane>
    </center>
    <top>
-      <GridPane prefHeight="84.0" prefWidth="683.0" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="150.0" prefWidth="683.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="message" alignment="CENTER" prefHeight="97.0" prefWidth="742.0" style="-fx-background-color: white;" text="Message of the day" wrapText="true" GridPane.columnSpan="2" GridPane.rowSpan="2">
+            <Label fx:id="message" alignment="CENTER" prefHeight="160.0" prefWidth="377.0" style="-fx-background-color: white;" text="Message of the day" textAlignment="CENTER" textFill="#101110" wrapText="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowSpan="4">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="Freestyle Script" size="29.0" />
                </font>
                <GridPane.margin>
                   <Insets />
