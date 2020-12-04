@@ -19,7 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static Backend.ActionTile.BACK_TRACK;
+import static Backend.ActionTile.*;
 
 public class GameController {
     private static final String FIRE_CORNER_PIC = "tiles/fire_Corner.jpeg";
@@ -34,6 +34,10 @@ public class GameController {
     private static final String STRAIGHT_PIC = "tiles/road_Straight.jpg";
     private static final String T_SHAPE_PIC = "tiles/road_T_Shape.jpg";
     private static final String GOAL_PIC = "tiles/goal.jpg";
+    private static final String FIRE_TILE = "Cards/fire_Card.jpeg";
+    private static final String ICE_TILE = "Cards/ice_Card.jpeg";
+    private static final String DOUBLE_TILE = "Cards/double_Card.jpeg";
+    private static final String GO_BACK_TILE = "Cards/go_Back_Card.jpeg";
     private static final String PLAYER1 = "src/players/player_1.png";
     private static final String PLAYER2 = "src/players/player_2.png";
     private static final String PLAYER3 = "src/players/player_3.png";
@@ -50,7 +54,7 @@ public class GameController {
     private Board board;
     private ArrayList<Profile> profileList;
     private int playerTurn = 0;
-    private FloorTile nextFloorTile;
+    private Tile nextTile;
     private ActionTile actionTile = new ActionTile(BACK_TRACK);
     private SilkBag silkBag;
 
@@ -61,9 +65,7 @@ public class GameController {
     @FXML
     public AnchorPane drawnTile;
     @FXML
-    public Label stateLab,playerLab;
-    @FXML
-    public Button fireBtn,iceBtn,doubleMoveBtn,backTrackMove;
+    public Label stateLab,playerLab,numOfActionTiles;
 
 
 
@@ -127,7 +129,7 @@ public class GameController {
             actionDraw(player);
             changeTurnState();
         } else if (turn.equals(PUSH) && checkInputPush(col, row)) {
-            board.updateBoard(nextFloorTile, col, row);
+            board.updateBoard((FloorTile) nextTile, col, row);
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
         } else if (turn.equals(ACTION)) {
@@ -140,11 +142,14 @@ public class GameController {
     }
 
     public void rotateDrawnTile() {
-        nextFloorTile.setOrientation();
-        ImageView tile = getImageTile(nextFloorTile);
-        tile.setFitHeight(DRAWN_EDGE);
-        tile.setFitWidth(DRAWN_EDGE);
-        drawnTile.getChildren().add(tile);
+        if (nextTile instanceof FloorTile) {
+            FloorTile tile = (FloorTile) nextTile;
+            tile.setOrientation();
+            ImageView tileImage = getImageTile(tile);
+            tileImage.setFitHeight(DRAWN_EDGE);
+            tileImage.setFitWidth(DRAWN_EDGE);
+            drawnTile.getChildren().add(tileImage);
+        }
     }
 
     private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
@@ -175,6 +180,46 @@ public class GameController {
 
             StackPane pane = (StackPane) gp.getChildren().get(getPosOfGridPane(width, col, row));
             pane.getChildren().add(picOfPlayers[i]);
+        }
+    }
+
+    public  void fireBtn(MouseEvent event){
+        event.getButton();
+        if (turn == ACTION) {
+            nextTile = new ActionTile(FIRE);
+            ImageView tile = getImageTile((ActionTile) nextTile);
+            System.out.println("fire");
+            /*tile.setFitHeight(DRAWN_EDGE);
+            tile.setFitWidth(DRAWN_EDGE);
+            drawnTile.getChildren().add(tile);*/
+        }
+    }
+
+    public void iceBtn(MouseEvent event){
+        if (turn == ACTION) {
+            nextTile = new ActionTile(FIRE);
+            ImageView tile = getImageTile((ActionTile) nextTile);
+            tile.setFitHeight(DRAWN_EDGE);
+            tile.setFitWidth(DRAWN_EDGE);
+            drawnTile.getChildren().add(tile);
+        }
+    }
+    public void doubleMoveBtn(MouseEvent event){
+        if (turn == ACTION) {
+            nextTile = new ActionTile(FIRE);
+            ImageView tile = getImageTile((ActionTile) nextTile);
+            tile.setFitHeight(DRAWN_EDGE);
+            tile.setFitWidth(DRAWN_EDGE);
+            drawnTile.getChildren().add(tile);
+        }
+    }
+    public void backTrackBtn(MouseEvent event){
+        if (turn == ACTION) {
+            nextTile = new ActionTile(FIRE);
+            ImageView tile = getImageTile((ActionTile) nextTile);
+            tile.setFitHeight(DRAWN_EDGE);
+            tile.setFitWidth(DRAWN_EDGE);
+            drawnTile.getChildren().add(tile);
         }
     }
 
@@ -273,6 +318,31 @@ public class GameController {
         return image;
     }
 
+    private ImageView getImageTile (ActionTile tile){
+        Image pic;
+
+        switch (tile.getTileType()){
+            case FIRE:
+                pic = new Image(FIRE_TILE);
+                break;
+            case ICE:
+                pic = new Image(ICE_TILE);
+                break;
+            case DOUBLE_MOVE:
+                pic = new Image(DOUBLE_TILE);
+                break;
+            case BACK_TRACK:
+                pic = new Image(GO_BACK_TILE);
+                break;
+            default:
+                System.out.println("Tile was not found");
+                pic = new Image("");
+                break;
+        }
+
+        return new ImageView(pic);
+    }
+
     private ImageView[] getImagesOfPlayers(ArrayList<Player> players) throws FileNotFoundException {
         ImageView[] images = new ImageView[4];
         Image pic;
@@ -347,6 +417,8 @@ public class GameController {
     }
 
     private void actionDraw(Player player) throws FileNotFoundException {
+        ImageView tile;
+
         for (int i = 0; i < board.getWidth(); i++) {
             for (int j = 0; j < board.getHeight(); j++) {
                 board.getTile(i, j).changeTime();
@@ -357,12 +429,15 @@ public class GameController {
 
         Tile newTile = silkBag.drawTile();
         if (newTile instanceof FloorTile) {
-            this.nextFloorTile = (FloorTile) newTile;
+            this.nextTile = newTile;
+            tile = getImageTile((FloorTile) nextTile);
         } else {
+            this.actionTile = (ActionTile) newTile;
             player.addActionTile(newTile);
+            tile = getImageTile(actionTile);
+            changeTurnState();
         }
 
-        ImageView tile = getImageTile(nextFloorTile);
         tile.setFitHeight(DRAWN_EDGE);
         tile.setFitWidth(DRAWN_EDGE);
         drawnTile.getChildren().add(tile);
