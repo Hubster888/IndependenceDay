@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -18,6 +19,7 @@ public class Board {
     private static final String CORNER_TILE = "corner";
     private static final String STRAIGHT_TILE = "straight";
     private static final String TSHAPE_TILE = "tShape";
+    private static final String GOAL_TILE = "goal";
     private static final String FILE_DELIM = ",";
     private static final String NO_PLAYER_ERROR =
     "Something is wrong, no players";
@@ -26,7 +28,7 @@ public class Board {
     private int boardWidth;
     private int boardHeight;
     private ArrayList<Player> listOfPlayers = new ArrayList<Player>();
-    private FloorTile[][] board;
+    private Tile[][] board;
     private String noOfFloors;
     private String noOfActions;
 
@@ -43,9 +45,47 @@ public class Board {
 
     /**
      * Creates a board from a saved game.
+     * @param game The game details to load from.
      */
     public Board(ArrayList<ArrayList<String>> game) {
+        // Set up the board.
+        this.boardWidth = Integer.parseInt(game.get(0).get(0));
+        this.boardHeight = Integer.parseInt(game.get(0).get(1));
+        this.board = new FloorTile[boardWidth][boardHeight];
 
+        int playerNo = Integer.parseInt(game.get(1).get(0));
+
+        // Set up the players.
+        for (int i = 2; i == playerNo; i++) {
+            this.listOfPlayers.add(new Player(
+                game.get(1).get(0),
+                new int[]{Integer.parseInt(game.get(1).get(1)),
+                    Integer.parseInt(game.get(1).get(2))}));
+        }
+
+        List<String> floorTypes = Arrays.asList(
+            STRAIGHT_TILE, CORNER_TILE,TSHAPE_TILE, GOAL_TILE
+            );
+
+        for (int i = playerNo + 2; i < game.size(); i++) {
+            
+            // To be able to use i in the if statement.
+            int innerI = i;
+
+            // Check if floor tile or action tile.
+            if (floorTypes.stream().anyMatch(s -> game.get(innerI).get(2).contains(s))) {
+                board[Integer.parseInt(game.get(i).get(0))]
+                [Integer.parseInt(game.get(i).get(1))] = new FloorTile(
+                    game.get(i).get(2), 0.1, Integer.parseInt(game.get(i).get(3))
+                    );
+            } else {
+                board[Integer.parseInt(game.get(i).get(0))]
+                [Integer.parseInt(game.get(i).get(1))] = new ActionTile(
+                    game.get(i).get(2)
+                    );
+            }
+            
+        }
     }
 
     /**
@@ -53,7 +93,7 @@ public class Board {
      * @param y The y position.
      * @return The tile at given position.
      */
-    public FloorTile getTile(int x, int y) {
+    public Tile getTile(int x, int y) {
         return this.board[x][y];
     }
 
@@ -81,7 +121,7 @@ public class Board {
     /**
      * @return The board array.
      */
-    public FloorTile[][] getBoard() {
+    public Tile[][] getBoard() {
         return this.board;
     }
     
@@ -145,7 +185,7 @@ public class Board {
         ArrayList<String> level = new ArrayList<>();
         File file = new File(LEVEL_DIR + Integer.toString(levelNo) + FILE_EXT);
         
-        try(Scanner scanner = new Scanner(file)) {
+        try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine())
                 level.add(scanner.nextLine());
         } catch(FileNotFoundException e) {

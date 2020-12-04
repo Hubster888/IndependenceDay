@@ -31,8 +31,8 @@ public class Save {
 
 
     public void FormatBoard(Board board, ArrayList<Profile> profiles, String fileName) {
-        ArrayList BoardAList = new ArrayList();
-        FloorTile[][] T = board.getBoard();
+        ArrayList<String> BoardAList = new ArrayList<String>();
+        Tile[][] T = board.getBoard();
         ArrayList<Player> Players = board.getListOfPlayers();
 
         BoardAList.add(Integer.toString(profiles.size()));
