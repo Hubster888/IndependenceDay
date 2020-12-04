@@ -124,12 +124,6 @@ public class Leaderboard {
         jF.setVisible(true);
     }
 
-    
-
-    
-
-    
-    
 
   }
 }
