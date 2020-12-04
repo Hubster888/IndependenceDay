@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MenuController {
+    public static final String GAME_CONTROLLER_FXML = "Game.fxml";
     private static final String NOT_FOUND = "Message of the day is not found.";
 
     @FXML
@@ -23,14 +24,14 @@ public class MenuController {
 
     public void initialize() throws IOException, InterruptedException {
         try {
-            message.setText(MOTD.getMotd());
+            message.setText(MOTD.getMotd().split("\\(")[0]);
         } catch (Exception e) {
             message.setText(NOT_FOUND);
         }
     }
 
     public void gameBtn(ActionEvent event) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("Game.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource(GAME_CONTROLLER_FXML));
         Parent root = load.load();
         Scene newScene = new Scene(root);
         Stage stage = (Stage) pane.getScene().getWindow();

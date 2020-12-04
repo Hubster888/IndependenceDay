@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import static Backend.ActionTile.*;
 
 public class GameController {
+    public static final String MENU_FXML ="Menu.fxml";
     private static final String FIRE_CORNER_PIC = "tiles/fire_Corner.jpeg";
     private static final String FIRE_STRAIGHT_PIC = "tiles/fire_Straight.jpeg";
     private static final String FIRE_T_SHAPE_PIC = "tiles/fire_T_Shape.jpeg";
@@ -106,7 +107,7 @@ public class GameController {
     }
 
     public void exitToMenu() throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("Menu.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource(MENU_FXML));
         Parent root = load.load();
         Scene newScene = new Scene(root);
         Stage stage = (Stage) borderPane.getScene().getWindow();
@@ -427,8 +428,8 @@ public class GameController {
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
 
-       // Tile newTile = silkBag.drawTile();
-        Tile newTile = new ActionTile(BACK_TRACK);
+        Tile newTile = silkBag.drawTile();
+
         if (newTile instanceof FloorTile) {
             this.nextTile = newTile;
             tile = getImageTile((FloorTile) nextTile);
@@ -446,7 +447,9 @@ public class GameController {
     }
 
     private void actionAction(ActionTile tile, Player player, int col, int row) throws IOException {
-        tile.execute(board, player, col, row);
+        if (player.useActionTile(tile) != null){
+            tile.execute(board, player, col, row);
+        }
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
     }
 
