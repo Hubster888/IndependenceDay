@@ -40,21 +40,21 @@ public class Save {
 
     /**
      * Turns the board into a savable format.
-     *
-     * @param board     The board to save.
+     * @param board The board to save.
      * @param silkBag The silkbag of the game.
      * @param arrayList The profiles playing on the board to save.
-     * @param fileName  The file name of the board.
+     * @param fileName The file name of the board.
      */
     public static void formatBoard(Board board, ArrayList<Player> arrayList,
         String fileName) {
         ArrayList<String> BoardAList = new ArrayList<String>();
         FloorTile[][] T = board.getBoard();
         ArrayList<Player> Players = board.getListOfPlayers();
+
         BoardAList.add(T.length + FILE_DELIM + T[0].length);
         BoardAList.add(board.getNoOfActions() + FILE_DELIM + board.getNoOfFloors());
-
         BoardAList.add(Integer.toString(arrayList.size()));
+
         for (int i = 0; i < Players.size(); i++) {
             int[] lastPosition = Players.get(i).getLastPosition();
             BoardAList.add(Players.get(i).getName() + FILE_DELIM +
@@ -136,52 +136,11 @@ public class Save {
 
     }
 
+    /**
+     * Deletes a file from given fileName.
+     */
     public static void DeleteFile(String fileName) {
         File f = new File(fileName);
         f.delete();
     }
-
-
-    /*  
-    public static void main(String[] args) { 
-        ArrayList<Profile> profs = new ArrayList<Profile>();
-        profs.add(new Profile("Robbie"));
-
-        SilkBag silkbag = new SilkBag();
-        Board board = new Board(1, profs);
-        board.getListOfPlayers().get(0).setLastPosition(new int[]{3, 2});
-        newIncrementingFile(board, silkbag);
-    }*/
-    
-
-    /*
-    public static void main(String[] args) {
-        Board board = new Board(getBoardData("2"));
-
-        // Test Player has been loaded in properly.
-        System.out.println(board.getListOfPlayers().get(0).getName());
-        System.out.println(board.getListOfPlayers().get(0).getLastPosition()[0]);
-        System.out.println(board.getListOfPlayers().get(0).getLastPosition()[1]);
-
-        // Test board has been loaded in properly.
-        for (int y = 0; y < board.getHeight(); y++) {
-            for (int x = 0; x < board.getWidth(); x++){
-                switch(board.getBoard()[x][y].getTileType()){
-                    case "corner":
-                        System.out.print("¬");
-                        break;
-                    case "straight":
-                        System.out.print("-");
-                        break;
-                    case "tShape":
-                        System.out.print("T");
-                        break;
-                    default:
-                        System.out.print("*");
-                            break;
-                }
-            }
-                System.out.println();
-        }
-    }*/
 }
