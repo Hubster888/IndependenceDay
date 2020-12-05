@@ -1,8 +1,8 @@
 package Backend;
 
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Random;
 
 
 /**
@@ -16,78 +16,114 @@ public class SilkBag {
     private LinkedList<Tile> tiles = new LinkedList<Tile>(); //Linked list holding the tiles
 
     /**
-     * Constructor
+     * default constructor for SilkBag
      */
 
     public SilkBag() {
     }
-
-    private void generateFloorTiles(String tileType) {
-
-        FloorTile floorTile = new FloorTile(tileType, 0);
-        tiles.add(floorTile);
-
-    }
-
-    private void generateActionTiles(String tileType) {
-
-        ActionTile actionTile = new ActionTile(tileType);
-        tiles.add(actionTile);
-
+    
+    /**
+     * The method GenerateFloorTiles is responsible for constructing FloorTiles
+     * 
+     * @param tileType - A string referring to the type of FloorTile it will construct
+     * @param orientationNo - An integer between 0-3 specifying the orientation of the FloorTile
+     */
+    
+    private void generateFloorTiles(String tileType, int orientationNo) {
+    	
+    	FloorTile floorTile = new FloorTile(tileType, orientationNo); //FloorTile constructor
+    	tiles.add(floorTile); //adding the floorTile to the LinkedList 'tiles'
+    	
     }
 
     /**
-     *
+     * The method GenerateActionTiles is responsible for constructing ActionTiles
+     * 
+     * @param tileType - A string referring to the type of ActionTile it will construct
      */
+    
+	private void generateActionTiles(String tileType) {
+	
+		ActionTile actionTile = new ActionTile(tileType); //ActionTile constructor
+		tiles.add(actionTile); //adding actionTile to the LinkedList 'tiles'
+	
+	}
+	
+	/**
+	 * The method fillBag is responsible for filling the LinkedList that is SilkBag
+	 * 
+	 * @param noFloorTiles - An integer representing the number of FloorTiles that will be generated in the SilkBag
+	 * @param noActionTiles - An integer representing the number of ActionTiles that will be generated in the SilkBag
+	 */
+	
     public void fillBag(int noFloorTiles, int noActionTiles) {
 
-        ArrayList<String> tileType = new ArrayList<String>(); //ArrayList holding the types of tiles
-        tileType.add(FloorTile.CORNER);
-        tileType.add(FloorTile.T_SHAPE);
-        tileType.add(FloorTile.STRAIGHT);
+        ArrayList<String> tileType = new ArrayList<String>(); //ArrayList holding the different types of FloorTiles
+        /*
+         * adding all the different types of FloorTiles to the tileType ArrayList
+         */
+        tileType.add("corner");
+        tileType.add("tShape");
+        tileType.add("straight");
 
-        Random randTileType = new Random(); //instance of the imported random class
-
-        if (noFloorTiles == 0) {
-            noFloorTiles = 20;
+        Random randTileType = new Random(); //instance of the imported random class to randomize the FloorTile type
+        Random randOrientation = new Random(); //instance of the imported random class to randomize the FloorTile orientation 
+        
+        /*
+         * for loop to generate the requested amount of FloorTiles
+         */
+        for(int i = 0; i < noFloorTiles+1; i++){
+            int typeNo = randTileType.nextInt(tileType.size()); //an random integer between 0 and the size of the ArrayList
+            String tileTypeResult = tileType.get(typeNo); //picking a random String from the tileType ArrayList
+            
+            int orientationNo = randOrientation.nextInt(4); //picking a integer between 0-3 to randomize the orientation
+            
+            generateFloorTiles(tileTypeResult, orientationNo); //using the generateFloorTiles method to construct a randomized FloorTile
         }
 
-        for (int i = 0; i < noFloorTiles; i++) {
-            int typeNo = randTileType.nextInt(tileType.size());
-            String tileTypeResult = tileType.get(typeNo);
-
-            generateFloorTiles(tileTypeResult);
-        }
-
-        ArrayList<String> actionTileType = new ArrayList<String>();
-        actionTileType.add(ActionTile.FIRE);
-        actionTileType.add(ActionTile.ICE);
-        actionTileType.add(ActionTile.DOUBLE_MOVE);
-        actionTileType.add(ActionTile.BACK_TRACK);
-
-        Random randActionTile = new Random();
-        for (int i = 0; i < noActionTiles; i++) {
-            int actionNo = randActionTile.nextInt(actionTileType.size());
-            String tileTypeResult = actionTileType.get(actionNo);
-
-            generateActionTiles(tileTypeResult);
+        ArrayList<String> actionTileType = new ArrayList<String>(); //ArrayList holding the different types of ActionTiles
+        /*
+         * Adding the different types of ActionTiles to the actionTileType ArrayList
+         */
+        actionTileType.add("Fire");
+        actionTileType.add("Ice");
+        actionTileType.add("DoubleMove");
+        actionTileType.add("BackTrack");
+        
+        Random randActionTile = new Random(); //instance of the imported random class to randomize the ActionTile type
+        
+        /*
+         * for loop to generate the requested amount of ActionTiles
+         */
+        for(int i = 0; i < noActionTiles+1; i++){
+            int actionNo = randActionTile.nextInt(actionTileType.size()); //an random integer between 0 and the size of the ArrayList
+            String tileTypeResult = actionTileType.get(actionNo); //picking a random String from the actionTileType ArrayList
+            
+            generateActionTiles(tileTypeResult); //using the generateActionTiles method to construct a randomized ActionTile
         }
     }
-
+    
     /**
-     * Method that will draw tiles in canvas.
+     * The method addTile is responsible for adding the tiles that are 'pushed' off the board back into the SilkBag
+     * 
+     * @param tileType - A string defining the type of FloorTile
+     * @param orientationNo - An integer defining the orientation of the FloorTile
      */
-
+    public void addTile(String tileType, int orientationNo) {
+    	generateFloorTiles(tileType, orientationNo);
+    }
+        
+    /**
+     * The method drawTile is responsible for allowing the player to draw a random tile from the SilkBag
+     * 
+     * @return A random tile, being either a FloorTile or ActionTile
+     */
     public Tile drawTile() {
-        Random randTile = new Random(); //instance of the imported random class
+        Random randTile = new Random();
         int tileNo = randTile.nextInt(tiles.size());
-        Tile tileDraw = tiles.get(tileNo);
-        tiles.remove(tileNo);
+        Tile tileDraw = tiles.get(tileNo); //picking a random tile from the LinkedList tiles
+        tiles.remove(tileNo); //removing the picked tile from the SilkBag
 
         return (tileDraw);
-    }
-
-    public void addTile(FloorTile floorTile) {
-        tiles.add(floorTile);
     }
 }
