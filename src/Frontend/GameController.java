@@ -544,6 +544,8 @@ public class GameController {
                 JOptionPane.showMessageDialog(null, player.getName() + MESSAGE_WON);
             }
 
+            Save.DeleteFile(DATA_PERSISTENCE);
+
             ProfileSave.updateProfile(new Profile(player.getName()), true);
             for (Player play : board.getListOfPlayers()) {
                 if (!play.getName().equals(player.getName())) {

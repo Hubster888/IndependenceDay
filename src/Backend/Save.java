@@ -126,6 +126,11 @@ public class Save {
 
     }
 
+    public static void DeleteFile(String fileName){
+        File f = new File(fileName);
+        f.delete();
+    }
+
 
     /* Check saving works
     public static void main(String[] args) {
