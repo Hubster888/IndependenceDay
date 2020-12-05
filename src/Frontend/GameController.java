@@ -108,7 +108,7 @@ public class GameController {
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
         setNotClickable();
         silkBag = new SilkBag();
-        silkBag.fillBag(0,5);
+        silkBag.fillBag(1,5);
     }
 
     public void saveGame() {
@@ -139,7 +139,8 @@ public class GameController {
             actionDraw(player);
             changeTurnState();
         } else if (turn.equals(PUSH) && checkInputPush(col, row)) {
-            board.updateBoard((FloorTile) nextTile, col, row);
+            FloorTile tile = board.updateBoard((FloorTile) nextTile, col, row);
+            silkBag.addTile(tile);
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
             setClickable();
