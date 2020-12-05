@@ -1,15 +1,18 @@
 package Frontend;
 
+import Backend.ActionTile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -19,8 +22,14 @@ import java.io.IOException;
  * @version 1.0
  */
 public class MenuController {
+    private static final String FILE_DIR = "src/Saves/";
     private static final String GAME_CONTROLLER_FXML = "Game.fxml";
+    private static final String FILE_EXT = ".txt";
     private static final String NOT_FOUND = "Message of the day is not found.";
+    public static String saveGameFile;
+
+    @FXML
+    public ChoiceBox load;
     @FXML
     private Label message;
     @FXML
@@ -36,6 +45,15 @@ public class MenuController {
         } catch (Exception e) {
             message.setText(NOT_FOUND);
         }
+
+        int fileNumber = 0;
+        File newFile = new File(FILE_DIR + fileNumber + FILE_EXT);
+        while (newFile.exists()) {
+            newFile = new File(FILE_DIR + fileNumber + FILE_EXT);
+            load.getItems().add(FILE_DIR + fileNumber + FILE_EXT);
+            fileNumber++;
+        }
+
     }
 
     /**
@@ -45,8 +63,10 @@ public class MenuController {
      * @throws IOException On input error.
      */
     public void gameBtn(ActionEvent event) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource(GAME_CONTROLLER_FXML));
-        Parent root = load.load();
+        saveGameFile = (String) load.getValue();
+        System.out.println(saveGameFile);
+        FXMLLoader FXMLload = new FXMLLoader(getClass().getResource(GAME_CONTROLLER_FXML));
+        Parent root = FXMLload.load();
         Scene newScene = new Scene(root);
         Stage stage = (Stage) pane.getScene().getWindow();
 
@@ -71,5 +91,9 @@ public class MenuController {
      */
     public void exitGame(ActionEvent event) {
         Platform.exit();
+    }
+
+    private String getSaveGame(){
+        return (String) load.getValue();
     }
 }
