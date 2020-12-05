@@ -31,8 +31,8 @@ public class MenuController {
     /**
      * Initialize everything before the scene is shown.
      *
-     * @throws IOException
-     * @throws InterruptedException
+     * @throws IOException On input error.
+     * @throws InterruptedException Interrupted connection.
      */
     public void initialize() throws IOException, InterruptedException {
         try {
@@ -46,7 +46,7 @@ public class MenuController {
      * Method that start the Game.
      *
      * @param event Event from button.
-     * @throws IOException
+     * @throws IOException On input error.
      */
     public void gameBtn(ActionEvent event) throws IOException {
         FXMLLoader load = new FXMLLoader(getClass().getResource(GAME_CONTROLLER_FXML));
