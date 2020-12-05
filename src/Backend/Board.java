@@ -14,10 +14,6 @@ import java.util.Scanner;
  */
 public class Board {
     private static final String LEVEL_DIR = "src/Levels/";
-    private static final String CORNER_TILE = "corner";
-    private static final String STRAIGHT_TILE = "straight";
-    private static final String TSHAPE_TILE = "tShape";
-    private static final String GOAL_TILE = "goal";
     private static final String FILE_DELIM = ",";
     private static final String NO_PLAYER_ERROR =
         "Something is wrong, no players";
@@ -46,6 +42,7 @@ public class Board {
 
     /**
      * Creates a board from a saved game.
+     *
      * @param game The game details to load from.
      */
     public Board(ArrayList<ArrayList<String>> game) {
@@ -62,19 +59,19 @@ public class Board {
         // Set up the players.
         for (int i = 3; i <= playerNo + 2; i++) {
             this.listOfPlayers.add(new Player(
-                game.get(i).get(0),
-                new int[]{Integer.parseInt(game.get(i).get(1)),
-                    Integer.parseInt(game.get(i).get(2))}));
+                    game.get(i).get(0),
+                    new int[]{Integer.parseInt(game.get(i).get(1)),
+                            Integer.parseInt(game.get(i).get(2))}));
         }
 
 
         for (int i = playerNo + 3; i < game.size(); i++) {
             // Create the tile with type and orientation.
             FloorTile tempTile = new FloorTile(
-                game.get(i).get(2), Integer.parseInt(game.get(i).get(5)),
-                Boolean.valueOf(game.get(i).get(7))
-                );
-            
+                    game.get(i).get(2), Integer.parseInt(game.get(i).get(5)),
+                    Boolean.valueOf(game.get(i).get(7))
+            );
+
             // Check if action tile has been used.
             if (game.get(i).get(3) == "true") {
                 tempTile.setOnFire(true);
@@ -92,6 +89,29 @@ public class Board {
         }
     }
 
+    /**
+     * Generate a random tile type for the board.
+     *
+     * @return A random tile type.
+     */
+    public static String getRandomTileType() {
+        int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
+        String type = "";
+
+        switch (typeGen) {
+            case 1:
+                type = FloorTile.CORNER;
+                break;
+            case 2:
+                type = FloorTile.STRAIGHT;
+                break;
+            case 3:
+                type = FloorTile.T_SHAPE;
+                break;
+        }
+
+        return type;
+    }
 
     public int getSilkFloors() {
         return this.silkFloors;
@@ -262,7 +282,7 @@ public class Board {
 
         for (int i = 0; i < 4; i++) {
             spawns[i] = new int[]{Integer.parseInt(levelDetails.get(i + 3).get(0)),
-                Integer.parseInt(levelDetails.get(i + 3).get(1))};
+                    Integer.parseInt(levelDetails.get(i + 3).get(1))};
         }
 
         // Setup the board.
@@ -273,8 +293,8 @@ public class Board {
             // Add the tile to the board with its given details.
             this.board[Integer.parseInt(levelDetails.get(i).get(0))][Integer
                     .parseInt(levelDetails.get(i).get(1))] = new FloorTile(
-                        levelDetails.get(i).get(2), Integer.parseInt(
-                            levelDetails.get(i).get(3)), true);
+                    levelDetails.get(i).get(2), Integer.parseInt(
+                    levelDetails.get(i).get(3)), true);
 
         }
 
@@ -283,8 +303,8 @@ public class Board {
             for (int y = 0; y < this.boardHeight; y++) {
                 if (this.board[x][y] == null) {
                     this.board[x][y] = new FloorTile(
-                        getRandomTileType(), (int) ((Math.random() * (5 - 1))
-                        + 1), false);
+                            getRandomTileType(), (int) ((Math.random() * (5 - 1))
+                            + 1), false);
                 }
             }
         }
@@ -295,35 +315,12 @@ public class Board {
             System.out.println(NO_PLAYER_ERROR);
         } else {
             for (Profile prof : listOfProfiles) {
-                    int randPos = (int)((Math.random() * 4));
- 
-					listOfPlayers.add(new Player(prof.getName(),
+                int randPos = (int) ((Math.random() * 4));
+
+                listOfPlayers.add(new Player(prof.getName(),
                         spawns[randPos]));
             }
         }
-    }
-
-    /**
-     * Generate a random tile type for the board.
-     * @return A random tile type.
-     */
-    public static String getRandomTileType() {
-        int typeGen = (int)((Math.random() * (4 - 1)) + 1);
-        String type = "";
-
-        switch (typeGen) {
-            case 1:
-                type = CORNER_TILE;
-                break;
-            case 2:
-                type = STRAIGHT_TILE;
-                break;
-            case 3:
-                type = TSHAPE_TILE;
-                break;
-        }
-
-        return type;
     }
 /* TODO
 Add method to say which columns / rows can not move

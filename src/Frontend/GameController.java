@@ -82,23 +82,7 @@ public class GameController {
     private BorderPane borderPane;
 
     public void initialize() throws FileNotFoundException {
-        File dataPersistence = new File(Save.DATA_PERSISTENCE);
-
-        if (!dataPersistence.exists()) {
-            int boardNum = askBoard();
-            int numOfPlayers = getNumOfPlayers();
-
-            profileList = new ArrayList<>();
-            for (int i = 1; i <= numOfPlayers; i++) {
-                String profileName = getPlayerName(i);
-                Profile prof = ProfileSave.getProfile(profileName);
-                profileList.add(prof);
-            }
-            board = new Board(boardNum, profileList);
-        } else {
-            board = new Board(Save.getBoardData(Save.DATA_PERSISTENCE));
-        }
-
+        loadGame();
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
@@ -119,6 +103,7 @@ public class GameController {
 
     public void saveGame() {
         Save.newIncrementingFile(this.board, this.silkBag);
+        Save.DeleteFile(Save.DATA_PERSISTENCE);
     }
 
     public void exitToMenu() throws IOException {
@@ -148,7 +133,7 @@ public class GameController {
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
             nextTile = new ActionTile("");
-        } else if (turn.equals(CHOOSE)){
+        } else if (turn.equals(CHOOSE)) {
             setClickable();
             chooseActionTile(player);
             changeTurnState();
@@ -535,6 +520,28 @@ public class GameController {
             playerTurn++;
         } else {
             playerTurn = 0;
+        }
+    }
+
+    private void loadGame(){
+        File dataPersistence = new File(Save.DATA_PERSISTENCE);
+
+        if (dataPersistence.exists()) {
+            board = new Board(Save.getBoardData(Save.DATA_PERSISTENCE));
+        } else if (MenuController.saveGameFile != "") {
+            board = new Board(Save.getBoardData(MenuController.saveGameFile));
+        } else {
+            int boardNum = askBoard();
+            int numOfPlayers = getNumOfPlayers();
+
+            profileList = new ArrayList<>();
+            for (int i = 1; i <= numOfPlayers; i++) {
+                String profileName = getPlayerName(i);
+                Profile prof = ProfileSave.getProfile(profileName);
+                profileList.add(prof);
+            }
+            board = new Board(boardNum, profileList);
+
         }
     }
 
