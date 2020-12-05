@@ -23,6 +23,19 @@ import java.util.ArrayList;
 import static Backend.ActionTile.*;
 
 public class GameController {
+    private static final String SELECT_BOARD = "Select board:";
+    private static final String CLICK_BUTTON = "Click a button";
+    private static final String ONE = "1";
+    private static final String TWO = "2";
+    private static final String THREE = "3";
+    private static final String FOUR = "4";
+    private static final String FIVE = "5";
+    private static final String SELECT_NUM_PLAYERS = "Select number of players:";
+    private static final String TWO_PLAYERS = "2 players";
+    private static final String THREE_PLAYERS = "3 players";
+    private static final String FOUR_PLAYERS = "4 players";
+    private static final String WHAT_IS_PLAYER = "What is player ";
+    private static final String ASK_NAME = " name?";
     private static final String PLAYER = "Player ";
     private static final String MESSAGE_WON = " won!";
     private static final String ERROR_TOO_MANY_PLAYERS = "There are too many players";
@@ -59,7 +72,11 @@ public class GameController {
     @FXML
     public AnchorPane drawnTile;
     @FXML
-    public Label stateLab, playerLab, numOfActionTiles;
+    public Label stateLab;
+    @FXML
+    public Label playerLab;
+    @FXML
+    public Label numOfActionTiles;
     @FXML
     public Button fireBtn;
     @FXML
@@ -68,8 +85,7 @@ public class GameController {
     public Button doubleBtn;
     @FXML
     public Button backTrackBtn;
-    //Draw, Push, Action, Move
-    private String turn = DRAW;
+    private String turn = DRAW; //Draw, Push, Action, Move
     private Board board;
     private ArrayList<Profile> profileList;
     private int playerTurn = 0;
@@ -157,6 +173,27 @@ public class GameController {
             tileImage.setFitHeight(DRAWN_EDGE);
             tileImage.setFitWidth(DRAWN_EDGE);
             drawnTile.getChildren().add(tileImage);
+        }
+    }
+
+    private int askBoard() {
+        String[] options = {ONE, TWO, THREE, FOUR, FIVE};
+        int choice = JOptionPane.showOptionDialog(null, SELECT_BOARD,
+                CLICK_BUTTON,
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        switch (choice) {
+            case 0:
+                return 1;
+            case 1:
+                return 2;
+            case 2:
+                return 3;
+            case 3:
+                return 4;
+            case 4:
+                return 5;
+            default:
+                return 0;
         }
     }
 
@@ -347,9 +384,9 @@ public class GameController {
     }
 
     private int getNumOfPlayers() {
-        String[] options = {"2 Players", "3 Players", "4 Players"};
-        int choice = JOptionPane.showOptionDialog(null, "Select number of players:",
-                "Click a button",
+        String[] options = {TWO_PLAYERS, THREE_PLAYERS, FOUR_PLAYERS};
+        int choice = JOptionPane.showOptionDialog(null, SELECT_NUM_PLAYERS,
+                CLICK_BUTTON,
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         switch (choice) {
             case 0:
@@ -359,30 +396,14 @@ public class GameController {
             case 2:
                 return 4;
             default:
-                return 0;
+                return 4;
         }
     }
 
     private String getPlayerName(int playerNum) {
-        return JOptionPane.showInputDialog("What is player " + playerNum + " name?");
+        return JOptionPane.showInputDialog(WHAT_IS_PLAYER + playerNum + ASK_NAME);
     }
 
-    private int askBoard() {
-        String[] options = {"1", "2", "3"};
-        int choice = JOptionPane.showOptionDialog(null, "Select board:",
-                "Click a button",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-        switch (choice) {
-            case 0:
-                return 1;
-            case 1:
-                return 2;
-            case 2:
-                return 3;
-            default:
-                return 0;
-        }
-    }
 
     private void actionDraw(Player player) throws FileNotFoundException {
         ImageView tile;
@@ -527,7 +548,7 @@ public class GameController {
         }
     }
 
-    private void loadGame(){
+    private void loadGame() {
         File dataPersistence = new File(Save.DATA_PERSISTENCE);
 
         if (dataPersistence.exists()) {
