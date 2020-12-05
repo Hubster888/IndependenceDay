@@ -62,7 +62,7 @@ public class Save {
                     T[x][y].getTileType() + FILE_DELIM + T[x][y].isOnFire() +
                     FILE_DELIM + T[x][y].isFrozen() + FILE_DELIM +
                     FILE_DELIM + T[x][y].getFireTime() + FILE_DELIM +
-                    T[x][y].getFrozenTime() + FILE_DELIM);
+                    T[x][y].getFrozenTime() + FILE_DELIM + T[x][y].isFixed());
 
             }
         }
@@ -126,22 +126,21 @@ public class Save {
 
     }
 
-    /*
-     * Check saving works 
-     * public static void main(String[] args) {
-     * 
-     * ArrayList<Profile> profs = new ArrayList<Profile>(); profs.add(new
-     * Profile("Robbie")); Board board = new Board(1, profs);
-     * 
-     * newIncrementingFile(board);
-     * 
-     * 
-     * }
-     */
+    
+    /* Check saving works 
+    public static void main(String[] args) { 
+        ArrayList<Player> profs = new ArrayList<Player>();
+        profs.add(new Player("Robbie", new int[]{2, 4}));
+        Board board = new Board(1, profs);
+      
+        newIncrementingFile(board);
+
+    }*/
+     
 
     /* Check loading works
     public static void main(String[] args) {
-        Board board = new Board(getBoardData("0"));
+        Board board = new Board(getBoardData("3"));
         
         // Test Player has been loaded in properly.
         System.out.println(board.getListOfPlayers().get(0).getName());

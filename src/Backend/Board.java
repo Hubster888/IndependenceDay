@@ -67,7 +67,8 @@ public class Board {
         for (int i = playerNo + 2; i < game.size(); i++) {
             // Create the tile with type and orientation.
             FloorTile tempTile = new FloorTile(
-                game.get(i).get(2), 0.1, Integer.parseInt(game.get(i).get(7))
+                game.get(i).get(2), 0.1, Integer.parseInt(game.get(i).get(7)),
+                Boolean.valueOf(game.get(i).get(8))
                 );
             
             // Check if action tile has been used.
@@ -196,77 +197,70 @@ public class Board {
 
     /**
      * Sets up level from given format.
-     * @param level A list of level details.
+     * 
+     * @param level          A list of level details.
      * @param listOfProfiles List of profiles playing the level.
      */
-    public void setUpLevel(ArrayList<String> level,
-        ArrayList<Profile> listOfProfiles) {
-            ArrayList<ArrayList<String>> levelDetails =
-            new ArrayList<ArrayList<String>>();
+    public void setUpLevel(ArrayList<String> level, ArrayList<Profile> listOfProfiles) {
+        ArrayList<ArrayList<String>> levelDetails = new ArrayList<ArrayList<String>>();
 
-            for (String line : level) {
-                ArrayList<String> t = new ArrayList<String>();
-                for (String detail : line.split(FILE_DELIM))
-                    t.add(detail);
-                levelDetails.add(t);
-            }
+        for (String line : level) {
+            ArrayList<String> t = new ArrayList<String>();
+            for (String detail : line.split(FILE_DELIM))
+                t.add(detail);
+            levelDetails.add(t);
+        }
 
-            // First Line containing the dimensions of the board.
-            this.boardWidth = Integer.parseInt(levelDetails.get(0).get(0));
-            this.boardHeight = Integer.parseInt(levelDetails.get(0).get(1));
+        // First Line containing the dimensions of the board.
+        this.boardWidth = Integer.parseInt(levelDetails.get(0).get(0));
+        this.boardHeight = Integer.parseInt(levelDetails.get(0).get(1));
 
-            // Second line gives the number of fixed tiles.
-            int fixedTiles = Integer.parseInt(levelDetails.get(1).get(0));
+        // Second line gives the number of fixed tiles.
+        int fixedTiles = Integer.parseInt(levelDetails.get(1).get(0));
 
-            // Third line gives the number of floor and action tiles to go ito the
-            // silk bag.
-            this.noOfFloors = levelDetails.get(2).get(0);
-            this.noOfActions = levelDetails.get(2).get(0);
+        // Third line gives the number of floor and action tiles to go ito the
+        // silk bag.
+        this.noOfFloors = levelDetails.get(2).get(0);
+        this.noOfActions = levelDetails.get(2).get(0);
 
-            // Lines 4-7 give player starting positions.
-            int[][] spawns = new int[4][2];
+        // Lines 4-7 give player starting positions.
+        int[][] spawns = new int[4][2];
 
-            for (int i = 0; i < 4; i++) {
-                spawns[i] = levelDetails.get(4).stream().mapToInt(
-                    Integer::parseInt
-                    ).toArray();
-            }
+        for (int i = 0; i < 4; i++) {
+            spawns[i] = new int[]{Integer.parseInt(levelDetails.get(i + 3).get(0)),
+                Integer.parseInt(levelDetails.get(i + 3).get(1))};
+        }
 
-            // Setup the board.
-            this.board = new FloorTile[this.boardWidth][this.boardHeight];
+        // Setup the board.
+        this.board = new FloorTile[this.boardWidth][this.boardHeight];
 
-            // Fixed tile details starts at line 8.
-            for (int i = 7; i < fixedTiles + 7; i++) {
-                // Add the tile to the board with its given details.
-                this.board[Integer.parseInt(
-                    levelDetails.get(i).get(0))][Integer.parseInt(
-                        levelDetails.get(i).get(1)
-                        )] = new FloorTile(
-                            levelDetails.get(i).get(2), 0.1,
-                            Integer.parseInt(levelDetails.get(i).get(3))
-                            );
+        // Fixed tile details starts at line 8.
+        for (int i = 7; i < fixedTiles + 7; i++) {
+            // Add the tile to the board with its given details.
+            this.board[Integer.parseInt(levelDetails.get(i).get(0))][Integer
+                    .parseInt(levelDetails.get(i).get(1))] = new FloorTile(
+                        levelDetails.get(i).get(2), 0.1, Integer.parseInt(
+                            levelDetails.get(i).get(3)), true);
 
-            }
+        }
 
-            // Set up the rest of the board tiles.
-            for (int x = 0; x < this.boardWidth; x++) {
-                for (int y = 0; y < this.boardHeight; y++) {
-                    if (this.board[x][y] == null) {
-                        this.board[x][y] = new FloorTile(
-                            getRandomTileType(), 0.1, (int)((
-                                Math.random() * (5 - 1)) + 1
-                                )
-                            );
-                    }
+        // Set up the rest of the board tiles.
+        for (int x = 0; x < this.boardWidth; x++) {
+            for (int y = 0; y < this.boardHeight; y++) {
+                if (this.board[x][y] == null) {
+                    this.board[x][y] = new FloorTile(
+                        getRandomTileType(), 0.1, (int) ((Math.random() * (5 - 1))
+                        + 1), false);
                 }
             }
+        }
 
-            // Set up players with random position.
-            if(listOfProfiles.size() < 0) {
-                // Throw an error.
-                System.out.println(NO_PLAYER_ERROR);
-            } else {
-                for(Profile prof : listOfProfiles) {
+        // Set up players with random position.
+        if (listOfProfiles.size() < 0) {
+            // Throw an error.
+            System.out.println(NO_PLAYER_ERROR);
+        } else {
+            for (Profile prof : listOfProfiles) {
                     int randPos = (int)((Math.random() * 4));
  
 					listOfPlayers.add(new Player(prof.getName(),
@@ -298,7 +292,7 @@ public class Board {
         return type;
     }
 
-/*
+
     public static void main(String[] args) {
         ArrayList<Profile> players = new ArrayList<Profile>();
         players.add(new Profile("Robbie"));
@@ -325,7 +319,7 @@ public class Board {
                 System.out.println();
         }
     }
-*/
+
 
 /* TODO
 Add method to say which columns / rows can not move

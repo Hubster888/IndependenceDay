@@ -8,10 +8,9 @@ package Backend;
  * @version 1.0
  */
 public class FloorTile extends Tile {
-
     private boolean isFrozen = false;
     private boolean isOnFire = false;
-
+    private Boolean isFixed = false;
     private int frozenTime = 0;
     private int fireTime = 0;
 
@@ -24,16 +23,18 @@ public class FloorTile extends Tile {
      * @param type              default FloorTile
      * @param chanceOfAppearing in the Silk bag
      * @param orientation       of a Tile
+     * @param b
      */
-    public FloorTile(String type, double chanceOfAppearing, int orientation) {
+    public FloorTile(String type, double chanceOfAppearing, int orientation,
+        boolean isFixed) {
         super(type);
         this.orientation = orientation;
         setPaths(type);
+        this.isFixed = isFixed;
     }
 
     /**
-     * This method should draw the floor tile.
-     * Inherited from Tile.java.
+     * This method should draw the floor tile. Inherited from Tile.java.
      */
     public void changeTime() {
         if (fireTime == 0){
@@ -142,4 +143,11 @@ public class FloorTile extends Tile {
     public int getFireTime(){
         return fireTime;
     }
+
+    /**
+     * @return True if the tile is fixed, false if not.
+     */
+	public boolean isFixed() {
+		return this.isFixed;
+	}
 }
