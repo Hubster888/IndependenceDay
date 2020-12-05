@@ -52,6 +52,8 @@ public class Player {
     }
 
     /**
+     * Get the second last position of the player.
+     *
      * @return Second last position of the player.
      */
     public int[] getLastSecondPosition() {
@@ -59,6 +61,8 @@ public class Player {
     }
 
     /**
+     * Get the second last position of the player.
+     *
      * @return Third last position of the player.
      */
     public int[] getLastThirdPositions() {
@@ -77,9 +81,12 @@ public class Player {
     }
 
     /**
-     * @return Returns an action tile from the queue that is going to be played.
+     * Get the chosen action tile from the player's hand.
+     *
+     * @param tile Chosen tile.
+     * @return Return action tile, otherwise null.
      */
-    public Tile useActionTile(ActionTile tile) {
+    public ActionTile useActionTile(ActionTile tile) {
         String type = tile.getTileType();
         int num = actionTiles.get(type);
         if (num != 0) {
