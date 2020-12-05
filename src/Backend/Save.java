@@ -116,8 +116,8 @@ public class Save {
      * @return The board data.
      */
     public static ArrayList<ArrayList<String>> getBoardData(String fileName) {
-        ArrayList<String> contents = new ArrayList<String>();
-        ArrayList<ArrayList<String>> boardDetails = new ArrayList<ArrayList<String>>();
+        ArrayList<String> contents = new ArrayList<>();
+        ArrayList<ArrayList<String>> boardDetails = new ArrayList<>();
 
         File dataPersistence = new File(DATA_PERSISTENCE);
         File specifiedFile;
@@ -138,16 +138,14 @@ public class Save {
         }
 
         for (String line : contents) {
-            ArrayList<String> t = new ArrayList<String>();
+            ArrayList<String> t = new ArrayList<>();
             for (String detail : line.split(FILE_DELIM)) {
                 t.add(detail);
             }
             boardDetails.add(t);
-
         }
 
         return boardDetails;
-
     }
 
     /**
