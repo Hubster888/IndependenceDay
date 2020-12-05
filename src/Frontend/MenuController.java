@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller of the Menu.fxml. It changes
+ */
 public class MenuController {
     private static final String GAME_CONTROLLER_FXML = "Game.fxml";
     private static final String NOT_FOUND = "Message of the day is not found.";
@@ -24,7 +27,7 @@ public class MenuController {
 
     public void initialize() throws IOException, InterruptedException {
         try {
-            message.setText(MOTD.getMotd().split("\\(")[0]);
+            message.setText(MOTD.getMOTD().split("\\(")[0]);
         } catch (Exception e) {
             message.setText(NOT_FOUND);
         }

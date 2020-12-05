@@ -46,7 +46,7 @@ public class MOTD {
      * @throws IOException On input error.
      * @see IOException
      */
-    public static String getMotd() throws IOException {
+    public static String getMOTD() throws IOException {
         final String POST_API_URL_SOlVED = "http://cswebcat.swansea.ac.uk/message?solution=" + getPuzzle();
         HttpURLConnection conn = (HttpURLConnection) new
                 URL(POST_API_URL_SOlVED).openConnection();
