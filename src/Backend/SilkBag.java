@@ -12,9 +12,6 @@ import java.util.LinkedList;
  * @version 1.0
  */
 public class SilkBag {
-    private int actionNo = 0;
-    private int floorNo = 0;
-
     private LinkedList<Tile> tiles = new LinkedList<Tile>(); //Linked list holding the tiles
 
     /**
