@@ -11,7 +11,7 @@ public abstract class Tile {
     private final String type;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param type Type of Tile.
      */
@@ -20,6 +20,8 @@ public abstract class Tile {
     }
 
     /**
+     * Get the tile type.
+     *
      * @return Type of a Tile.
      */
     public String getTileType() {
