@@ -98,7 +98,7 @@ public class GameController {
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
         setNotClickable();
-        silkBag = new SilkBag(board.getSilkActions(), board.getSilkFloors());
+        silkBag = new SilkBag(5, 5);
     }
 
     public void saveGame() {
@@ -117,7 +117,7 @@ public class GameController {
     }
 
     public void mouseAction(MouseEvent event) throws IOException {
-        Save.FormatBoard(this.board, this.silkBag, this.board.getListOfPlayers(), Save.DATA_PERSISTENCE);
+        Save.formatBoard(this.board, this.silkBag, this.board.getListOfPlayers(), Save.DATA_PERSISTENCE);
 
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;

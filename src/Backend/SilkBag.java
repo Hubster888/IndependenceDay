@@ -12,8 +12,8 @@ import java.util.LinkedList;
  * @version 1.0
  */
 public class SilkBag {
-    private int actionNo = 0;
-    private int floorNo = 0;
+    private int actionNo;
+    private int floorNo;
 
     private LinkedList<Tile> tiles = new LinkedList<Tile>(); //Linked list holding the tiles
 
@@ -22,8 +22,9 @@ public class SilkBag {
      */
 
     public SilkBag(int actionNO, int floorNo) {
-        this.actionNo = actionNo;
+        this.actionNo = actionNO;
         this.floorNo = floorNo;
+        fillBag(floorNo,actionNO);
     }
     
     /**
@@ -90,7 +91,7 @@ public class SilkBag {
         /*
          * for loop to generate the requested amount of FloorTiles
          */
-        for(int i = 0; i < noFloorTiles+1; i++){
+        for(int i = 0; i < noFloorTiles; i++){
             int typeNo = randTileType.nextInt(tileType.size()); //an random integer between 0 and the size of the ArrayList
             String tileTypeResult = tileType.get(typeNo); //picking a random String from the tileType ArrayList
             
@@ -113,7 +114,7 @@ public class SilkBag {
         /*
          * for loop to generate the requested amount of ActionTiles
          */
-        for(int i = 0; i < noActionTiles+1; i++){
+        for(int i = 0; i < noActionTiles; i++){
             int actionNo = randActionTile.nextInt(actionTileType.size()); //an random integer between 0 and the size of the ArrayList
             String tileTypeResult = actionTileType.get(actionNo); //picking a random String from the actionTileType ArrayList
             
