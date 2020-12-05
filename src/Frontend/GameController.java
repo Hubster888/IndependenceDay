@@ -91,7 +91,7 @@ public class GameController {
             profileList.add(prof);
         }
 
-        board = new Board(boardSize, boardSize, profileList);
+        board = new Board(1, profileList);
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
@@ -172,8 +172,8 @@ public class GameController {
 
         int col;
         int row;
-        int width = tiles[0].length;
-        int height = tiles.length;
+        int width = board.getWidth();
+        int height = board.getHeight();
         ImageView[] picOfPlayers = getImagesOfPlayers(players);
         ImageView pic;
         StackPane stackPane;

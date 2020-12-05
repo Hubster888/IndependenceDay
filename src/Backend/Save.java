@@ -58,8 +58,8 @@ public class Save {
                 BoardAList.add(
                     x + FILE_DELIM + y + FILE_DELIM + T[x][y].getTileType() + FILE_DELIM +
                     T[x][y].isOnFire() + FILE_DELIM + T[x][y].isFrozen() + FILE_DELIM +
-                    FILE_DELIM + T[x][y].getFireTime() + FILE_DELIM +
-                    T[x][y].getFrozenTime() + FILE_DELIM
+                    FILE_DELIM + T[x][y].getTimer() + FILE_DELIM +
+                    T[x][y].getTimer() + FILE_DELIM
                     );
                  
 

@@ -3,8 +3,6 @@ package Backend;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -22,7 +20,7 @@ public class Board {
     private static final String GOAL_TILE = "goal";
     private static final String FILE_DELIM = ",";
     private static final String NO_PLAYER_ERROR =
-    "Something is wrong, no players";
+            "Something is wrong, no players";
     private static final String FILE_EXT = ".txt";
 
     private int boardWidth;
@@ -35,7 +33,8 @@ public class Board {
 
     /**
      * Creates a board instance from given details.
-     * @param levelNo Level number to load.
+     *
+     * @param levelNo        Level number to load.
      * @param listOfProfiles List of profiles playing the game.
      */
     public Board(int levelNo, ArrayList<Profile> listOfProfiles) {
@@ -56,34 +55,60 @@ public class Board {
         int playerNo = Integer.parseInt(game.get(1).get(0));
 
         // Set up the players.
-        for (int i = 2; i == playerNo; i++) {
+        for (int i = 2; i == playerNo + 1; i++) {
             this.listOfPlayers.add(new Player(
-                game.get(1).get(0),
-                new int[]{Integer.parseInt(game.get(1).get(1)),
-                    Integer.parseInt(game.get(1).get(2))}));
+                    game.get(i).get(0),
+                    new int[]{Integer.parseInt(game.get(i).get(1)),
+                            Integer.parseInt(game.get(i).get(2))}));
         }
 
 
         for (int i = playerNo + 2; i < game.size(); i++) {
             // Create the tile with type and orientation.
             FloorTile tempTile = new FloorTile(
-                game.get(i).get(2), 0.1, Integer.parseInt(game.get(i).get(7))
-                );
+                    game.get(i).get(2), Integer.parseInt(game.get(i).get(7))
+            );
 
             // Check if action tile has been used.
             if (game.get(i).get(3) == "true") {
                 tempTile.setOnFire(true);
-                tempTile.setFireTime(Integer.parseInt(game.get(i).get(5)));
+                tempTile.setTimer(Integer.parseInt(game.get(i).get(5)));
             } else if (game.get(i).get(4) == "true") {
                 tempTile.setFrozen(true);
-                tempTile.setFrozenTime(Integer.parseInt(game.get(i).get(6)));
+                tempTile.setTimer(Integer.parseInt(game.get(i).get(6)));
             }
+
+            // Add the tile to the board.
+            board[Integer.parseInt(game.get(i).get(0))]
+                    [Integer.parseInt(game.get(i).get(1))] = tempTile;
+
+
         }
-        board[xGoal][yGoal] = new FloorTile("goal", 0);
     }
 
+    /**
+     * Generate a random tile type for the board.
+     *
+     * @return A random tile type.
+     */
+    public static String getRandomTileType() {
+        int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
+        String type = "";
 
-    
+        switch (typeGen) {
+            case 1:
+                type = CORNER_TILE;
+                break;
+            case 2:
+                type = STRAIGHT_TILE;
+                break;
+            case 3:
+                type = TSHAPE_TILE;
+                break;
+        }
+
+        return type;
+    }
 
     public FloorTile getTile(int x, int y) {
         return this.board[x][y];
@@ -113,7 +138,7 @@ public class Board {
                 this.board[i - 1][row] = this.board[i][row];
             }
             this.board[col][row] = newTile;
-            shiftPlayers(false,row,-1);
+            shiftPlayers(false, row, -1);
 
         } else if (col == 0 && isMovable(board, false, row)) {
             tile = getTile(col, row);
@@ -121,7 +146,7 @@ public class Board {
                 this.board[i][row] = this.board[i - 1][row];
             }
             this.board[col][row] = newTile;
-            shiftPlayers(false,row,1);
+            shiftPlayers(false, row, 1);
 
         } else if (row == getHeight() - 1 && isMovable(board, true, col)) {
             tile = getTile(col, row);
@@ -129,7 +154,7 @@ public class Board {
                 this.board[col][i - 1] = this.board[col][i];
             }
             this.board[col][row] = newTile;
-            shiftPlayers(true,col,-1);
+            shiftPlayers(true, col, -1);
 
         } else if (row == 0 && isMovable(board, true, col)) {
             tile = getTile(col, row);
@@ -137,7 +162,7 @@ public class Board {
                 this.board[col][i] = this.board[col][i - 1];
             }
             this.board[col][row] = newTile;
-            shiftPlayers(true,col,1);
+            shiftPlayers(true, col, 1);
 
         }
         return tile;
@@ -192,65 +217,108 @@ public class Board {
             player.setLastPosition(new int[]{col, row});
         }
     }
-    /*private FloorTile shift(int startIndex, int lastIndex, int col, int row, boolean column, boolean minus){
-        FloorTile tile = getTile(col,row);
-        if (col){
-            for(int i = startIndex; i > lastIndex; i--) {
-                this.board[col][i] = this.board[col][i - 1];
-            }
-            this.board[col][row] = newTile;
+
+    /**
+     * Loads the level format from file.
+     *
+     * @param levelNo The level to load.
+     * @return An array containing the level format.
+     */
+    public ArrayList<String> getlevel(int levelNo) {
+        ArrayList<String> level = new ArrayList<>();
+        File file = new File(LEVEL_DIR + Integer.toString(levelNo) + FILE_EXT);
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine())
+                level.add(scanner.nextLine());
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+            // Handle exception
         }
-
-    }*/
-
-    /*
-    public void updateBoard(int rowOrColumn, Boolean isRow, FloorTile newTile) {
-    	if(!rowOrColumnCamMove(rowOrColumn)) {
-    		final JFrame parent = new JFrame();
-
-    	      parent.pack();
-    	      parent.setVisible(true);
-
-    	      JOptionPane.showMessageDialog(parent,"This row or column can not be picked!");
-    		return;
-    	}
-    	if(isRow) {
-    		for(int j = 1; j < this.boardWidth; j++) {
-    			this.board[j][rowOrColumn] = this.board[j - 1][rowOrColumn];
-    		}
-    		this.board[0][rowOrColumn] = newTile;
-    	}else {
-    		for(int j = 1; j < this.boardWidth; j++) {
-    			this.board[rowOrColumn][j] = this.board[rowOrColumn][j - 1];
-    		}
-    		this.board[rowOrColumn][0] = newTile;
-    	}
+        return level;
     }
 
-    private Boolean rowOrColumnCamMove(int rowOrColumn) {
-        switch(this.boardHeight) {
-            case 6:
-                if(rowOrColumn == 2 || rowOrColumn == 4) {
-                    return false;
-                }else {
-                    return true;
-                }
-            case 10:
-                if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8) {
-                    return false;
-                }else {
-                    return true;
-                }
-            case 12:
-                if(rowOrColumn == 2 || rowOrColumn == 4 || rowOrColumn == 6 || rowOrColumn == 8 || rowOrColumn == 10) {
-                    return false;
-                }else {
-                    return true;
-                }
-            default:
-                return false;
+    /**
+     * Sets up level from given format.
+     *
+     * @param level          A list of level details.
+     * @param listOfProfiles List of profiles playing the level.
+     */
+    public void setUpLevel(ArrayList<String> level,
+                           ArrayList<Profile> listOfProfiles) {
+        ArrayList<ArrayList<String>> levelDetails =
+                new ArrayList<ArrayList<String>>();
+
+        for (String line : level) {
+            ArrayList<String> t = new ArrayList<String>();
+            for (String detail : line.split(FILE_DELIM))
+                t.add(detail);
+            levelDetails.add(t);
         }
-    }*/
+
+        // First Line containing the dimensions of the board.
+        this.boardWidth = Integer.parseInt(levelDetails.get(0).get(0));
+        this.boardHeight = Integer.parseInt(levelDetails.get(0).get(1));
+
+        // Second line gives the number of fixed tiles.
+        int fixedTiles = Integer.parseInt(levelDetails.get(1).get(0));
+
+        // Third line gives the number of floor and action tiles to go ito the
+        // silk bag.
+        this.noOfFloors = levelDetails.get(2).get(0);
+        this.noOfActions = levelDetails.get(2).get(0);
+
+        // Lines 4-7 give player starting positions.
+        int[][] spawns = new int[4][2];
+
+        for (int i = 0; i < 4; i++) {
+            spawns[i] = levelDetails.get(4).stream().mapToInt(
+                    Integer::parseInt
+            ).toArray();
+        }
+
+        // Setup the board.
+        this.board = new FloorTile[this.boardWidth][this.boardHeight];
+
+        // Fixed tile details starts at line 8.
+        for (int i = 7; i < fixedTiles + 7; i++) {
+            // Add the tile to the board with its given details.
+            this.board[Integer.parseInt(
+                    levelDetails.get(i).get(0))][Integer.parseInt(
+                    levelDetails.get(i).get(1)
+            )] = new FloorTile(
+                    levelDetails.get(i).get(2),
+                    Integer.parseInt(levelDetails.get(i).get(3))
+            );
+
+        }
+        // Set up the rest of the board tiles.
+        for (int x = 0; x < this.boardWidth; x++) {
+            for (int y = 0; y < this.boardHeight; y++) {
+                if (this.board[x][y] == null) {
+                    this.board[x][y] = new FloorTile(
+                            getRandomTileType(), (int) ((
+                            Math.random() * (5 - 1)) + 1
+                    )
+                    );
+                }
+            }
+        }
+
+        // Set up players with random position.
+        if (listOfProfiles.size() < 0) {
+            // Throw an error.
+            System.out.println(NO_PLAYER_ERROR);
+        } else {
+            for (Profile prof : listOfProfiles) {
+                int randPos = (int) ((Math.random() * 4));
+
+                listOfPlayers.add(new Player(prof.getName(),
+                        spawns[randPos]));
+            }
+        }
+    }
+
 }
 //Add method to say which columns / rows can not move
 //Make the method that takes in as input a row or column and adds a floor tile to that.
