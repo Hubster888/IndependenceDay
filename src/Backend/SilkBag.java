@@ -20,20 +20,7 @@ public class SilkBag {
 
     public SilkBag() {
     }
-    
-    /**
-     * @return Number of action tiles in the silk bag.
-     */
-    public int getActionNo() {
-        return this.actionNo;
-    }
 
-    /**
-     * @return Number of action tiles in the silk bag.
-     */
-    public int getFloorNo() {
-        return this.floorNo;
-    }
 
     /**
      * The method GenerateFloorTiles is responsible for constructing FloorTiles

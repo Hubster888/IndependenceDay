@@ -109,9 +109,14 @@ public class Save {
     public static ArrayList<ArrayList<String>> getBoardData(String fileName) {
         ArrayList<String> contents = new ArrayList<String>();
         ArrayList<ArrayList<String>> boardDetails = new ArrayList<ArrayList<String>>();
+
+        File dataPersistence = new File(DATA_PERSISTENCE);
         File specifiedFile;
-        
-        specifiedFile = new File(FILE_DIR + fileName + FILE_EXT);
+        if (dataPersistence.exists()) {
+            specifiedFile = dataPersistence;
+        } else {
+            specifiedFile = new File(FILE_DIR + fileName + FILE_EXT);
+        }
 
         try (Scanner myReader = new Scanner(specifiedFile)) {
             while (myReader.hasNextLine()) {

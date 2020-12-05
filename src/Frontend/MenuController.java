@@ -48,7 +48,7 @@ public class MenuController {
         File newFile = new File(FILE_DIR + fileNumber + FILE_EXT);
         while (newFile.exists()) {
             newFile = new File(FILE_DIR + fileNumber + FILE_EXT);
-            load.getItems().add(FILE_DIR + fileNumber + FILE_EXT);
+            load.getItems().add(fileNumber);
             fileNumber++;
         }
 
