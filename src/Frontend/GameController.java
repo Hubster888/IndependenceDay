@@ -1,5 +1,3 @@
-
-
 package Frontend;
 
 import Backend.*;
@@ -16,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import static Backend.ActionTile.*;
 
 public class GameController {
-    private static final String DATA_PERSISTENCE = "Data.txt";
     private static final String PLAYER = "Player ";
     private static final String MESSAGE_WON = " won!";
     private static final String ERROR_TOO_MANY_PLAYERS = "There are too many players";
@@ -52,25 +50,12 @@ public class GameController {
     private static final String PLAYER4 = "src/players/player_4.png";
     private static final String DRAW = "Draw";
     private static final String PUSH = "Push";
+    private static final String CHOOSE = "Choose";
     private static final String ACTION = "Action";
     private static final String MOVE = "Move";
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
     private static final int DRAWN_EDGE = 150;
-
-    //Draw, Push, Action, Move
-    private String turn = DRAW;
-    private Board board;
-    private ArrayList<Profile> profileList;
-    private int playerTurn = 0;
-    private Tile nextTile;
-    private ActionTile actionTile = new ActionTile(ICE);
-    private SilkBag silkBag;
-
-    @FXML
-    private GridPane gp;
-    @FXML
-    private BorderPane borderPane;
     @FXML
     public AnchorPane drawnTile;
     @FXML
@@ -83,21 +68,36 @@ public class GameController {
     public Button doubleBtn;
     @FXML
     public Button backTrackBtn;
-
+    //Draw, Push, Action, Move
+    private String turn = DRAW;
+    private Board board;
+    private ArrayList<Profile> profileList;
+    private int playerTurn = 0;
+    private Tile nextTile;
+    private ActionTile actionTile = new ActionTile(ICE);
+    private SilkBag silkBag;
+    @FXML
+    private GridPane gp;
+    @FXML
+    private BorderPane borderPane;
 
     public void initialize() throws FileNotFoundException {
-        int boardNum = askBoard();
-        int numOfPlayers = getNumOfPlayers();
+        File dataPersistence = new File(Save.DATA_PERSISTENCE);
 
-        /*ArrayList<Profile>*/
-        profileList = new ArrayList<>();
-        for (int i = 1; i <= numOfPlayers; i++) {
-            String profileName = getPlayerName(i);
-            Profile prof = ProfileSave.getProfile(profileName);
-            profileList.add(prof);
+        if (!dataPersistence.exists()) {
+            int boardNum = askBoard();
+            int numOfPlayers = getNumOfPlayers();
+
+            profileList = new ArrayList<>();
+            for (int i = 1; i <= numOfPlayers; i++) {
+                String profileName = getPlayerName(i);
+                Profile prof = ProfileSave.getProfile(profileName);
+                profileList.add(prof);
+            }
+            board = new Board(boardNum, profileList);
+        } else {
+            board = new Board(Save.getBoardData(Save.DATA_PERSISTENCE));
         }
-
-        board = new Board(boardNum, profileList);
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
@@ -114,7 +114,7 @@ public class GameController {
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
         setNotClickable();
         silkBag = new SilkBag();
-        silkBag.fillBag(1,5);
+        silkBag.fillBag(1, 5);
     }
 
     public void saveGame() {
@@ -132,7 +132,7 @@ public class GameController {
     }
 
     public void mouseAction(MouseEvent event) throws IOException {
-        Save.FormatBoard(this.board, this.board.getListOfPlayers(), DATA_PERSISTENCE);
+        Save.FormatBoard(this.board, this.board.getListOfPlayers(), Save.DATA_PERSISTENCE);
 
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
@@ -147,9 +147,11 @@ public class GameController {
             silkBag.addTile(tile);
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
+            nextTile = null;
+        } else if (turn.equals(CHOOSE)){
             setClickable();
             chooseActionTile(player);
-            nextTile = null;
+            changeTurnState();
         } else if (turn.equals(ACTION)) {
             actionAction((ActionTile) nextTile, player, col, row);
             changeTurnState();
@@ -438,7 +440,7 @@ public class GameController {
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
     }
 
-    private void chooseActionTile(Player player){
+    private void chooseActionTile(Player player) {
         fireBtn.setOnAction(event1 -> {
             ActionTile tile = new ActionTile(fireBtn.getText());
             if (player.hasActionTile(tile) && !actionTile.getTileType().equals(tile.getTileType())) {
@@ -473,14 +475,14 @@ public class GameController {
         });
     }
 
-    private void setNotClickable(){
+    private void setNotClickable() {
         fireBtn.setDisable(true);
         iceBtn.setDisable(true);
         doubleBtn.setDisable(true);
         backTrackBtn.setDisable(true);
     }
 
-    private void setClickable(){
+    private void setClickable() {
         fireBtn.setDisable(false);
         iceBtn.setDisable(false);
         doubleBtn.setDisable(false);
@@ -513,6 +515,9 @@ public class GameController {
                 turn = PUSH;
                 break;
             case PUSH:
+                turn = CHOOSE;
+                break;
+            case CHOOSE:
                 turn = ACTION;
                 break;
             case ACTION:
@@ -544,7 +549,7 @@ public class GameController {
                 JOptionPane.showMessageDialog(null, player.getName() + MESSAGE_WON);
             }
 
-            Save.DeleteFile(DATA_PERSISTENCE);
+            Save.DeleteFile(Save.DATA_PERSISTENCE);
 
             ProfileSave.updateProfile(new Profile(player.getName()), true);
             for (Player play : board.getListOfPlayers()) {

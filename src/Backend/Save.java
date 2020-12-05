@@ -9,6 +9,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class Save {
+    public static final String DATA_PERSISTENCE = "Data.txt";
     private static final String FILE_DELIM = ",";
     private static final String FILE_EXT = ".txt";
     private static final String NEW_LINE = "\n";
@@ -103,7 +104,14 @@ public class Save {
     public static ArrayList<ArrayList<String>> getBoardData(String fileName) {
         ArrayList<String> contents = new ArrayList<String>();
         ArrayList<ArrayList<String>> boardDetails = new ArrayList<ArrayList<String>>();
-        File specifiedFile = new File(FILE_DIR + fileName + FILE_EXT);
+        File dataPersistence = new File(DATA_PERSISTENCE);
+        File specifiedFile;
+        if (dataPersistence.exists()){
+            specifiedFile = dataPersistence;
+        } else {
+            specifiedFile = new File(FILE_DIR + fileName + FILE_EXT);
+        }
+
 
         try (Scanner myReader = new Scanner(specifiedFile)) {
             while (myReader.hasNextLine()) {
@@ -132,18 +140,9 @@ public class Save {
     }
 
 
-    /* Check saving works
-    public static void main(String[] args) {
-        ArrayList<Player> profs = new ArrayList<Player>();
-        profs.add(new Player("Robbie", new int[]{2, 4}));
-        Board board = new Board(1, profs);
-
-        newIncrementingFile(board);
-
-    }*/
 
 
-    /* Check loading works
+/*
     public static void main(String[] args) {
         Board board = new Board(getBoardData("3"));
 
@@ -172,6 +171,6 @@ public class Save {
             }
                 System.out.println();
         }
-    }
-    */
+    }*/
+
 }

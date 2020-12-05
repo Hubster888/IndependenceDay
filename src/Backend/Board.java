@@ -312,36 +312,6 @@ public class Board {
 
         return type;
     }
-
-    /*
-    public static void main(String[] args) {
-        ArrayList<Profile> players = new ArrayList<Profile>();
-        players.add(new Profile("Robbie"));
-        Board board = new Board(1, players);
-
-        // Test with visual representation of the board.
-        for (int y = 0; y < board.boardHeight; y++) {
-            for (int x = 0; x < board.boardWidth; x++){
-                switch(board.board[x][y].getTileType()){
-                    case "corner":
-                        System.out.print("¬");
-                        break;
-                    case "straight":
-                        System.out.print("-");
-                        break;
-                    case "tShape":
-                        System.out.print("T");
-                        break;
-                    default:
-                        System.out.print("*");
-                            break;
-                }
-            }
-                System.out.println();
-        }
-    }*/
-
-
 /* TODO
 Add method to say which columns / rows can not move
 Make the method that takes in as input a row or column and adds
