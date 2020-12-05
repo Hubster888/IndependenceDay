@@ -1,6 +1,5 @@
 package Frontend;
 
-import Backend.ActionTile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,10 +25,9 @@ public class MenuController {
     private static final String GAME_CONTROLLER_FXML = "Game.fxml";
     private static final String FILE_EXT = ".txt";
     private static final String NOT_FOUND = "Message of the day is not found.";
-    public static String saveGameFile;
-
+    public static String saveGameFile = "";
     @FXML
-    public ChoiceBox load;
+    public  ChoiceBox load;
     @FXML
     private Label message;
     @FXML
@@ -63,8 +61,10 @@ public class MenuController {
      * @throws IOException On input error.
      */
     public void gameBtn(ActionEvent event) throws IOException {
-        saveGameFile = (String) load.getValue();
-        System.out.println(saveGameFile);
+        if (load.getValue() != null){
+            saveGameFile = load.getValue().toString();
+        }
+
         FXMLLoader FXMLload = new FXMLLoader(getClass().getResource(GAME_CONTROLLER_FXML));
         Parent root = FXMLload.load();
         Scene newScene = new Scene(root);
@@ -93,7 +93,7 @@ public class MenuController {
         Platform.exit();
     }
 
-    private String getSaveGame(){
+    private String getSaveGame() {
         return (String) load.getValue();
     }
 }

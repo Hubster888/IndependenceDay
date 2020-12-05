@@ -21,6 +21,7 @@ public class Main extends Application {
         File dataPersistence = new File(Save.DATA_PERSISTENCE);
         Parent main;
 
+        //If there is unfinished game, it will load that one
         if (dataPersistence.exists()){
             main = FXMLLoader.load(getClass().getResource("Frontend/Game.fxml"));
         } else {

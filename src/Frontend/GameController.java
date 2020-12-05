@@ -529,7 +529,7 @@ public class GameController {
 
         if (dataPersistence.exists()) {
             board = new Board(Save.getBoardData(Save.DATA_PERSISTENCE));
-        } else if (MenuController.saveGameFile != null) {
+        } else if (MenuController.saveGameFile != "") {
             board = new Board(Save.getBoardData(MenuController.saveGameFile));
         } else {
             int boardNum = askBoard();
