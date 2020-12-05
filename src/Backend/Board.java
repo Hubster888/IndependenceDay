@@ -56,11 +56,11 @@ public class Board {
         int playerNo = Integer.parseInt(game.get(1).get(0));
 
         // Set up the players.
-        for (int i = 2; i == playerNo; i++) {
+        for (int i = 2; i == playerNo + 1; i++) {
             this.listOfPlayers.add(new Player(
-                game.get(1).get(0),
-                new int[]{Integer.parseInt(game.get(1).get(1)),
-                    Integer.parseInt(game.get(1).get(2))}));
+                game.get(i).get(0),
+                new int[]{Integer.parseInt(game.get(i).get(1)),
+                    Integer.parseInt(game.get(i).get(2))}));
         }
 
 
@@ -191,7 +191,6 @@ public class Board {
                 System.out.println(e);
                 // Handle exception
         }
-
         return level;
     }
 

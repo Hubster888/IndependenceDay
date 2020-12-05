@@ -17,7 +17,6 @@ import Frontend.Leaderboard;
 
 public class MenuController {
     private static final String NOT_FOUND = "Message of the day is not found.";
-
     @FXML
     private Label message;
     @FXML

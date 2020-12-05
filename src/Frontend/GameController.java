@@ -77,8 +77,6 @@ public class GameController {
     @FXML
     public Button backTrackMove;
 
-
-
     public void initialize() throws FileNotFoundException {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
@@ -90,7 +88,7 @@ public class GameController {
             profileList.add(prof);
         }
 
-        board = new Board(boardSize, boardSize, profileList);
+        board = new Board(boardSize, profileList);
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
