@@ -292,7 +292,7 @@ public class Board {
         return type;
     }
 
-
+    /*
     public static void main(String[] args) {
         ArrayList<Profile> players = new ArrayList<Profile>();
         players.add(new Profile("Robbie"));
@@ -318,7 +318,7 @@ public class Board {
             }
                 System.out.println();
         }
-    }
+    }*/
 
 
 /* TODO
