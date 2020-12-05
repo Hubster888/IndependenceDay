@@ -134,12 +134,12 @@ public class GameController {
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
             nextTile = new ActionTile("");
-        } else if (turn.equals(CHOOSE)) {
             setClickable();
             chooseActionTile(player);
+        } else if (turn.equals(CHOOSE)) {
             changeTurnState();
         } else if (turn.equals(ACTION)) {
-            actionAction((ActionTile) nextTile, player, col, row);
+            actionAction(nextTile, player, col, row);
             changeTurnState();
             setNotClickable();
         } else if ((turn.equals(MOVE) && player.canMove(board, col, row)) || !player.hasMove(board)) {
@@ -416,11 +416,12 @@ public class GameController {
         numOfActionTiles.setText(player.getNumOfActionTiles());
     }
 
-    private void actionAction(ActionTile tile, Player player, int col, int row) throws IOException {
+    private void actionAction(Tile tile, Player player, int col, int row) throws IOException {
         try {
-            tile.execute(board, player, col, row);
-            player.useActionTile(tile);
-        } catch (NullPointerException e) {
+            ActionTile a = (ActionTile) tile;
+            a.execute(board, player, col, row);
+            player.useActionTile(a);
+        } catch (Exception e) {
             System.out.println(ERROR_TILE_NOT_FOUND);
         }
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
@@ -478,6 +479,7 @@ public class GameController {
     private void actionPlayer(Player player, int col, int row) throws IOException {
         player.move(board, col, row);
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
+        player.setLastFourPositions();
         endOfGame(col, row);
         changePlayer();
         changeTurnState();
