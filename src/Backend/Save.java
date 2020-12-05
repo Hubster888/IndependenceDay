@@ -7,6 +7,12 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Class that contains method that are used for saving into the file.
+ *
+ * @author Owen Warner, Robbie Southman
+ * @version 1.0
+ */
 public class Save {
     public static final String DATA_PERSISTENCE = "Data";
     private static final String FILE_DELIM = ",";
@@ -17,8 +23,9 @@ public class Save {
 
     /**
      * Saves the game data to an incremented file.
-     * @param silkbag The silkbag to save.
-     * @param board The board to save.
+     *
+     * @param silkBag The silk bag to save.
+     * @param board   The board to save.
      */
     public static void newIncrementingFile(Board board, SilkBag silkBag) {
         int fileNumber = 0;
@@ -40,13 +47,13 @@ public class Save {
 
     /**
      * Turns the board into a savable format.
-     * @param board The board to save.
-     * @param silkBag The silkbag of the game.
+     *
+     * @param board     The board to save.
      * @param arrayList The profiles playing on the board to save.
-     * @param fileName The file name of the board.
+     * @param fileName  The file name of the board.
      */
     public static void formatBoard(Board board, ArrayList<Player> arrayList,
-        String fileName) {
+                                   String fileName) {
         ArrayList<String> BoardAList = new ArrayList<String>();
         FloorTile[][] T = board.getBoard();
         ArrayList<Player> Players = board.getListOfPlayers();
@@ -65,7 +72,7 @@ public class Save {
         for (int y = 0; y < T[0].length; y++) {
             for (int x = 0; x < T.length; x++) {
                 BoardAList.add(x + FILE_DELIM + y + FILE_DELIM +
-                        T[x][y].getTileType() + FILE_DELIM + T[x][y].isOnFire() 
+                        T[x][y].getTileType() + FILE_DELIM + T[x][y].isOnFire()
                         + FILE_DELIM + T[x][y].isFrozen() + FILE_DELIM +
                         T[x][y].getOrientation() + FILE_DELIM +
                         T[x][y].getTimer() + FILE_DELIM + T[x][y].isFixed());
@@ -79,6 +86,7 @@ public class Save {
      * Writes the given data to the save file.
      * Will save to data persistence file or incremented file depending on how
      * its called.
+     *
      * @param aList      The list of data.
      * @param namingFile The name of the file to write to.
      */
@@ -103,6 +111,7 @@ public class Save {
 
     /**
      * Gets the board data in file to be used when instantiating a board.
+     *
      * @param fileName Name of the save file.
      * @return The board data.
      */
@@ -130,11 +139,11 @@ public class Save {
 
         for (String line : contents) {
             ArrayList<String> t = new ArrayList<String>();
-            for (String detail : line.split(FILE_DELIM)){
+            for (String detail : line.split(FILE_DELIM)) {
                 t.add(detail);
             }
             boardDetails.add(t);
-            
+
         }
 
         return boardDetails;
