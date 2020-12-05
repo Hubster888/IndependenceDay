@@ -268,11 +268,11 @@ public class Board {
         this.noOfActions = Integer.parseInt(levelDetails.get(2).get(1));
 
         // Lines 4-7 give player starting positions.
-        int[][] spawns = new int[4][2];
+        ArrayList<int[]> spawns = new ArrayList<int[]>();
 
         for (int i = 0; i < 4; i++) {
-            spawns[i] = new int[]{Integer.parseInt(levelDetails.get(i + 3).get(0)),
-                    Integer.parseInt(levelDetails.get(i + 3).get(1))};
+            spawns.add(new int[]{Integer.parseInt(levelDetails.get(i + 3).get(0)),
+                    Integer.parseInt(levelDetails.get(i + 3).get(1))});
         }
 
         // Setup the board.
@@ -305,18 +305,15 @@ public class Board {
             System.out.println(NO_PLAYER_ERROR);
         } else {
             for (Profile prof : listOfProfiles) {
-                int randPos = (int) ((Math.random() * 4));
+                int randPos = (int) ((Math.random() * spawns.size()));
 
                 listOfPlayers.add(new Player(prof.getName(),
-                        spawns[randPos]));
+                    spawns.get(randPos)));
+                spawns.remove(randPos);
+                
             }
         }
     }
-/* TODO
-Add method to say which columns / rows can not move
-Make the method that takes in as input a row or column and adds
-a floor tile to that.
-*/
 
 	public int getNoOfActions() {
 		return this.noOfActions;
