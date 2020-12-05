@@ -1,6 +1,11 @@
 package Backend;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Board class that is responsible for board and actions
@@ -10,93 +15,75 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Board {
+    private static final String LEVEL_DIR = "src/Levels/";
+    private static final String CORNER_TILE = "corner";
+    private static final String STRAIGHT_TILE = "straight";
+    private static final String TSHAPE_TILE = "tShape";
+    private static final String GOAL_TILE = "goal";
+    private static final String FILE_DELIM = ",";
+    private static final String NO_PLAYER_ERROR =
+    "Something is wrong, no players";
+    private static final String FILE_EXT = ".txt";
+
     private int boardWidth;
     private int boardHeight;
     private ArrayList<Player> listOfPlayers = new ArrayList<Player>();
     private FloorTile[][] board;
+    private String noOfFloors;
+    private String noOfActions;
 
 
     /**
-     * Constructor
-     *
-     * @param width  of board
-     * @param height of board
+     * Creates a board instance from given details.
+     * @param levelNo Level number to load.
+     * @param listOfProfiles List of profiles playing the game.
      */
-    public Board(int width, int height, ArrayList<Profile> listOfProfiles) {
-        this.boardWidth = width;
-        this.boardHeight = height;
-        board = new FloorTile[width][height];
-        int xGoal = (this.boardHeight / 2) - 1;
-        int yGoal = xGoal;
+    public Board(int levelNo, ArrayList<Profile> listOfProfiles) {
+        ArrayList<String> level = this.getlevel(levelNo);
+        this.setUpLevel(level, listOfProfiles);
+    }
 
-        if (listOfProfiles.size() < 0) {
-            System.out.println("Something is wrong, no players");
-        } else {
-            for (int i = 0; i < listOfProfiles.size(); i++) {
-                if (i == 0) {
-                    int[] startingPos = new int[2];
-                    startingPos[0] = this.boardHeight - 1;
-                    startingPos[1] = 0;
-                    Profile prof = listOfProfiles.get(i);
-                    listOfPlayers.add(new Player(prof.getName(), startingPos));
-                } else if (i == 1) {
-                    int[] startingPos = new int[2];
-                    startingPos[0] = 0;
-                    startingPos[1] = this.boardHeight - 1;
-                    Profile prof = listOfProfiles.get(i);
-                    listOfPlayers.add(new Player(prof.getName(), startingPos));
-                } else if (i == 2) {
-                    int[] startingPos = new int[2];
-                    startingPos[0] = 0;
-                    startingPos[1] = 0;
-                    Profile prof = listOfProfiles.get(i);
-                    listOfPlayers.add(new Player(prof.getName(), startingPos));
-                } else if (i == 3) {
-                    int[] startingPos = new int[2];
-                    startingPos[0] = this.boardHeight - 1;
-                    startingPos[1] = this.boardHeight - 1;
-                    Profile prof = listOfProfiles.get(i);
-                    listOfPlayers.add(new Player(prof.getName(), startingPos));
-                } else {
-                    System.out.println("end");
-                }
-            }
+    /**
+     * Creates a board from a saved game.
+     * @param game The game details to load from.
+     */
+    public Board(ArrayList<ArrayList<String>> game) {
+        // Set up the board.
+        this.boardWidth = Integer.parseInt(game.get(0).get(0));
+        this.boardHeight = Integer.parseInt(game.get(0).get(1));
+        this.board = new FloorTile[boardWidth][boardHeight];
+
+        int playerNo = Integer.parseInt(game.get(1).get(0));
+
+        // Set up the players.
+        for (int i = 2; i == playerNo; i++) {
+            this.listOfPlayers.add(new Player(
+                game.get(1).get(0),
+                new int[]{Integer.parseInt(game.get(1).get(1)),
+                    Integer.parseInt(game.get(1).get(2))}));
         }
-        for (int i = 0; i < this.boardWidth; i++) {
-            for (int j = 0; j < this.boardHeight; j++) {
-                if (i == 0 && j == 0) {
-                    this.board[i][j] = new FloorTile("corner", 0);
-                } else if (i == 0 && j == this.boardHeight - 1) {
-                    this.board[i][j] = new FloorTile("corner", 3);
-                } else if (j == 0 && i == this.boardWidth - 1) {
-                    this.board[i][j] = new FloorTile("corner", 1);
-                } else if (j == this.boardHeight - 1 && i == this.boardWidth - 1) {
-                    this.board[i][j] = new FloorTile("corner", 2);
-                } else {
-                    int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
-                    int orientationGen = (int) ((Math.random() * (5 - 1)));
-                    switch (typeGen) {
-                        case 1:
-                            this.board[i][j] = new FloorTile("corner", orientationGen);
-                            break;
-                        case 2:
-                            this.board[i][j] = new FloorTile("straight", orientationGen);
-                            break;
-                        case 3:
-                            this.board[i][j] = new FloorTile("tShape", orientationGen);
-                            break;
-                        default:
-                            System.out.println("Something wrong!");
-                            break;
-                    }
 
-                }
+
+        for (int i = playerNo + 2; i < game.size(); i++) {
+            // Create the tile with type and orientation.
+            FloorTile tempTile = new FloorTile(
+                game.get(i).get(2), 0.1, Integer.parseInt(game.get(i).get(7))
+                );
+
+            // Check if action tile has been used.
+            if (game.get(i).get(3) == "true") {
+                tempTile.setOnFire(true);
+                tempTile.setFireTime(Integer.parseInt(game.get(i).get(5)));
+            } else if (game.get(i).get(4) == "true") {
+                tempTile.setFrozen(true);
+                tempTile.setFrozenTime(Integer.parseInt(game.get(i).get(6)));
             }
-
         }
         board[xGoal][yGoal] = new FloorTile("goal", 0);
     }
 
+
+    
 
     public FloorTile getTile(int x, int y) {
         return this.board[x][y];
