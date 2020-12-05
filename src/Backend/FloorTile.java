@@ -1,129 +1,112 @@
 package Backend;
 
 /**
- * FloorTile is class that represents floor tiles on the board. It stores the
- * type, orientation and if it is frozen or on fire.
+ * FloorTile is class that floor tiles. It stores the
+ * type and orientation of a floor tile.
  *
  * @author Yan Yan Ji
  * @version 1.0
  */
 public class FloorTile extends Tile {
-    public static final String CORNER = "corner";
-    public static final String STRAIGHT = "straight";
-    public static final String T_SHAPE = "tShape";
-    public static final String GOAL = "goal";
-    private static final String ERROR_NO_SUCH_TILE = "There is no such floor tile";
-
     private boolean isFrozen = false;
     private boolean isOnFire = false;
-
-    private int timer = 0;
+    private Boolean isFixed = false;
+    private int frozenTime = 0;
+    private int fireTime = 0;
 
     private int orientation;
     private int[] paths; //top 0, right 1, bottom 2, left 3
 
     /**
-     * Constructor of a FloorTile.
+     * Constructor
      *
-     * @param type        Type of the floor tile.
-     * @param orientation Orientation of a tile on the board.
+     * @param type              default FloorTile
+     * @param chanceOfAppearing in the Silk bag
+     * @param orientation       of a Tile
+     * @param b
      */
-    public FloorTile(String type, int orientation) {
+    public FloorTile(String type, double chanceOfAppearing, int orientation,
+        boolean isFixed) {
         super(type);
         this.orientation = orientation;
         setPaths(type);
     }
 
     /**
+     * This method should draw the floor tile. Inherited from Tile.java.
      * Method that will count, how long the tile
      * will be frozen or on fire.
      */
     public void changeTime() {
-        if (timer == 0) {
-            setFrozen(false);
+        if (fireTime == 0){
             setOnFire(false);
         } else {
-            this.timer -= 1;
+            this.fireTime -= 1;
         }
+
+        if (frozenTime == 0){
+            setFrozen(false);
+        } else {
+            this.frozenTime -= 1;
+        }
+
+        System.out.println(fireTime + " " + frozenTime);
     }
 
     /**
-     * Setting the countdown.
-     *
-     * @param timer Number of type int.
-     */
-    public void setTimer(int timer) {
-        this.timer = timer;
-    }
-
-    public int getTimer(){
-        return timer;
-    }
-    /**
-     * @return Orientation of the floor tile.
+     * @return orientation of the floor Tile
      */
     public int getOrientation() {
         return orientation;
     }
 
-    /**
-     * Rotate the floor tile by 90 degrees.
-     */
-    public void setOrientation() {
-        orientation = (orientation + 1) % 4;
-    }
 
     /**
-     * @return True if floor tile is frozen, otherwise false.
+     * @return True if floor tile is frozen.
      */
     public boolean isFrozen() {
         return isFrozen;
     }
 
     /**
-     * @param frozen Set True if the tile is frozen, otherwise false.
+     * @param frozen Set True if the tile is frozen.
      */
     public void setFrozen(boolean frozen) {
         isFrozen = frozen;
     }
 
+    public void setFrozenTime(int frozenTime) {
+        this.frozenTime = frozenTime;
+    }
+
     /**
-     * @return True if the tile is on fire, otherwise false.
+     * @return True if the tile is on fire.
      */
     public boolean isOnFire() {
         return isOnFire;
     }
 
     /**
-     * @param onFire Set True if the tile is on fire, otherwise false.
+     * @param onFire Set True if the tile is on fire.
      */
     public void setOnFire(boolean onFire) {
         isOnFire = onFire;
     }
 
-    /**
-     * It will tell if the tile has a path in the specific direction.
-     * 0 is top, 1 is right, 2 is bottom and 3 is left.
-     *
-     * @param direction Direction that you want to check.
-     * @return True if there is a path, otherwise false.
-     */
+    public void setFireTime(int fireTime) {
+        this.fireTime = fireTime;
+    }
+
     public boolean hasPath(int direction) {
         boolean result = false;
-        for (int i : this.paths) {
-            if (rotate(i) == direction) {
+        for (int i:this.paths){
+            if (rotate(i) == direction){
                 result = true;
             }
         }
         return result;
     }
 
-    /**
-     * It will set the paths of the tiles according to the type of floor tile.
-     * The paths are given based on default orientation of the floor tile.
-     *
-     * @param type Type of the floor tile.
-     */
     private void setPaths(String type) {
         switch (type) {
             case CORNER:
@@ -153,4 +136,25 @@ public class FloorTile extends Tile {
     private int rotate(int direction) {
         return (direction + orientation) % 4;
     }
+
+    /**
+     * @return The amount of time that the tile is frozen for.
+     */
+    public int getFrozenTime(){
+        return frozenTime;
+    }
+
+    /**
+     * @return The amount of time that the tile is frozen for.
+     */
+    public int getFireTime(){
+        return fireTime;
+    }
+
+    /**
+     * @return True if the tile is fixed, false if not.
+     */
+	public boolean isFixed() {
+		return this.isFixed;
+	}
 }

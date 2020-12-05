@@ -26,7 +26,7 @@ public class ProfileSave {
   }
 
   public static void createFile() {
-    File file  = new File("profileList.txt");
+    File file = new File("profileList.txt");
     try {
       file.createNewFile();
     } catch(Exception e) {

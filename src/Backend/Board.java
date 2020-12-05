@@ -3,6 +3,8 @@ package Backend;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -57,18 +59,19 @@ public class Board {
         // Set up the players.
         for (int i = 2; i == playerNo + 1; i++) {
             this.listOfPlayers.add(new Player(
-                    game.get(i).get(0),
-                    new int[]{Integer.parseInt(game.get(i).get(1)),
-                            Integer.parseInt(game.get(i).get(2))}));
+                game.get(i).get(0),
+                new int[]{Integer.parseInt(game.get(i).get(1)),
+                    Integer.parseInt(game.get(i).get(2))}));
         }
 
 
         for (int i = playerNo + 2; i < game.size(); i++) {
             // Create the tile with type and orientation.
             FloorTile tempTile = new FloorTile(
-                    game.get(i).get(2), Integer.parseInt(game.get(i).get(7))
-            );
-
+                game.get(i).get(2), 0.1, Integer.parseInt(game.get(i).get(7)),
+                Boolean.valueOf(game.get(i).get(8))
+                );
+            
             // Check if action tile has been used.
             if (game.get(i).get(3) == "true") {
                 tempTile.setOnFire(true);
@@ -244,10 +247,8 @@ public class Board {
      * @param level          A list of level details.
      * @param listOfProfiles List of profiles playing the level.
      */
-    public void setUpLevel(ArrayList<String> level,
-                           ArrayList<Profile> listOfProfiles) {
-        ArrayList<ArrayList<String>> levelDetails =
-                new ArrayList<ArrayList<String>>();
+    public void setUpLevel(ArrayList<String> level, ArrayList<Profile> listOfProfiles) {
+        ArrayList<ArrayList<String>> levelDetails = new ArrayList<ArrayList<String>>();
 
         for (String line : level) {
             ArrayList<String> t = new ArrayList<String>();
@@ -272,9 +273,8 @@ public class Board {
         int[][] spawns = new int[4][2];
 
         for (int i = 0; i < 4; i++) {
-            spawns[i] = levelDetails.get(4).stream().mapToInt(
-                    Integer::parseInt
-            ).toArray();
+            spawns[i] = new int[]{Integer.parseInt(levelDetails.get(i + 3).get(0)),
+                Integer.parseInt(levelDetails.get(i + 3).get(1))};
         }
 
         // Setup the board.
@@ -283,24 +283,20 @@ public class Board {
         // Fixed tile details starts at line 8.
         for (int i = 7; i < fixedTiles + 7; i++) {
             // Add the tile to the board with its given details.
-            this.board[Integer.parseInt(
-                    levelDetails.get(i).get(0))][Integer.parseInt(
-                    levelDetails.get(i).get(1)
-            )] = new FloorTile(
-                    levelDetails.get(i).get(2),
-                    Integer.parseInt(levelDetails.get(i).get(3))
-            );
+            this.board[Integer.parseInt(levelDetails.get(i).get(0))][Integer
+                    .parseInt(levelDetails.get(i).get(1))] = new FloorTile(
+                        levelDetails.get(i).get(2), 0.1, Integer.parseInt(
+                            levelDetails.get(i).get(3)), true);
 
         }
+
         // Set up the rest of the board tiles.
         for (int x = 0; x < this.boardWidth; x++) {
             for (int y = 0; y < this.boardHeight; y++) {
                 if (this.board[x][y] == null) {
                     this.board[x][y] = new FloorTile(
-                            getRandomTileType(), (int) ((
-                            Math.random() * (5 - 1)) + 1
-                    )
-                    );
+                        getRandomTileType(), 0.1, (int) ((Math.random() * (5 - 1))
+                        + 1), false);
                 }
             }
         }
@@ -311,15 +307,69 @@ public class Board {
             System.out.println(NO_PLAYER_ERROR);
         } else {
             for (Profile prof : listOfProfiles) {
-                int randPos = (int) ((Math.random() * 4));
-
-                listOfPlayers.add(new Player(prof.getName(),
+                    int randPos = (int)((Math.random() * 4));
+ 
+					listOfPlayers.add(new Player(prof.getName(),
                         spawns[randPos]));
             }
         }
     }
 
-}
-//Add method to say which columns / rows can not move
-//Make the method that takes in as input a row or column and adds a floor tile to that.
+    /**
+     * Generate a random tile type for the board.
+     * @return A random tile type.
+     */
+    public static String getRandomTileType() {
+        int typeGen = (int)((Math.random() * (4 - 1)) + 1);
+        String type = "";
 
+        switch (typeGen) {
+            case 1:
+                type = CORNER_TILE;
+                break;
+            case 2:
+                type = STRAIGHT_TILE;
+                break;
+            case 3:
+                type = TSHAPE_TILE;
+                break;
+        }
+
+        return type;
+    }
+
+    /*
+    public static void main(String[] args) {
+        ArrayList<Profile> players = new ArrayList<Profile>();
+        players.add(new Profile("Robbie"));
+        Board board = new Board(1, players);
+
+        // Test with visual representation of the board.
+        for (int y = 0; y < board.boardHeight; y++) {
+            for (int x = 0; x < board.boardWidth; x++){
+                switch(board.board[x][y].getTileType()){
+                    case "corner":
+                        System.out.print("¬");
+                        break;
+                    case "straight":
+                        System.out.print("-");
+                        break;
+                    case "tShape":
+                        System.out.print("T");
+                        break;
+                    default:
+                        System.out.print("*");
+                            break;
+                }
+            }
+                System.out.println();
+        }
+    }*/
+
+
+/* TODO
+Add method to say which columns / rows can not move
+Make the method that takes in as input a row or column and adds
+a floor tile to that.
+*/
+}

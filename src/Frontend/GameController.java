@@ -1,3 +1,5 @@
+
+
 package Frontend;
 
 import Backend.*;
@@ -55,6 +57,20 @@ public class GameController {
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
     private static final int DRAWN_EDGE = 150;
+
+    //Draw, Push, Action, Move
+    private String turn = DRAW;
+    private Board board;
+    private ArrayList<Profile> profileList;
+    private int playerTurn = 0;
+    private FloorTile nextFloorTile;
+    private ActionTile actionTile = new ActionTile(ICE);
+    private SilkBag silkBag;
+
+    @FXML
+    private GridPane gp;
+    @FXML
+    private BorderPane borderPane;
     @FXML
     public BorderPane borderPane;
     @FXML
@@ -91,7 +107,7 @@ public class GameController {
             profileList.add(prof);
         }
 
-        board = new Board(1, profileList);
+        board = new Board(boardSize, profileList);
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
@@ -485,7 +501,6 @@ public class GameController {
 
     private void actionPlayer(Player player, int col, int row) throws IOException {
         player.move(board, col, row);
-        player.setLastFourPositions();
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
         endOfGame(col, row);
         changePlayer();
