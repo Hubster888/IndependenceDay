@@ -112,6 +112,7 @@ public class Board {
 
         return type;
     }
+<<<<<<< HEAD
 
     public int getSilkFloors() {
         return this.silkFloors;
@@ -120,6 +121,8 @@ public class Board {
     public int getSilkActions() {
         return this.silkActions;
     }
+=======
+>>>>>>> 6a52e1face86e0db66391c07108283c8012944ad
 
     public FloorTile getTile(int x, int y) {
         return this.board[x][y];
