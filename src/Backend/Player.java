@@ -49,9 +49,6 @@ public class Player {
             this.lastThreePositions[i] = this.lastThreePositions[i + 1];
         }
         this.lastThreePositions[3] = lastPosition;
-        for (int i = 0; i < 4; i++) {
-        }
-
     }
 
     /**
@@ -103,11 +100,7 @@ public class Player {
     public boolean hasActionTile(ActionTile tile) {
         String type = tile.getTileType();
         int num = actionTiles.get(type);
-        if (num != 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return num != 0;
     }
 
     /**
