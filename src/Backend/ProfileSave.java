@@ -139,20 +139,28 @@ public class ProfileSave {
           ex.printStackTrace();
       }
 
-  } else {
-    addProfile(profile);
-    updateProfile(profile,playerWon);
+    } else {
+      addProfile(profile);
+      updateProfile(profile,playerWon);
+    }
   }
 
-  }
-
+  /**
+   * @param source The source string to search through.
+   * @param subItem The string to search for.
+   * @return True if the source contains the sub item.
+   */
   private static boolean isContain(String source, String subItem) {
     String pattern = "\\b" + subItem + "\\b";
     Pattern p = Pattern.compile(pattern);
     Matcher m = p.matcher(source);
     return m.find();
-    }
+  }
 
+  /**
+   * @param profileName The name of the profile.
+   * @return The profile.
+   */
   public static Profile getProfile(String profileName) {
 	  File file  = new File("profileList.txt");
 	    try(Scanner scanner = new Scanner(file)) {
