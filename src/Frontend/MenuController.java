@@ -92,8 +92,4 @@ public class MenuController {
     public void exitGame(ActionEvent event) {
         Platform.exit();
     }
-
-    private String getSaveGame() {
-        return (String) load.getValue();
-    }
 }
