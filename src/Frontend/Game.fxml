@@ -44,7 +44,7 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="numOfActionTiles" alignment="CENTER" layoutX="67.0" layoutY="372.0" prefHeight="159.0" prefWidth="171.0" text="No. action tiles: 0&#10;Fire 0&#10;Ice 0&#10;DoubleMove 0&#10;BackTrack 0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="372.0">
+            <Label fx:id="numOfActionTiles" alignment="CENTER" layoutX="67.0" layoutY="330.0" prefHeight="137.0" prefWidth="200.0" text="No. action tiles: 0&#10;Fire 0&#10;Ice 0&#10;DoubleMove 0&#10;BackTrack 0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="330.0">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>

@@ -86,7 +86,7 @@ public class GameController {
 
 
     public void initialize() throws FileNotFoundException {
-        int boardSize = askBoardSize();
+        int boardNum = askBoard();
         int numOfPlayers = getNumOfPlayers();
 
         /*ArrayList<Profile>*/
@@ -97,7 +97,7 @@ public class GameController {
             profileList.add(prof);
         }
 
-        board = new Board(1, profileList);
+        board = new Board(boardNum, profileList);
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
@@ -378,18 +378,18 @@ public class GameController {
         return JOptionPane.showInputDialog("What is player " + playerNum + " name?");
     }
 
-    private int askBoardSize() {
-        String[] options = {"6x6", "8x8", "10x10"};
-        int choice = JOptionPane.showOptionDialog(null, "Select board size:",
+    private int askBoard() {
+        String[] options = {"1", "2", "3"};
+        int choice = JOptionPane.showOptionDialog(null, "Select board:",
                 "Click a button",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         switch (choice) {
             case 0:
-                return 6;
+                return 1;
             case 1:
-                return 8;
+                return 2;
             case 2:
-                return 10;
+                return 3;
             default:
                 return 0;
         }
