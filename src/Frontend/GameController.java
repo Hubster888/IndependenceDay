@@ -63,7 +63,7 @@ public class GameController {
     private Board board;
     private ArrayList<Profile> profileList;
     private int playerTurn = 0;
-    private FloorTile nextFloorTile;
+    private Tile nextTile;
     private ActionTile actionTile = new ActionTile(ICE);
     private SilkBag silkBag;
 
@@ -71,10 +71,6 @@ public class GameController {
     private GridPane gp;
     @FXML
     private BorderPane borderPane;
-    @FXML
-    public BorderPane borderPane;
-    @FXML
-    public GridPane gp;
     @FXML
     public AnchorPane drawnTile;
     @FXML
@@ -87,13 +83,7 @@ public class GameController {
     public Button doubleBtn;
     @FXML
     public Button backTrackBtn;
-    private String turn = DRAW; //Draw, Push, Action, Move
-    private Board board;
-    private ArrayList<Profile> profileList;
-    private int playerTurn = 0;
-    private Tile nextTile;
-    private ActionTile actionTile = new ActionTile(BACK_TRACK);
-    private SilkBag silkBag;
+
 
     public void initialize() throws FileNotFoundException {
         int boardSize = askBoardSize();
@@ -107,7 +97,7 @@ public class GameController {
             profileList.add(prof);
         }
 
-        board = new Board(boardSize, profileList);
+        board = new Board(1, profileList);
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
@@ -128,8 +118,7 @@ public class GameController {
     }
 
     public void saveGame() {
-        Save s = new Save();
-        s.newIncrementingFile(this.board, this.profileList);
+        Save.newIncrementingFile(this.board);
     }
 
     public void exitToMenu() throws IOException {
@@ -143,8 +132,7 @@ public class GameController {
     }
 
     public void mouseAction(MouseEvent event) throws IOException {
-        Save s = new Save();
-        s.FormatBoard(this.board, this.profileList, DATA_PERSISTENCE);
+        Save.FormatBoard(this.board, this.board.getListOfPlayers(), DATA_PERSISTENCE);
 
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;

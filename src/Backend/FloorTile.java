@@ -8,28 +8,40 @@ package Backend;
  * @version 1.0
  */
 public class FloorTile extends Tile {
+    public static final String CORNER = "corner";
+    public static final String STRAIGHT = "straight";
+    public static final String T_SHAPE = "tShape";
+    public static final String GOAL = "goal";
+    private static final String ERROR_NO_SUCH_TILE = "There is no such floor tile";
+
     private boolean isFrozen = false;
     private boolean isOnFire = false;
     private Boolean isFixed = false;
-    private int frozenTime = 0;
-    private int fireTime = 0;
+    private int timer = 0;
+
 
     private int orientation;
     private int[] paths; //top 0, right 1, bottom 2, left 3
+
+    public FloorTile(String type, int orientation) {
+        super(type);
+        this.orientation = orientation;
+        setPaths(type);
+        this.isFixed = false;
+    }
 
     /**
      * Constructor
      *
      * @param type              default FloorTile
-     * @param chanceOfAppearing in the Silk bag
      * @param orientation       of a Tile
-     * @param b
+     * @param isFixed
      */
-    public FloorTile(String type, double chanceOfAppearing, int orientation,
-        boolean isFixed) {
+    public FloorTile(String type, int orientation, boolean isFixed) {
         super(type);
         this.orientation = orientation;
         setPaths(type);
+        this.isFixed = isFixed;
     }
 
     /**
@@ -38,26 +50,34 @@ public class FloorTile extends Tile {
      * will be frozen or on fire.
      */
     public void changeTime() {
-        if (fireTime == 0){
+        if (timer == 0){
             setOnFire(false);
         } else {
-            this.fireTime -= 1;
+            this.timer -= 1;
         }
-
-        if (frozenTime == 0){
-            setFrozen(false);
-        } else {
-            this.frozenTime -= 1;
-        }
-
-        System.out.println(fireTime + " " + frozenTime);
     }
+
+    public int getTimer(){
+        return timer;
+    }
+    public void setTimer(int time) {
+        timer = time;
+    }
+
+
 
     /**
      * @return orientation of the floor Tile
      */
     public int getOrientation() {
         return orientation;
+    }
+
+    /**
+     * Rotate the floor tile by 90 degrees.
+     */
+    public void setOrientation() {
+        orientation = (orientation + 1) % 4;
     }
 
 
@@ -75,9 +95,7 @@ public class FloorTile extends Tile {
         isFrozen = frozen;
     }
 
-    public void setFrozenTime(int frozenTime) {
-        this.frozenTime = frozenTime;
-    }
+
 
     /**
      * @return True if the tile is on fire.
@@ -93,9 +111,7 @@ public class FloorTile extends Tile {
         isOnFire = onFire;
     }
 
-    public void setFireTime(int fireTime) {
-        this.fireTime = fireTime;
-    }
+
 
     public boolean hasPath(int direction) {
         boolean result = false;
@@ -137,19 +153,6 @@ public class FloorTile extends Tile {
         return (direction + orientation) % 4;
     }
 
-    /**
-     * @return The amount of time that the tile is frozen for.
-     */
-    public int getFrozenTime(){
-        return frozenTime;
-    }
-
-    /**
-     * @return The amount of time that the tile is frozen for.
-     */
-    public int getFireTime(){
-        return fireTime;
-    }
 
     /**
      * @return True if the tile is fixed, false if not.

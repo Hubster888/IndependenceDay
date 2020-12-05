@@ -3,8 +3,6 @@ package Backend;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -68,7 +66,7 @@ public class Board {
         for (int i = playerNo + 2; i < game.size(); i++) {
             // Create the tile with type and orientation.
             FloorTile tempTile = new FloorTile(
-                game.get(i).get(2), 0.1, Integer.parseInt(game.get(i).get(7)),
+                game.get(i).get(2), Integer.parseInt(game.get(i).get(7)),
                 Boolean.valueOf(game.get(i).get(8))
                 );
             
@@ -89,29 +87,6 @@ public class Board {
         }
     }
 
-    /**
-     * Generate a random tile type for the board.
-     *
-     * @return A random tile type.
-     */
-    public static String getRandomTileType() {
-        int typeGen = (int) ((Math.random() * (4 - 1)) + 1);
-        String type = "";
-
-        switch (typeGen) {
-            case 1:
-                type = CORNER_TILE;
-                break;
-            case 2:
-                type = STRAIGHT_TILE;
-                break;
-            case 3:
-                type = TSHAPE_TILE;
-                break;
-        }
-
-        return type;
-    }
 
     public FloorTile getTile(int x, int y) {
         return this.board[x][y];
@@ -285,7 +260,7 @@ public class Board {
             // Add the tile to the board with its given details.
             this.board[Integer.parseInt(levelDetails.get(i).get(0))][Integer
                     .parseInt(levelDetails.get(i).get(1))] = new FloorTile(
-                        levelDetails.get(i).get(2), 0.1, Integer.parseInt(
+                        levelDetails.get(i).get(2), Integer.parseInt(
                             levelDetails.get(i).get(3)), true);
 
         }
@@ -295,7 +270,7 @@ public class Board {
             for (int y = 0; y < this.boardHeight; y++) {
                 if (this.board[x][y] == null) {
                     this.board[x][y] = new FloorTile(
-                        getRandomTileType(), 0.1, (int) ((Math.random() * (5 - 1))
+                        getRandomTileType(), (int) ((Math.random() * (5 - 1))
                         + 1), false);
                 }
             }
