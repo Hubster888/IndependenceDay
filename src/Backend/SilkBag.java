@@ -21,7 +21,6 @@ public class SilkBag {
     public SilkBag() {
     }
 
-
     /**
      * The method GenerateFloorTiles is responsible for constructing FloorTiles
      * 
@@ -30,7 +29,6 @@ public class SilkBag {
      */
     
     private void generateFloorTiles(String tileType, int orientationNo) {
-    	
     	FloorTile floorTile = new FloorTile(tileType, orientationNo); //FloorTile constructor
     	tiles.add(floorTile); //adding the floorTile to the LinkedList 'tiles'
     	

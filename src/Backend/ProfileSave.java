@@ -3,9 +3,6 @@ package Backend;
 
 import javax.swing.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -14,7 +11,7 @@ import java.util.regex.Pattern;
 public class ProfileSave {
 
   /**
-   * @return
+   * @return True if the file exists, false if not.
    */
   private static Boolean fileExists() {
     File file  = new File("profileList.txt");
@@ -25,6 +22,9 @@ public class ProfileSave {
     }
   }
 
+  /**
+   * Creates the file.
+   */
   public static void createFile() {
     File file = new File("profileList.txt");
     try {
@@ -34,6 +34,10 @@ public class ProfileSave {
     }
   }
 
+  /**
+   * @param profile The profile to find.
+   * @return True if the given profile exists in the file, false if not.
+   */
   private static Boolean profileExists(Profile profile) {
     File file  = new File("profileList.txt");
     try(Scanner scanner = new Scanner(file)) {
@@ -49,6 +53,10 @@ public class ProfileSave {
         return false;
   }
 
+  /**
+   * Adds a profile to the file.
+   * @param profile The profile to add.
+   */
   public static void addProfile(Profile profile) {
     if(fileExists() && profileExists(profile)) {
       final JFrame parent = new JFrame();
@@ -59,9 +67,11 @@ public class ProfileSave {
       JOptionPane.showMessageDialog(parent,"This profile already exists!");
     } else {
       if(fileExists()) {
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("profileList.txt", true))) {
-          bw.write(profile.getName() + " " + profile.getWins() + " " + profile.getLosses());
+        try (BufferedWriter bw = new BufferedWriter(
+          new FileWriter("profileList.txt", true))
+          ) {
+          bw.write(profile.getName() + " " + profile.getWins() + " " +
+            profile.getLosses());
           bw.newLine();
           bw.close();
         }catch(Exception e) {
@@ -76,60 +86,71 @@ public class ProfileSave {
     }
   }
 
-  public static void updateProfile(Profile profile, Boolean playerWon) throws IOException {
-      if(profileExists(profile)) {
+  /**
+   * Updates a profile in the file.
+   * @param profile Profile to update.
+   * @param playerWon True if the player has won, false if the player has lost.
+   * @throws IOException
+   */
+  public static void updateProfile(Profile profile, Boolean playerWon)
+    throws IOException {
+    if(profileExists(profile)) {
 
-    	  Profile tempProfile = new Profile();
-    	  String inputFileName = "profileList.txt";
-    	  String outputFileName = "tempList.txt";
+      Profile tempProfile = new Profile();
+      String inputFileName = "profileList.txt";
+      String outputFileName = "tempList.txt";
 
-    	  try {
-    	      File inputFile = new File(inputFileName);
-    	      File outputFile = new File(outputFileName);
+      try {
+          File inputFile = new File(inputFileName);
+          File outputFile = new File(outputFileName);
 
-    	      try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-    	               BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+          try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+                    BufferedWriter writer = new BufferedWriter(
+                      new FileWriter(outputFile))) {
 
-    	          String line = null;
-    	          while ((line = reader.readLine()) != null) {
-    	              if (!isContain(line, profile.getName())) {
-    	                  writer.write(line);
-    	                  writer.newLine();
-    	              }else {
-    	            	  String[] lineBreakDown = line.split(" ");
-    	                  tempProfile.setName(lineBreakDown[0]);
-    	                  tempProfile.setWins(Integer.parseInt(lineBreakDown[1]));
-    	                  tempProfile.setLosses(Integer.parseInt(lineBreakDown[2]));
-    	                  if(playerWon){tempProfile.addWin();}else{tempProfile.addLoss();}
-    	              }
-    	          }
-    	          writer.write(tempProfile.getName() + " " + tempProfile.getWins() + " " + tempProfile.getLosses() + "\n");
-    	      }
+              String line = null;
+              while ((line = reader.readLine()) != null) {
+                  if (!isContain(line, profile.getName())) {
+                      writer.write(line);
+                      writer.newLine();
+                  }else {
+                    String[] lineBreakDown = line.split(" ");
+                      tempProfile.setName(lineBreakDown[0]);
+                      tempProfile.setWins(Integer.parseInt(lineBreakDown[1]));
+                      tempProfile.setLosses(Integer.parseInt(lineBreakDown[2]));
+                      if(playerWon){tempProfile.addWin();}else{tempProfile.addLoss();}
+                  }
+              }
+              writer.write(tempProfile.getName() + " " + tempProfile.getWins() +
+                " " + tempProfile.getLosses() + "\n");
+          }
 
-    	      if (inputFile.delete()) {
-    	          // Rename the output file to the input file
-    	          if (!outputFile.renameTo(inputFile)) {
-    	              throw new IOException("Could not rename " + outputFileName + " to " + inputFileName);
-    	          }
-    	      } else {
-    	          throw new IOException("Could not delete original input file " + inputFileName);
-    	      }
-    	  } catch (IOException ex) {
-    	      ex.printStackTrace();
-    	  }
+          if (inputFile.delete()) {
+              // Rename the output file to the input file
+              if (!outputFile.renameTo(inputFile)) {
+                  throw new IOException("Could not rename " + outputFileName +
+                    " to " + inputFileName);
+              }
+          } else {
+              throw new IOException("Could not delete original input file " +
+                inputFileName);
+          }
+      } catch (IOException ex) {
+          ex.printStackTrace();
+      }
 
-    } else {
-      addProfile(profile);
-      updateProfile(profile,playerWon);
-    }
+  } else {
+    addProfile(profile);
+    updateProfile(profile,playerWon);
+  }
 
   }
 
   private static boolean isContain(String source, String subItem) {
-         String pattern = "\\b" + subItem + "\\b";
-         Pattern p = Pattern.compile(pattern);
-         Matcher m = p.matcher(source);
-         return m.find();
+    String pattern = "\\b" + subItem + "\\b";
+    Pattern p = Pattern.compile(pattern);
+    Matcher m = p.matcher(source);
+    return m.find();
     }
 
   public static Profile getProfile(String profileName) {
@@ -139,7 +160,8 @@ public class ProfileSave {
 	        String line = scanner.nextLine();
 	        if (isContain(line, profileName)) {
 	              String[] splitLine = line.split(" ");
-	              return new Profile(profileName, Integer.parseInt(splitLine[1]), Integer.parseInt(splitLine[2]));
+                return new Profile(profileName, Integer.parseInt(splitLine[1]),
+                  Integer.parseInt(splitLine[2]));
 	            }
 	        }
 	    } catch(FileNotFoundException e) {
