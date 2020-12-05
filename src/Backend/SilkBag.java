@@ -106,11 +106,10 @@ public class SilkBag {
     /**
      * The method addTile is responsible for adding the tiles that are 'pushed' off the board back into the SilkBag
      * 
-     * @param tileType - A string defining the type of FloorTile
-     * @param orientationNo - An integer defining the orientation of the FloorTile
+     * @param tile  Floor tile.
      */
-    public void addTile(String tileType, int orientationNo) {
-    	generateFloorTiles(tileType, orientationNo);
+    public void addTile(FloorTile tile) {
+    	tiles.add(tile);
     }
         
     /**
