@@ -150,13 +150,13 @@ public class Board {
         boolean result = true;
         if (col) {
             for (int i = 0; i < this.boardHeight; i++) {
-                if (tiles[index][i].isFrozen()) {
+                if (tiles[index][i].isFrozen() || tiles[index][i].isFixed()) {
                     result = false;
                 }
             }
         } else {
             for (int i = 0; i < this.boardWidth; i++) {
-                if (tiles[i][index].isFrozen()) {
+                if (tiles[i][index].isFrozen() || tiles[i][index].isFixed()) {
                     result = false;
                 }
             }
