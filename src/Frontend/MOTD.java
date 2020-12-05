@@ -23,7 +23,6 @@ public class MOTD {
      *
      * @return Solved the solved puzzle with numChar add the number of characters in the solution added to the end.
      * @throws IOException On input error.
-     * @see IOException
      */
     private static String getPuzzle() throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new
@@ -44,7 +43,6 @@ public class MOTD {
      *
      * @return The message of the day.
      * @throws IOException On input error.
-     * @see IOException
      */
     public static String getMOTD() throws IOException {
         final String POST_API_URL_SOlVED = "http://cswebcat.swansea.ac.uk/message?solution=" + getPuzzle();
@@ -104,7 +102,7 @@ public class MOTD {
      * Method that merges the two Strings together and removes the duplicate/ excess places in the Strings.
      *
      * @param s1 The first String, to be merged into.
-     * @param s2 The second String, to merge into s1,
+     * @param s2 The second String, to merge into s1.
      * @return The result of merging the two strings.
      */
     private static String merge(String s1, String s2) {
