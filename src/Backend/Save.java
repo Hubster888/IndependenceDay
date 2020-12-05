@@ -31,7 +31,7 @@ public class Save {
                 newFile = new File(FILE_DIR + fileNumber + FILE_EXT);
             }
 
-            formatBoard(board, silkBag, board.getListOfPlayers(),
+            formatBoard(board, board.getListOfPlayers(),
                     FILE_DIR + fileNumber + FILE_EXT);
         } catch (Exception e) {
             System.err.println(e);
@@ -46,13 +46,13 @@ public class Save {
      * @param arrayList The profiles playing on the board to save.
      * @param fileName  The file name of the board.
      */
-    public static void formatBoard(Board board, SilkBag silkBag, ArrayList<Player> arrayList,
+    public static void formatBoard(Board board, ArrayList<Player> arrayList,
         String fileName) {
         ArrayList<String> BoardAList = new ArrayList<String>();
         FloorTile[][] T = board.getBoard();
         ArrayList<Player> Players = board.getListOfPlayers();
         BoardAList.add(T.length + FILE_DELIM + T[0].length);
-        BoardAList.add(silkBag.getActionNo() + FILE_DELIM + silkBag.getFloorNo());
+        BoardAList.add(board.getNoOfActions() + FILE_DELIM + board.getNoOfFloors());
 
         BoardAList.add(Integer.toString(arrayList.size()));
         for (int i = 0; i < Players.size(); i++) {
@@ -142,12 +142,12 @@ public class Save {
     }
 
 
-    /*
-    public static void maidn(String[] args) { 
+    /*  
+    public static void main(String[] args) { 
         ArrayList<Profile> profs = new ArrayList<Profile>();
         profs.add(new Profile("Robbie"));
 
-        SilkBag silkbag = new SilkBag(5, 2);
+        SilkBag silkbag = new SilkBag();
         Board board = new Board(1, profs);
         board.getListOfPlayers().get(0).setLastPosition(new int[]{3, 2});
         newIncrementingFile(board, silkbag);
@@ -156,7 +156,7 @@ public class Save {
 
     /*
     public static void main(String[] args) {
-        Board board = new Board(getBoardData("1"));
+        Board board = new Board(getBoardData("2"));
 
         // Test Player has been loaded in properly.
         System.out.println(board.getListOfPlayers().get(0).getName());

@@ -25,8 +25,6 @@ public class Board {
     private FloorTile[][] board;
     private int noOfFloors;
     private int noOfActions;
-    private int silkActions;
-    private int silkFloors;
 
 
     /**
@@ -51,8 +49,8 @@ public class Board {
         this.boardHeight = Integer.parseInt(game.get(0).get(1));
         this.board = new FloorTile[boardWidth][boardHeight];
 
-        silkActions = Integer.parseInt(game.get(1).get(0));
-        silkFloors = Integer.parseInt(game.get(1).get(1));
+        noOfActions = Integer.parseInt(game.get(1).get(0));
+        noOfFloors = Integer.parseInt(game.get(1).get(1));
 
         int playerNo = Integer.parseInt(game.get(2).get(0));
 
@@ -112,17 +110,6 @@ public class Board {
 
         return type;
     }
-<<<<<<< HEAD
-
-    public int getSilkFloors() {
-        return this.silkFloors;
-    }
-
-    public int getSilkActions() {
-        return this.silkActions;
-    }
-=======
->>>>>>> 6a52e1face86e0db66391c07108283c8012944ad
 
     public FloorTile getTile(int x, int y) {
         return this.board[x][y];
@@ -330,4 +317,12 @@ Add method to say which columns / rows can not move
 Make the method that takes in as input a row or column and adds
 a floor tile to that.
 */
+
+	public int getNoOfActions() {
+		return this.noOfActions;
+	}
+
+	public int getNoOfFloors() {
+		return this.noOfActions;
+	}
 }
