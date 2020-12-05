@@ -1,104 +1,231 @@
-
 package Backend;
-import java.util.LinkedList;
-import java.util.Queue;
+
+import java.util.HashMap;
+
+import static Backend.ActionTile.*;
 
 
 /**
- * Represents a player.
+ * Player class represents a player on the board. It stores name and last
+ * three positions and the hand of action tiles.
+ *
+ * @author Yan Yan Ji
+ * @version 1.0
  */
 public class Player {
-  private String name;
-  private int[] lastPosition = new int[2];
-  private Queue<Tile> actionTiles;
+    private static final String MESSAGE_NUM_OF_TILES = "No. action tiles: ";
+    private String name;
+    private int[] lastPosition = new int[2];
+    private int[][] lastThreePositions = new int[4][2];
+    private HashMap<String, Integer> actionTiles = new HashMap<>();
 
-  /**
-   * Creates a player object fron given values.
-   * @param name Name of the player.
-   * @param lastPosition Last position of the player.
-   */
-  public Player(String name, int[] lastPosition) {
-    this.name = name;
-    this.lastPosition = lastPosition;
-    this.actionTiles = new LinkedList<>();
-  }
+    /**
+     * Constructor of Player. It takes name and the last
+     * position of a player.
+     *
+     * @param name         Name of the player.
+     * @param lastPosition Last position of the player.
+     */
+    public Player(String name, int[] lastPosition) {
+        this.name = name;
+        this.lastPosition = lastPosition;
+        for (int i = 0; i < 4; i++) {
+            lastThreePositions[i] = lastPosition;
+        }
 
-  /*
-  * @param position is a set of coordinates passed from the board class.
-  */
-  public void setLastPosition(int[] position){
-    this.lastPosition = position;
-  }
+        this.actionTiles.put(FIRE, 0);
+        this.actionTiles.put(ICE, 0);
+        this.actionTiles.put(DOUBLE_MOVE, 0);
+        this.actionTiles.put(BACK_TRACK, 0);
 
-  /**
-   * Gives a given action tile to the player.
-   * @param newTile
-   */
-  public void addActionTile(Tile newTile) {
-    actionTiles.add(newTile);
-  }
-
-  /*
-  * @return returns an action tile from the queue that will be played
-  */
-  public Tile useTile(int positionOfTiles){
-    return actionTiles.remove();
-  }
-
-  /**
-   * Gets the last position of the player.
-   * @return lastPosition
-   */
-  public int[] getLastPosition() {
-    return lastPosition;
-  }
-  
-  public String getName() {
-	  return this.name;
-  }
-
-  public Boolean hasMove(Board board) {
-    int plRow = getLastPosition()[1];
-    int plCol = getLastPosition()[0];
-    boolean left = false;
-    boolean right = false;
-    boolean down = false;
-    boolean up = false;
-
-    FloorTile plTile = board.getTile(plCol, plRow);
-
-    if (0 < plCol) {
-      left = (board.getTile(plCol - 1, plRow).hasPath(1) && plTile.hasPath(3));
     }
 
-    System.out.println(plCol + " " + plRow);
-    if (board.getWidth() - 1 > plCol) {
-      right = (board.getTile(plCol + 1, plRow).hasPath(3) && plTile.hasPath(1));
+    /**
+     * It will set the last three position of the
+     * player in the game including the current position.
+     */
+    public void setLastFourPositions() {
+        for (int i = 0; i < 3; i++) {
+            this.lastThreePositions[i] = this.lastThreePositions[i + 1];
+        }
+        this.lastThreePositions[3] = lastPosition;
+        for (int i = 0; i < 4; i++) {
+        }
+
     }
 
-    if (board.getHeight() - 1 > plRow) {
-      down = (board.getTile(plCol, plRow + 1).hasPath(0) && plTile.hasPath(2));
+    /**
+     * @return Second last position of the player.
+     */
+    public int[] getLastSecondPosition() {
+        return lastThreePositions[1];
     }
 
-    if (0 < plRow) {
-      up = (board.getTile(plCol, plRow - 1).hasPath(2) && plTile.hasPath(0));
+    /**
+     * @return Third last position of the player.
+     */
+    public int[] getLastThirdPositions() {
+        return lastThreePositions[0];
     }
 
-    return down || up || left || right;
-  }
+    /**
+     * Add the action tile to the players hand.
+     *
+     * @param newTile ActionTile to be put to the players hand.
+     */
+    public void addActionTile(ActionTile newTile) {
+        String type = newTile.getTileType();
+        int num = actionTiles.get(type);
+        actionTiles.replace(type, ++num);
+    }
 
-  public Boolean canMove(Board board, int col, int row) {
-    int plRow = getLastPosition()[1];
-    int plCol = getLastPosition()[0];
+    /**
+     * @return Returns an action tile from the queue that is going to be played.
+     */
+    public Tile useActionTile(ActionTile tile) {
+        String type = tile.getTileType();
+        int num = actionTiles.get(type);
+        if (num != 0) {
+            actionTiles.replace(type, num, --num);
+            return tile;
+        } else {
+            return null;
+        }
+    }
 
-    FloorTile tile = board.getTile(col, row);
-    FloorTile plTile = board.getTile(plCol, plRow);
+    /**
+     * Checks if the player has the specified action tile in
+     * its hand.
+     *
+     * @param tile Action tile that is going to be checked.
+     * @return True if the action tile is in the hand, otherwise false.
+     */
+    public boolean hasActionTile(ActionTile tile) {
+        String type = tile.getTileType();
+        int num = actionTiles.get(type);
+        if (num != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    Boolean left = (plCol == col + 1 && plRow == row && tile.hasPath(1) && plTile.hasPath(3));
-    Boolean right = (plCol == col - 1 && plRow == row && tile.hasPath(3) && plTile.hasPath(1));
-    Boolean up = (plCol == col && plRow == row - 1 && tile.hasPath(0) && plTile.hasPath(2));
-    Boolean down = (plCol == col && plRow == row + 1 && tile.hasPath(2) && plTile.hasPath(0));
+    /**
+     * Gets the last position of the player.
+     *
+     * @return lastPosition
+     */
+    public int[] getLastPosition() {
+        return lastPosition;
+    }
 
-    return down || up || left || right;
-  }
+    /**
+     * Set the last position of the player.
+     *
+     * @param position Set of the coordinates passed from the board class.
+     */
+    public void setLastPosition(int[] position) {
+        this.lastPosition = position;
+    }
+
+    /**
+     * @return Name of the player.
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * It will count the number of action tiles and its types.
+     *
+     * @return String of the count of action tiles.
+     */
+    public String getNumOfActionTiles() {
+        String result = "";
+        int num = 0;
+        String[] types = actionTiles.keySet().toArray(new String[4]);
+        for (String type : types) {
+            num += actionTiles.get(type);
+            result += type + " " + actionTiles.get(type) + "\n";
+        }
+
+        result = MESSAGE_NUM_OF_TILES + num + "\n" + result;
+        return result;
+    }
+
+    /**
+     * It will move the player on the board.
+     *
+     * @param board Current board that player is stands on.
+     * @param col   Index of the column that player stands on.
+     * @param row   Index of the row that player stands on.
+     */
+    public void move(Board board, int col, int row) {
+        if (hasMove(board) && canMove(board, col, row)) {
+            setLastPosition(new int[]{col, row});
+        }
+    }
+
+    /**
+     * Checks if there is possible move for the current player.
+     *
+     * @param board Current board that player is stands on.
+     * @return True if there is possible move, otherwise false.
+     */
+    public Boolean hasMove(Board board) {
+        int plRow = getLastPosition()[1];
+        int plCol = getLastPosition()[0];
+        boolean left = false;
+        boolean right = false;
+        boolean down = false;
+        boolean up = false;
+
+        FloorTile plTile = board.getTile(plCol, plRow);
+        FloorTile tile;
+
+        if (0 < plCol) {
+            tile = board.getTile(plCol - 1, plRow);
+            left = (tile.hasPath(1) && plTile.hasPath(3) && !tile.isOnFire());
+        }
+
+        if (board.getWidth() - 1 > plCol) {
+            tile = board.getTile(plCol + 1, plRow);
+            right = (tile.hasPath(3) && plTile.hasPath(1) && !tile.isOnFire());
+        }
+
+        if (board.getHeight() - 1 > plRow) {
+            tile = board.getTile(plCol, plRow + 1);
+            down = (tile.hasPath(0) && plTile.hasPath(2) && !tile.isOnFire());
+        }
+
+        if (0 < plRow) {
+            tile = board.getTile(plCol, plRow - 1);
+            up = (tile.hasPath(2) && plTile.hasPath(0) && !tile.isOnFire());
+        }
+
+        return down || up || left || right;
+    }
+
+    /**
+     * Checks if the player can move to the chosen tile.
+     *
+     * @param board Current board that player is stands on.
+     * @param col   Chosen index of column on the board.
+     * @param row   Chosen index of row on the board.
+     * @return True if the player can move to the chosen tile, otherwise false.
+     */
+    public Boolean canMove(Board board, int col, int row) {
+        int plRow = getLastPosition()[1];
+        int plCol = getLastPosition()[0];
+
+        FloorTile tile = board.getTile(col, row);
+        FloorTile plTile = board.getTile(plCol, plRow);
+
+        Boolean left = (plCol == col + 1 && plRow == row && tile.hasPath(1) && plTile.hasPath(3));
+        Boolean right = (plCol == col - 1 && plRow == row && tile.hasPath(3) && plTile.hasPath(1));
+        Boolean up = (plCol == col && plRow == row - 1 && tile.hasPath(0) && plTile.hasPath(2));
+        Boolean down = (plCol == col && plRow == row + 1 && tile.hasPath(2) && plTile.hasPath(0));
+
+        return (down || up || left || right) && !tile.isOnFire();
+    }
 }

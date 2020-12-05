@@ -10,12 +10,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 
-import Frontend.Leaderboard;
-
 public class MenuController {
+    private static final String GAME_CONTROLLER_FXML = "Game.fxml";
+    private static final String NOT_FOUND = "Message of the day is not found.";
 
     @FXML
     private Label message;
@@ -23,8 +22,16 @@ public class MenuController {
     private BorderPane pane;
 
 
+    public void initialize() throws IOException, InterruptedException {
+        try {
+            message.setText(MOTD.getMotd().split("\\(")[0]);
+        } catch (Exception e) {
+            message.setText(NOT_FOUND);
+        }
+    }
+
     public void gameBtn(ActionEvent event) throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("Game.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource(GAME_CONTROLLER_FXML));
         Parent root = load.load();
         Scene newScene = new Scene(root);
         Stage stage = (Stage) pane.getScene().getWindow();
@@ -33,12 +40,12 @@ public class MenuController {
         stage.show();
     }
 
-    public void leaderboardBtn(ActionEvent event){
+    public void leaderboardBtn(ActionEvent event) {
         Leaderboard leaderBoard = new Leaderboard();
         leaderBoard.display();
     }
 
-    public void exitGame(ActionEvent event){
+    public void exitGame(ActionEvent event) {
         Platform.exit();
     }
 }

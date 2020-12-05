@@ -18,7 +18,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveGame" text="Save" />
                         <MenuItem mnemonicParsing="false" text="Load" />
                         <MenuItem mnemonicParsing="false" onAction="#exitToMenu" text="Exit" />
             </items>
@@ -37,41 +37,46 @@
       </GridPane>
    </center>
    <left>
-      <AnchorPane prefHeight="597.0" prefWidth="171.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="541.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="playerLab" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="14.0" prefHeight="52.0" prefWidth="145.0" text="Player 1" textAlignment="CENTER" textFill="#0500f5" AnchorPane.bottomAnchor="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="stateLab" alignment="CENTER" layoutX="68.0" layoutY="120.0" text="State of turn" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
+            <Label fx:id="numOfActionTiles" alignment="CENTER" layoutX="67.0" layoutY="372.0" prefHeight="159.0" prefWidth="171.0" text="No. action tiles: 0&#10;Fire 0&#10;Ice 0&#10;DoubleMove 0&#10;BackTrack 0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="372.0">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Label>
-            <AnchorPane fx:id="drawnTile" layoutX="11.0" layoutY="306.0" prefHeight="150.0" prefWidth="150.0" />
+            <Label fx:id="stateLab" alignment="CENTER" layoutX="68.0" layoutY="120.0" text="Draw" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="drawnTile" layoutX="25.0" layoutY="196.0" onMouseClicked="#rotateDrawnTile" prefHeight="150.0" prefWidth="150.0" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="196.0" />
          </children>
       </AnchorPane>
    </left>
    <bottom>
-      <AnchorPane prefHeight="105.0" prefWidth="829.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="120.0" prefWidth="829.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="fireBtn" layoutX="87.0" layoutY="22.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="0.0">
+            <Button fx:id="fireBtn" ellipsisString="0" layoutX="87.0" layoutY="22.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/fire_Card.jpeg'); -fx-background-size: 100% 100%;" text="Fire" textFill="TRANSPARENT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>
             </Button>
-            <Button fx:id="iceBtn" layoutX="287.0" layoutY="31.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="0.0">
+            <Button fx:id="iceBtn" layoutX="287.0" layoutY="31.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/ice_Card.jpeg'); -fx-background-size: 100% 100%;" text="Ice" textFill="TRANSPARENT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>
             </Button>
-            <Button fx:id="doubleMoveBtn" layoutX="505.0" layoutY="47.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="0.0">
+            <Button fx:id="doubleBtn" layoutX="505.0" layoutY="47.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/double_Card.jpeg'); -fx-background-size: 100% 100%;" text="DoubleMove" textFill="TRANSPARENT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>
             </Button>
-            <Button fx:id="backTrackMove" layoutX="615.0" layoutY="16.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="650.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0">
+            <Button fx:id="backTrackBtn" layoutX="615.0" layoutY="16.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url('Cards/go_Back_Card.jpeg'); -fx-background-size: 100% 100%;" text="BackTrack" textFill="TRANSPARENT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="650.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>

@@ -1,5 +1,3 @@
-
-
 package Frontend;
 
 import Backend.*;
@@ -11,22 +9,41 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.scene.input.MouseEvent;
 
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
+import static Backend.ActionTile.*;
 
 public class GameController {
+    private static final String DATA_PERSISTENCE = "Data.txt";
+    private static final String PLAYER = "Player ";
+    private static final String MESSAGE_WON = " won!";
+    private static final String ERROR_TOO_MANY_PLAYERS = "There are too many players";
+    private static final String ERROR_TILE_NOT_FOUND = "Tile was not found";
+    private static final String MENU_FXML = "Menu.fxml";
+    private static final String FIRE_CORNER_PIC = "tiles/fire_Corner.jpeg";
+    private static final String FIRE_STRAIGHT_PIC = "tiles/fire_Straight.jpeg";
+    private static final String FIRE_T_SHAPE_PIC = "tiles/fire_T_Shape.jpeg";
+    private static final String FIRE_GOAL_PIC = "tiles/fire_goal.png";
+    private static final String ICE_CORNER_PIC = "tiles/ice_Corner.jpeg";
+    private static final String ICE_STRAIGHT_PIC = "tiles/ice_Straight.jpeg";
+    private static final String ICE_T_SHAPE_PIC = "tiles/ice_T_Shape.jpeg";
+    private static final String ICE_GOAL_PIC = "tiles/ice_goal.png";
     private static final String CORNER_PIC = "tiles/road_Corner.jpg";
     private static final String STRAIGHT_PIC = "tiles/road_Straight.jpg";
     private static final String T_SHAPE_PIC = "tiles/road_T_Shape.jpg";
     private static final String GOAL_PIC = "tiles/goal.jpg";
+    private static final String FIRE_TILE = "Cards/fire_Card.jpeg";
+    private static final String ICE_TILE = "Cards/ice_Card.jpeg";
+    private static final String DOUBLE_TILE = "Cards/double_Card.jpeg";
+    private static final String GO_BACK_TILE = "Cards/go_Back_Card.jpeg";
     private static final String PLAYER1 = "src/players/player_1.png";
     private static final String PLAYER2 = "src/players/player_2.png";
     private static final String PLAYER3 = "src/players/player_3.png";
@@ -38,38 +55,36 @@ public class GameController {
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
     private static final int DRAWN_EDGE = 150;
-
-    //Draw, Push, Action, Move
-    private String turn = DRAW;
-    private Board board;
-    private int playerTurn = 0;
-    private FloorTile nextFloorTile = new FloorTile("corner", 0.1, 0);
-
     @FXML
-    private GridPane gp;
+    public BorderPane borderPane;
     @FXML
-    private BorderPane borderPane;
-    @FXML
-    private Label playerLab;
-    @FXML
-    public Label stateLab;
+    public GridPane gp;
     @FXML
     public AnchorPane drawnTile;
+    @FXML
+    public Label stateLab, playerLab, numOfActionTiles;
     @FXML
     public Button fireBtn;
     @FXML
     public Button iceBtn;
     @FXML
-    public Button doubleMoveBtn;
+    public Button doubleBtn;
     @FXML
-    public Button backTrackMove;
-
+    public Button backTrackBtn;
+    private String turn = DRAW; //Draw, Push, Action, Move
+    private Board board;
+    private ArrayList<Profile> profileList;
+    private int playerTurn = 0;
+    private Tile nextTile;
+    private ActionTile actionTile = new ActionTile(BACK_TRACK);
+    private SilkBag silkBag;
 
     public void initialize() throws FileNotFoundException {
         int boardSize = askBoardSize();
         int numOfPlayers = getNumOfPlayers();
 
-        ArrayList<Profile> profileList = new ArrayList<>();
+        /*ArrayList<Profile>*/
+        profileList = new ArrayList<>();
         for (int i = 1; i <= numOfPlayers; i++) {
             String profileName = getPlayerName(i);
             Profile prof = ProfileSave.getProfile(profileName);
@@ -91,11 +106,18 @@ public class GameController {
         setConstrains(width, height);
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
+        setNotClickable();
+        silkBag = new SilkBag();
+        silkBag.fillBag(0,5);
+    }
 
+    public void saveGame() {
+        Save s = new Save();
+        s.newIncrementingFile(this.board, this.profileList);
     }
 
     public void exitToMenu() throws IOException {
-        FXMLLoader load = new FXMLLoader(getClass().getResource("Menu.fxml"));
+        FXMLLoader load = new FXMLLoader(getClass().getResource(MENU_FXML));
         Parent root = load.load();
         Scene newScene = new Scene(root);
         Stage stage = (Stage) borderPane.getScene().getWindow();
@@ -105,25 +127,43 @@ public class GameController {
     }
 
     public void mouseAction(MouseEvent event) throws IOException {
+        Save s = new Save();
+        s.FormatBoard(this.board, this.profileList, DATA_PERSISTENCE);
+
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
 
         Player player = board.getListOfPlayers().get(playerTurn);
 
         if (turn.equals(DRAW)) {
-            actionDraw();
+            actionDraw(player);
             changeTurnState();
         } else if (turn.equals(PUSH) && checkInputPush(col, row)) {
-            board.updateBoard(nextFloorTile,col,row);
+            board.updateBoard((FloorTile) nextTile, col, row);
+            setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
+            setClickable();
+            chooseActionTile(player);
+            nextTile = null;
         } else if (turn.equals(ACTION)) {
+            actionAction((ActionTile) nextTile, player, col, row);
             changeTurnState();
+            setNotClickable();
         } else if ((turn.equals(MOVE) && player.canMove(board, col, row)) || !player.hasMove(board)) {
             actionPlayer(player, col, row);
-            playerLab.setText("Player " + (playerTurn + 1));
+            playerLab.setText(PLAYER + (playerTurn + 1));
         }
+    }
 
-        System.out.println(turn);
+    public void rotateDrawnTile() {
+        if (nextTile instanceof FloorTile) {
+            FloorTile tile = (FloorTile) nextTile;
+            tile.setOrientation();
+            ImageView tileImage = getImageTile(tile);
+            tileImage.setFitHeight(DRAWN_EDGE);
+            tileImage.setFitWidth(DRAWN_EDGE);
+            drawnTile.getChildren().add(tileImage);
+        }
     }
 
     private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
@@ -189,17 +229,41 @@ public class GameController {
         int orientation = tile.getOrientation();
 
         switch (type) {
-            case "corner":
-                pic = new Image(CORNER_PIC);
+            case FloorTile.CORNER:
+                if (tile.isOnFire()) {
+                    pic = new Image(FIRE_CORNER_PIC);
+                } else if (tile.isFrozen()) {
+                    pic = new Image(ICE_CORNER_PIC);
+                } else {
+                    pic = new Image(CORNER_PIC);
+                }
                 break;
-            case "straight":
-                pic = new Image(STRAIGHT_PIC);
+            case FloorTile.STRAIGHT:
+                if (tile.isOnFire()) {
+                    pic = new Image(FIRE_STRAIGHT_PIC);
+                } else if (tile.isFrozen()) {
+                    pic = new Image(ICE_STRAIGHT_PIC);
+                } else {
+                    pic = new Image(STRAIGHT_PIC);
+                }
                 break;
-            case "tShape":
-                pic = new Image(T_SHAPE_PIC);
+            case FloorTile.T_SHAPE:
+                if (tile.isOnFire()) {
+                    pic = new Image(FIRE_T_SHAPE_PIC);
+                } else if (tile.isFrozen()) {
+                    pic = new Image(ICE_T_SHAPE_PIC);
+                } else {
+                    pic = new Image(T_SHAPE_PIC);
+                }
                 break;
-            case "goal":
-                pic = new Image(GOAL_PIC);
+            case FloorTile.GOAL:
+                if (tile.isOnFire()) {
+                    pic = new Image(FIRE_GOAL_PIC);
+                } else if (tile.isFrozen()) {
+                    pic = new Image(ICE_GOAL_PIC);
+                } else {
+                    pic = new Image(GOAL_PIC);
+                }
                 break;
             default:
                 pic = new Image("");
@@ -228,6 +292,31 @@ public class GameController {
         return image;
     }
 
+    private ImageView getImageTile(ActionTile tile) {
+        Image pic;
+
+        switch (tile.getTileType()) {
+            case FIRE:
+                pic = new Image(FIRE_TILE);
+                break;
+            case ICE:
+                pic = new Image(ICE_TILE);
+                break;
+            case DOUBLE_MOVE:
+                pic = new Image(DOUBLE_TILE);
+                break;
+            case BACK_TRACK:
+                pic = new Image(GO_BACK_TILE);
+                break;
+            default:
+                System.out.println(ERROR_TILE_NOT_FOUND);
+                pic = new Image("");
+                break;
+        }
+
+        return new ImageView(pic);
+    }
+
     private ImageView[] getImagesOfPlayers(ArrayList<Player> players) throws FileNotFoundException {
         ImageView[] images = new ImageView[4];
         Image pic;
@@ -252,7 +341,7 @@ public class GameController {
                     pic = new Image(inputstream);
                     break;
                 default:
-                    System.out.println("There are too many players");
+                    System.out.println(ERROR_TOO_MANY_PLAYERS);
                     pic = new Image("");
                     break;
             }
@@ -301,26 +390,103 @@ public class GameController {
         }
     }
 
-    private void actionDraw() {
-        ImageView tile = getImageTile(nextFloorTile);
+    private void actionDraw(Player player) throws FileNotFoundException {
+        ImageView tile;
+
+        for (int i = 0; i < board.getWidth(); i++) {
+            for (int j = 0; j < board.getHeight(); j++) {
+                board.getTile(i, j).changeTime();
+            }
+        }
+
+
+        setBoardWindow(board.getBoard(), board.getListOfPlayers());
+
+        Tile newTile = silkBag.drawTile();
+
+        if (newTile instanceof FloorTile) {
+            this.nextTile = newTile;
+            tile = getImageTile((FloorTile) nextTile);
+        } else {
+            this.nextTile = null;
+            this.actionTile = (ActionTile) newTile;
+            player.addActionTile(actionTile);
+            tile = getImageTile(actionTile);
+            changeTurnState();
+            setClickable();
+            chooseActionTile(player);
+        }
+
         tile.setFitHeight(DRAWN_EDGE);
         tile.setFitWidth(DRAWN_EDGE);
         drawnTile.getChildren().add(tile);
-        /*Tile newTile = SilkBag.generateTile();
-        	if(newTile instanceof FloorTile) {
-        		this.nextFloorTile = newTile;
-        	}else {
-        		player.addActionTile(newTile);
-        	}*/
+        numOfActionTiles.setText(player.getNumOfActionTiles());
+    }
+
+    private void actionAction(ActionTile tile, Player player, int col, int row) throws IOException {
+        try {
+            tile.execute(board, player, col, row);
+            player.useActionTile(tile);
+        } catch (NullPointerException e) {
+            System.out.println(ERROR_TILE_NOT_FOUND);
+        }
+        setBoardWindow(board.getBoard(), board.getListOfPlayers());
+    }
+
+    private void chooseActionTile(Player player){
+        fireBtn.setOnAction(event1 -> {
+            ActionTile tile = new ActionTile(fireBtn.getText());
+            if (player.hasActionTile(tile) && !actionTile.getTileType().equals(tile.getTileType())) {
+                nextTile = new ActionTile(fireBtn.getText());
+            } else {
+                nextTile = null;
+            }
+        });
+        iceBtn.setOnAction(event13 -> {
+            ActionTile tile = new ActionTile(iceBtn.getText());
+            if (player.hasActionTile(tile) && !actionTile.getTileType().equals(tile.getTileType())) {
+                nextTile = new ActionTile(iceBtn.getText());
+            } else {
+                nextTile = null;
+            }
+        });
+        doubleBtn.setOnAction(event12 -> {
+            ActionTile tile = new ActionTile(doubleBtn.getText());
+            if (player.hasActionTile(tile) && !actionTile.getTileType().equals(tile.getTileType())) {
+                nextTile = new ActionTile(doubleBtn.getText());
+            } else {
+                nextTile = null;
+            }
+        });
+        backTrackBtn.setOnAction(event14 -> {
+            ActionTile tile = new ActionTile(backTrackBtn.getText());
+            if (player.hasActionTile(tile) && !actionTile.getTileType().equals(tile.getTileType())) {
+                nextTile = new ActionTile(backTrackBtn.getText());
+            } else {
+                nextTile = null;
+            }
+        });
+    }
+
+    private void setNotClickable(){
+        fireBtn.setDisable(true);
+        iceBtn.setDisable(true);
+        doubleBtn.setDisable(true);
+        backTrackBtn.setDisable(true);
+    }
+
+    private void setClickable(){
+        fireBtn.setDisable(false);
+        iceBtn.setDisable(false);
+        doubleBtn.setDisable(false);
+        backTrackBtn.setDisable(false);
     }
 
     private void actionPlayer(Player player, int col, int row) throws IOException {
-        if (player.hasMove(board)) {
-            player.setLastPosition(new int[]{col, row});
-            setBoardWindow(board.getBoard(), board.getListOfPlayers());
-            endOfGame(col, row);
-        }
-
+        player.move(board, col, row);
+        player.setLastFourPositions();
+        setBoardWindow(board.getBoard(), board.getListOfPlayers());
+        endOfGame(col, row);
         changePlayer();
         changeTurnState();
     }
@@ -328,11 +494,13 @@ public class GameController {
     private Boolean checkInputPush(int col, int row) {
         int width = board.getWidth() - 1;
         int height = board.getHeight() - 1;
+        boolean columns = (col == width && board.isMovable(board.getBoard(), false, row)) ||
+                (col == 0 && board.isMovable(board.getBoard(), false, row));
 
-        Boolean leftTopCheck = (col == 0 || row == 0);
-        Boolean rightBottomCheck = (col == width || row == height);
+        boolean rows = (row == height && board.isMovable(board.getBoard(), true, col)) ||
+                (row == 0 && board.isMovable(board.getBoard(), true, col));
 
-        return leftTopCheck || rightBottomCheck;
+        return columns || rows;
     }
 
     private void changeTurnState() {
@@ -362,17 +530,25 @@ public class GameController {
     }
 
     private void endOfGame(int col, int row) throws IOException {
-        if (board.getTile(col, row).getTileType().equals("goal")) {
+        if (board.getTile(col, row).getTileType().equals(FloorTile.GOAL)) {
             exitToMenu();
             Player player = board.getListOfPlayers().get(playerTurn);
 
             if (player.getName().equals("")) {
-                JOptionPane.showMessageDialog(null, playerLab.getText() + " won!");
+                JOptionPane.showMessageDialog(null, playerLab.getText() + MESSAGE_WON);
             } else {
-                JOptionPane.showMessageDialog(null, player.getName() + " won!");
+                JOptionPane.showMessageDialog(null, player.getName() + MESSAGE_WON);
+            }
+
+            ProfileSave.updateProfile(new Profile(player.getName()), true);
+            for (Player play : board.getListOfPlayers()) {
+                if (!play.getName().equals(player.getName())) {
+                    ProfileSave.updateProfile(new Profile(play.getName()), false);
+                }
             }
 
         }
     }
+
 }
 

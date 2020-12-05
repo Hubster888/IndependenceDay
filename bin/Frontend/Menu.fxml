@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane fx:id="pane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="680.0" style="-fx-background-image: url('america-flag.jpg'); -fx-background-size: 100% 100%;" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Frontend.MenuController">
+<BorderPane fx:id="pane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="693.0" style="-fx-background-image: url('america-flag.jpg'); -fx-background-size: 100% 100%;" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Frontend.MenuController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
@@ -23,8 +22,8 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="189.0" minHeight="10.0" prefHeight="189.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="127.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Button mnemonicParsing="false" onAction="#gameBtn" prefWidth="120.0" text="Start Game" GridPane.rowIndex="1">
@@ -54,19 +53,24 @@
       </GridPane>
    </center>
    <top>
-      <GridPane BorderPane.alignment="CENTER">
+      <GridPane prefHeight="150.0" prefWidth="683.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="message" alignment="CENTER" prefHeight="30.0" prefWidth="692.0" style="-fx-background-color: white;" text="Message of the day" GridPane.columnSpan="2" GridPane.rowIndex="1">
+            <Label fx:id="message" alignment="CENTER" prefHeight="160.0" prefWidth="377.0" style="-fx-background-color: white;" text="Message of the day" textAlignment="CENTER" textFill="#101110" wrapText="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowSpan="4">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="Freestyle Script" size="29.0" />
                </font>
                <GridPane.margin>
                   <Insets />
