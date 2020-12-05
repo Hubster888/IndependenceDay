@@ -66,8 +66,8 @@ public class Board {
         for (int i = playerNo + 2; i < game.size(); i++) {
             // Create the tile with type and orientation.
             FloorTile tempTile = new FloorTile(
-                game.get(i).get(2), Integer.parseInt(game.get(i).get(7)),
-                Boolean.valueOf(game.get(i).get(8))
+                game.get(i).get(2), Integer.parseInt(game.get(i).get(5)),
+                Boolean.valueOf(game.get(i).get(6))
                 );
             
             // Check if action tile has been used.
