@@ -113,6 +113,7 @@ public class GameController {
         Scene newScene = new Scene(root);
         Stage stage = (Stage) borderPane.getScene().getWindow();
 
+        Save.DeleteFile(Save.DATA_PERSISTENCE);
         stage.setScene(newScene);
         stage.show();
     }
@@ -558,8 +559,6 @@ public class GameController {
             } else {
                 JOptionPane.showMessageDialog(null, player.getName() + MESSAGE_WON);
             }
-
-            Save.DeleteFile(Save.DATA_PERSISTENCE);
 
             ProfileSave.updateProfile(new Profile(player.getName()), true);
             for (Player play : board.getListOfPlayers()) {
