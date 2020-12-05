@@ -12,6 +12,8 @@ import java.util.LinkedList;
  * @version 1.0
  */
 public class SilkBag {
+    private int actionNo = 0;
+    private int floorNo = 0;
 
     private LinkedList<Tile> tiles = new LinkedList<Tile>(); //Linked list holding the tiles
 
@@ -19,9 +21,25 @@ public class SilkBag {
      * default constructor for SilkBag
      */
 
-    public SilkBag() {
+    public SilkBag(int actionNO, int floorNo) {
+        this.actionNo = actionNo;
+        this.floorNo = floorNo;
     }
     
+    /**
+     * @return Number of action tiles in the silk bag.
+     */
+    public int getActionNo() {
+        return this.actionNo;
+    }
+
+    /**
+     * @return Number of action tiles in the silk bag.
+     */
+    public int getFloorNo() {
+        return this.floorNo;
+    }
+
     /**
      * The method GenerateFloorTiles is responsible for constructing FloorTiles
      * 

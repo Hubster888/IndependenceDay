@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Save {
-    public static final String DATA_PERSISTENCE = "Data.txt";
+    public static final String DATA_PERSISTENCE = "Data";
     private static final String FILE_DELIM = ",";
     private static final String FILE_EXT = ".txt";
     private static final String NEW_LINE = "\n";
@@ -17,10 +17,10 @@ public class Save {
 
     /**
      * Saves the game data to an incremented file.
-     *
+     * @param silkbag The silkbag to save.
      * @param board The board to save.
      */
-    public static void newIncrementingFile(Board board) {
+    public static void newIncrementingFile(Board board, SilkBag silkBag) {
         int fileNumber = 0;
 
         try {
@@ -31,7 +31,7 @@ public class Save {
                 newFile = new File(FILE_DIR + fileNumber + FILE_EXT);
             }
 
-            FormatBoard(board, board.getListOfPlayers(),
+            formatBoard(board, silkBag, board.getListOfPlayers(),
                     FILE_DIR + fileNumber + FILE_EXT);
         } catch (Exception e) {
             System.err.println(e);
@@ -42,14 +42,17 @@ public class Save {
      * Turns the board into a savable format.
      *
      * @param board     The board to save.
+     * @param silkBag The silkbag of the game.
      * @param arrayList The profiles playing on the board to save.
      * @param fileName  The file name of the board.
      */
-    public static void FormatBoard(Board board, ArrayList<Player> arrayList, String fileName) {
+    public static void formatBoard(Board board, SilkBag silkBag, ArrayList<Player> arrayList,
+        String fileName) {
         ArrayList<String> BoardAList = new ArrayList<String>();
         FloorTile[][] T = board.getBoard();
         ArrayList<Player> Players = board.getListOfPlayers();
         BoardAList.add(T.length + FILE_DELIM + T[0].length);
+        BoardAList.add(silkBag.getActionNo() + FILE_DELIM + silkBag.getFloorNo());
 
         BoardAList.add(Integer.toString(arrayList.size()));
         for (int i = 0; i < Players.size(); i++) {
@@ -62,8 +65,9 @@ public class Save {
         for (int y = 0; y < T[0].length; y++) {
             for (int x = 0; x < T.length; x++) {
                 BoardAList.add(x + FILE_DELIM + y + FILE_DELIM +
-                        T[x][y].getTileType() + FILE_DELIM + T[x][y].isOnFire() + FILE_DELIM +
-                        T[x][y].isFrozen() + FILE_DELIM + T[x][y].getOrientation() + FILE_DELIM +
+                        T[x][y].getTileType() + FILE_DELIM + T[x][y].isOnFire() 
+                        + FILE_DELIM + T[x][y].isFrozen() + FILE_DELIM +
+                        T[x][y].getOrientation() + FILE_DELIM +
                         T[x][y].getTimer() + FILE_DELIM + T[x][y].isFixed());
             }
         }
@@ -73,7 +77,8 @@ public class Save {
 
     /**
      * Writes the given data to the save file.
-     *
+     * Will save to data persistence file or incremented file depending on how
+     * its called.
      * @param aList      The list of data.
      * @param namingFile The name of the file to write to.
      */
@@ -98,21 +103,15 @@ public class Save {
 
     /**
      * Gets the board data in file to be used when instantiating a board.
-     *
      * @param fileName Name of the save file.
      * @return The board data.
      */
     public static ArrayList<ArrayList<String>> getBoardData(String fileName) {
         ArrayList<String> contents = new ArrayList<String>();
         ArrayList<ArrayList<String>> boardDetails = new ArrayList<ArrayList<String>>();
-        File dataPersistence = new File(DATA_PERSISTENCE);
         File specifiedFile;
-        if (dataPersistence.exists()) {
-            specifiedFile = dataPersistence;
-        } else {
-            specifiedFile = new File(FILE_DIR + fileName + FILE_EXT);
-        }
-
+        
+        specifiedFile = new File(FILE_DIR + fileName + FILE_EXT);
 
         try (Scanner myReader = new Scanner(specifiedFile)) {
             while (myReader.hasNextLine()) {
@@ -126,9 +125,11 @@ public class Save {
 
         for (String line : contents) {
             ArrayList<String> t = new ArrayList<String>();
-            for (String detail : line.split(FILE_DELIM))
+            for (String detail : line.split(FILE_DELIM)){
                 t.add(detail);
+            }
             boardDetails.add(t);
+            
         }
 
         return boardDetails;
@@ -141,11 +142,21 @@ public class Save {
     }
 
 
+    /*
+    public static void maidn(String[] args) { 
+        ArrayList<Profile> profs = new ArrayList<Profile>();
+        profs.add(new Profile("Robbie"));
 
+        SilkBag silkbag = new SilkBag(5, 2);
+        Board board = new Board(1, profs);
+        board.getListOfPlayers().get(0).setLastPosition(new int[]{3, 2});
+        newIncrementingFile(board, silkbag);
+    }*/
+    
 
-/*
+    /*
     public static void main(String[] args) {
-        Board board = new Board(getBoardData("3"));
+        Board board = new Board(getBoardData("1"));
 
         // Test Player has been loaded in properly.
         System.out.println(board.getListOfPlayers().get(0).getName());
@@ -173,5 +184,4 @@ public class Save {
                 System.out.println();
         }
     }*/
-
 }

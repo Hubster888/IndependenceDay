@@ -98,6 +98,7 @@ public class GameController {
         } else {
             board = new Board(Save.getBoardData(Save.DATA_PERSISTENCE));
         }
+
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
@@ -113,12 +114,11 @@ public class GameController {
 
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
         setNotClickable();
-        silkBag = new SilkBag();
-        silkBag.fillBag(1, 5);
+        silkBag = new SilkBag(board.getSilkActions(), board.getSilkFloors());
     }
 
     public void saveGame() {
-        Save.newIncrementingFile(this.board);
+        Save.newIncrementingFile(this.board, this.silkBag);
     }
 
     public void exitToMenu() throws IOException {
@@ -132,7 +132,7 @@ public class GameController {
     }
 
     public void mouseAction(MouseEvent event) throws IOException {
-        Save.FormatBoard(this.board, this.board.getListOfPlayers(), Save.DATA_PERSISTENCE);
+        Save.FormatBoard(this.board, this.silkBag, this.board.getListOfPlayers(), Save.DATA_PERSISTENCE);
 
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;

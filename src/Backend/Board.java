@@ -20,26 +20,28 @@ public class Board {
     private static final String GOAL_TILE = "goal";
     private static final String FILE_DELIM = ",";
     private static final String NO_PLAYER_ERROR =
-            "Something is wrong, no players";
+        "Something is wrong, no players";
     private static final String FILE_EXT = ".txt";
 
     private int boardWidth;
     private int boardHeight;
     private ArrayList<Player> listOfPlayers = new ArrayList<Player>();
     private FloorTile[][] board;
-    private String noOfFloors;
-    private String noOfActions;
+    private int noOfFloors;
+    private int noOfActions;
+    private int silkActions;
+    private int silkFloors;
 
 
     /**
      * Creates a board instance from given details.
      *
      * @param levelNo        Level number to load.
-     * @param listOfProfiles List of profiles playing the game.
+     * @param profs List of profiles playing the game.
      */
-    public Board(int levelNo, ArrayList<Profile> listOfProfiles) {
+    public Board(int levelNo, ArrayList<Profile> profs) {
         ArrayList<String> level = this.getlevel(levelNo);
-        this.setUpLevel(level, listOfProfiles);
+        this.setUpLevel(level, profs);
     }
 
     /**
@@ -52,10 +54,13 @@ public class Board {
         this.boardHeight = Integer.parseInt(game.get(0).get(1));
         this.board = new FloorTile[boardWidth][boardHeight];
 
-        int playerNo = Integer.parseInt(game.get(1).get(0));
+        silkActions = Integer.parseInt(game.get(1).get(0));
+        silkFloors = Integer.parseInt(game.get(1).get(1));
+
+        int playerNo = Integer.parseInt(game.get(2).get(0));
 
         // Set up the players.
-        for (int i = 2; i <= playerNo + 1; i++) {
+        for (int i = 3; i <= playerNo + 2; i++) {
             this.listOfPlayers.add(new Player(
                 game.get(i).get(0),
                 new int[]{Integer.parseInt(game.get(i).get(1)),
@@ -63,7 +68,7 @@ public class Board {
         }
 
 
-        for (int i = playerNo + 2; i < game.size(); i++) {
+        for (int i = playerNo + 3; i < game.size(); i++) {
             // Create the tile with type and orientation.
             FloorTile tempTile = new FloorTile(
                 game.get(i).get(2), Integer.parseInt(game.get(i).get(5)),
@@ -87,6 +92,14 @@ public class Board {
         }
     }
 
+
+    public int getSilkFloors() {
+        return this.silkFloors;
+    }
+
+    public int getSilkActions() {
+        return this.silkActions;
+    }
 
     public FloorTile getTile(int x, int y) {
         return this.board[x][y];
@@ -241,8 +254,8 @@ public class Board {
 
         // Third line gives the number of floor and action tiles to go ito the
         // silk bag.
-        this.noOfFloors = levelDetails.get(2).get(0);
-        this.noOfActions = levelDetails.get(2).get(0);
+        this.noOfFloors = Integer.parseInt(levelDetails.get(2).get(0));
+        this.noOfActions = Integer.parseInt(levelDetails.get(2).get(1));
 
         // Lines 4-7 give player starting positions.
         int[][] spawns = new int[4][2];
