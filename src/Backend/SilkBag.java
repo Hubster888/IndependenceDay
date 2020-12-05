@@ -1,8 +1,8 @@
 package Backend;
 
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 
 /**
@@ -22,9 +22,9 @@ public class SilkBag {
     public SilkBag() {
     }
 
-    private void generateFloorTiles(String tileType, int orientationNo) {
+    private void generateFloorTiles(String tileType) {
 
-        FloorTile floorTile = new FloorTile(tileType, orientationNo);
+        FloorTile floorTile = new FloorTile(tileType, 0);
         tiles.add(floorTile);
 
     }
@@ -42,31 +42,31 @@ public class SilkBag {
     public void fillBag(int noFloorTiles, int noActionTiles) {
 
         ArrayList<String> tileType = new ArrayList<String>(); //ArrayList holding the types of tiles
-        tileType.add("corner");
-        tileType.add("tShape");
-        tileType.add("straight");
+        tileType.add(FloorTile.CORNER);
+        tileType.add(FloorTile.T_SHAPE);
+        tileType.add(FloorTile.STRAIGHT);
 
         Random randTileType = new Random(); //instance of the imported random class
-        Random randOrientation = new Random(); //instance of the imported random class
 
-        for(int i = 0; i < noFloorTiles+1; i++){
+        if (noFloorTiles == 0) {
+            noFloorTiles = 20;
+        }
+
+        for (int i = 0; i < noFloorTiles; i++) {
             int typeNo = randTileType.nextInt(tileType.size());
             String tileTypeResult = tileType.get(typeNo);
 
-            int maxOrientation = 5;
-            int orientationNo = randOrientation.nextInt(maxOrientation);
-
-            generateFloorTiles(tileTypeResult, orientationNo);
+            generateFloorTiles(tileTypeResult);
         }
 
         ArrayList<String> actionTileType = new ArrayList<String>();
-        actionTileType.add("Fire");
-        actionTileType.add("Ice");
-        actionTileType.add("DoubleMove");
-        actionTileType.add("BackTrack");
+        actionTileType.add(ActionTile.FIRE);
+        actionTileType.add(ActionTile.ICE);
+        actionTileType.add(ActionTile.DOUBLE_MOVE);
+        actionTileType.add(ActionTile.BACK_TRACK);
 
         Random randActionTile = new Random();
-        for(int i = 0; i < noActionTiles+1; i++){
+        for (int i = 0; i < noActionTiles; i++) {
             int actionNo = randActionTile.nextInt(actionTileType.size());
             String tileTypeResult = actionTileType.get(actionNo);
 
@@ -87,7 +87,7 @@ public class SilkBag {
         return (tileDraw);
     }
 
-    public void addTile(String tileType, int orientationNo) {
-        generateFloorTiles(tileType, orientationNo);
+    public void addTile(FloorTile floorTile) {
+        tiles.add(floorTile);
     }
 }
