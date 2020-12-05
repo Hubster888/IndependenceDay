@@ -21,9 +21,7 @@ public class SilkBag {
      * default constructor for SilkBag
      */
 
-    public SilkBag(int actionNO, int floorNo) {
-        this.actionNo = actionNo;
-        this.floorNo = floorNo;
+    public SilkBag() {
     }
     
     /**
