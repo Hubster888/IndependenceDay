@@ -13,7 +13,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Controller of the Menu.fxml. It changes
+ * Controller that controls everything what is on the Menu.fxml scene.
+ *
+ * @author Yan Yan Ji
+ * @version 1.0
  */
 public class MenuController {
     private static final String GAME_CONTROLLER_FXML = "Game.fxml";
@@ -25,6 +28,12 @@ public class MenuController {
     private BorderPane pane;
 
 
+    /**
+     * Initialize everything before the scene is shown.
+     *
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public void initialize() throws IOException, InterruptedException {
         try {
             message.setText(MOTD.getMOTD().split("\\(")[0]);
@@ -33,6 +42,12 @@ public class MenuController {
         }
     }
 
+    /**
+     * Method that start the Game.
+     *
+     * @param event Event from button.
+     * @throws IOException
+     */
     public void gameBtn(ActionEvent event) throws IOException {
         FXMLLoader load = new FXMLLoader(getClass().getResource(GAME_CONTROLLER_FXML));
         Parent root = load.load();
@@ -43,11 +58,21 @@ public class MenuController {
         stage.show();
     }
 
+    /**
+     * Method that shows leaderboard.
+     *
+     * @param event Event from button.
+     */
     public void leaderboardBtn(ActionEvent event) {
         Leaderboard leaderBoard = new Leaderboard();
         leaderBoard.display();
     }
 
+    /**
+     * Method that will close the application.
+     *
+     * @param event Event form button.
+     */
     public void exitGame(ActionEvent event) {
         Platform.exit();
     }
