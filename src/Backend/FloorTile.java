@@ -16,7 +16,7 @@ public class FloorTile extends Tile {
 
     private boolean isFrozen = false;
     private boolean isOnFire = false;
-    private Boolean isFixed = false;
+    private Boolean isFixed;
     private int timer = 0;
 
 
