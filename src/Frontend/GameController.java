@@ -22,6 +22,12 @@ import java.util.ArrayList;
 
 import static Backend.ActionTile.*;
 
+/**
+ * Controller that controls everything what is on the Game.fxml scene.
+ *
+ * @author Yan Yan Ji, Lauren Bagnall, Hubert Rzeminski
+ * @version 1.0
+ */
 public class GameController {
     private static final String SELECT_BOARD = "Select board:";
     private static final String CLICK_BUTTON = "Click a button";
@@ -97,6 +103,11 @@ public class GameController {
     @FXML
     private BorderPane borderPane;
 
+    /**
+     * Initialize everything before the scene is shown.
+     *
+     * @throws FileNotFoundException If the picture file was not found.
+     */
     public void initialize() throws FileNotFoundException {
         loadGame();
         System.out.println(board.getListOfPlayers().size());
@@ -118,11 +129,19 @@ public class GameController {
         silkBag.fillBag(board.getNoOfActions(), board.getNoOfFloors());
     }
 
+    /**
+     * Method that saves the game.
+     */
     public void saveGame() {
         Save.newIncrementingFile(this.board, this.silkBag);
         Save.DeleteFile(Save.DATA_PERSISTENCE);
     }
 
+    /**
+     * Method that will send the user to the menu.
+     *
+     * @throws IOException If the scene was not found.
+     */
     public void exitToMenu() throws IOException {
         FXMLLoader load = new FXMLLoader(getClass().getResource(MENU_FXML));
         Parent root = load.load();
@@ -134,6 +153,13 @@ public class GameController {
         stage.show();
     }
 
+    /**
+     * Method that is responsible for the logic of the game according
+     * to the user behaviour.
+     *
+     * @param event Mouse click.
+     * @throws IOException Incorrect input.
+     */
     public void mouseAction(MouseEvent event) throws IOException {
         Save.formatBoard(this.board, this.board.getListOfPlayers(), Save.DATA_PERSISTENCE);
 
@@ -165,6 +191,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Method that will rotate the floor tile.
+     */
     public void rotateDrawnTile() {
         if (nextTile instanceof FloorTile) {
             FloorTile tile = (FloorTile) nextTile;
@@ -176,6 +205,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Ask the user on which board does he wants to play.
+     *
+     * @return Number of the board.
+     */
     private int askBoard() {
         String[] options = {ONE, TWO, THREE, FOUR, FIVE};
         int choice = JOptionPane.showOptionDialog(null, SELECT_BOARD,
@@ -197,6 +231,13 @@ public class GameController {
         }
     }
 
+    /**
+     * Method that prepares the board on the window.
+     *
+     * @param tiles   Floor tiles from the board.
+     * @param players Players in the game.
+     * @throws FileNotFoundException If the image file was not found.
+     */
     private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
         gp.getChildren().clear();
 
@@ -228,6 +269,12 @@ public class GameController {
         }
     }
 
+    /**
+     * It will set number of row and columns on the board.
+     *
+     * @param width  Width of the board.
+     * @param height Height of the board.
+     */
     private void setConstrains(int width, int height) {
         for (int i = 0; i < width; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
@@ -242,15 +289,23 @@ public class GameController {
         }
     }
 
+    /**
+     * Find the index of a tile on the board.
+     *
+     * @param orgWidth Width of the board.
+     * @param width    Index of the column of the floor tile.
+     * @param height   Index of the row of the floor tile.
+     * @return Index that is used to find the tile on the board.
+     */
     private int getPosOfGridPane(int orgWidth, int width, int height) {
         return (width * orgWidth) + height;
     }
 
     /**
-     * Help method for converting floor tiles to images
+     * Help method for converting floor tiles to images.
      *
-     * @param tile Floor tile
-     * @return ImageView of a floor tile
+     * @param tile Floor tile.
+     * @return ImageView of a floor tile.
      */
     private ImageView getImageTile(FloorTile tile) {
         Image pic;
@@ -323,6 +378,12 @@ public class GameController {
         return image;
     }
 
+    /**
+     * Help method for converting action tiles to images.
+     *
+     * @param tile Action tile.
+     * @return ImageView of a action tile.
+     */
     private ImageView getImageTile(ActionTile tile) {
         Image pic;
 
@@ -348,6 +409,13 @@ public class GameController {
         return new ImageView(pic);
     }
 
+    /**
+     * Help method for converting players to images.
+     *
+     * @param players List of players.
+     * @return Images of the players.
+     * @throws FileNotFoundException If the images file were not found.
+     */
     private ImageView[] getImagesOfPlayers(ArrayList<Player> players) throws FileNotFoundException {
         ImageView[] images = new ImageView[4];
         Image pic;
@@ -383,6 +451,11 @@ public class GameController {
         return images;
     }
 
+    /**
+     * Method that ask user how many players are going to play.
+     *
+     * @return Number of players.
+     */
     private int getNumOfPlayers() {
         String[] options = {TWO_PLAYERS, THREE_PLAYERS, FOUR_PLAYERS};
         int choice = JOptionPane.showOptionDialog(null, SELECT_NUM_PLAYERS,
@@ -400,11 +473,22 @@ public class GameController {
         }
     }
 
+    /**
+     * Method that ask user of a name of the player.
+     *
+     * @param playerNum Which player.
+     * @return Name of the player.
+     */
     private String getPlayerName(int playerNum) {
         return JOptionPane.showInputDialog(WHAT_IS_PLAYER + playerNum + ASK_NAME);
     }
 
-
+    /**
+     * Action made during player drawing from a silk bag.
+     *
+     * @param player Current player.
+     * @throws FileNotFoundException
+     */
     private void actionDraw(Player player) throws FileNotFoundException {
         ImageView tile;
 
@@ -438,6 +522,15 @@ public class GameController {
         numOfActionTiles.setText(player.getNumOfActionTiles());
     }
 
+    /**
+     * Actions that are made during the use of action tiles.
+     *
+     * @param tile   Tile to be used.
+     * @param player Current player.
+     * @param col    Index of the col on the board.
+     * @param row    Index of the row on the board.
+     * @throws IOException
+     */
     private void actionAction(Tile tile, Player player, int col, int row) throws IOException {
         try {
             ActionTile a = (ActionTile) tile;
@@ -449,6 +542,12 @@ public class GameController {
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
     }
 
+    /**
+     * Method that stores buttons' actions which will let
+     * player choose their action tile.
+     *
+     * @param player Current player.
+     */
     private void chooseActionTile(Player player) {
         fireBtn.setOnAction(event1 -> {
             ActionTile tile = new ActionTile(fireBtn.getText());
@@ -484,6 +583,9 @@ public class GameController {
         });
     }
 
+    /**
+     * Disable all the buttons.
+     */
     private void setNotClickable() {
         fireBtn.setDisable(true);
         iceBtn.setDisable(true);
@@ -491,6 +593,9 @@ public class GameController {
         backTrackBtn.setDisable(true);
     }
 
+    /**
+     * Enable all the buttons.
+     */
     private void setClickable() {
         fireBtn.setDisable(false);
         iceBtn.setDisable(false);
@@ -498,6 +603,14 @@ public class GameController {
         backTrackBtn.setDisable(false);
     }
 
+    /**
+     * Actions that are made during the players move.
+     *
+     * @param player Current player.
+     * @param col    Index of col where player moves.
+     * @param row    Index of row where player moves.
+     * @throws IOException
+     */
     private void actionPlayer(Player player, int col, int row) throws IOException {
         player.move(board, col, row);
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
@@ -507,6 +620,13 @@ public class GameController {
         changeTurnState();
     }
 
+    /**
+     * Checks if the player can push the tile from the chosen position.
+     *
+     * @param col Index of the column.
+     * @param row Index of the row.
+     * @return True if it can, false otherwise.
+     */
     private Boolean checkInputPush(int col, int row) {
         int width = board.getWidth() - 1;
         int height = board.getHeight() - 1;
@@ -519,6 +639,9 @@ public class GameController {
         return columns || rows;
     }
 
+    /**
+     * Change the turn state of the current turn.
+     */
     private void changeTurnState() {
         switch (turn) {
             case DRAW:
@@ -540,6 +663,9 @@ public class GameController {
         stateLab.setText(turn);
     }
 
+    /**
+     * Change the current player who has a round.
+     */
     private void changePlayer() {
         if (playerTurn < board.getListOfPlayers().size() - 1) {
             playerTurn++;
@@ -548,6 +674,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Prepare the game board.
+     */
     private void loadGame() {
         File dataPersistence = new File(Save.DATA_PERSISTENCE);
 
@@ -570,6 +699,13 @@ public class GameController {
         }
     }
 
+    /**
+     * End of the game if the player moves to the goal tile.
+     *
+     * @param col Index of column that player moved.
+     * @param row Index of the row that player moved.
+     * @throws IOException
+     */
     private void endOfGame(int col, int row) throws IOException {
         if (board.getTile(col, row).getTileType().equals(FloorTile.GOAL)) {
             exitToMenu();
