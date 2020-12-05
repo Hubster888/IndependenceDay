@@ -30,11 +30,8 @@ public class MenuController {
 
     /**
      * Initialize everything before the scene is shown.
-     *
-     * @throws IOException On input error.
-     * @throws InterruptedException Interrupted connection.
      */
-    public void initialize() throws IOException, InterruptedException {
+    public void initialize() {
         try {
             message.setText(MOTD.getMOTD().split("\\(")[0]);
         } catch (Exception e) {
