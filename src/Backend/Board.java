@@ -55,7 +55,7 @@ public class Board {
         int playerNo = Integer.parseInt(game.get(1).get(0));
 
         // Set up the players.
-        for (int i = 2; i == playerNo + 1; i++) {
+        for (int i = 2; i <= playerNo + 1; i++) {
             this.listOfPlayers.add(new Player(
                 game.get(i).get(0),
                 new int[]{Integer.parseInt(game.get(i).get(1)),
@@ -67,13 +67,13 @@ public class Board {
             // Create the tile with type and orientation.
             FloorTile tempTile = new FloorTile(
                 game.get(i).get(2), Integer.parseInt(game.get(i).get(5)),
-                Boolean.valueOf(game.get(i).get(6))
+                Boolean.valueOf(game.get(i).get(7))
                 );
             
             // Check if action tile has been used.
             if (game.get(i).get(3) == "true") {
                 tempTile.setOnFire(true);
-                tempTile.setTimer(Integer.parseInt(game.get(i).get(5)));
+                tempTile.setTimer(Integer.parseInt(game.get(i).get(6)));
             } else if (game.get(i).get(4) == "true") {
                 tempTile.setFrozen(true);
                 tempTile.setTimer(Integer.parseInt(game.get(i).get(6)));

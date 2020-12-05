@@ -147,7 +147,7 @@ public class GameController {
             silkBag.addTile(tile);
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
-            nextTile = null;
+            nextTile = new ActionTile("");
         } else if (turn.equals(CHOOSE)){
             setClickable();
             chooseActionTile(player);

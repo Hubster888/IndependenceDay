@@ -1,12 +1,11 @@
 package Backend;
 
-import Frontend.GameController;
-import java.io.*;
-import java.util.Scanner;
-
-import org.w3c.dom.Text;
-
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Save {
     public static final String DATA_PERSISTENCE = "Data.txt";
@@ -18,6 +17,7 @@ public class Save {
 
     /**
      * Saves the game data to an incremented file.
+     *
      * @param board The board to save.
      */
     public static void newIncrementingFile(Board board) {
@@ -32,7 +32,7 @@ public class Save {
             }
 
             FormatBoard(board, board.getListOfPlayers(),
-                FILE_DIR + fileNumber + FILE_EXT);
+                    FILE_DIR + fileNumber + FILE_EXT);
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -40,9 +40,10 @@ public class Save {
 
     /**
      * Turns the board into a savable format.
-     * @param board The board to save.
+     *
+     * @param board     The board to save.
      * @param arrayList The profiles playing on the board to save.
-     * @param fileName The file name of the board.
+     * @param fileName  The file name of the board.
      */
     public static void FormatBoard(Board board, ArrayList<Player> arrayList, String fileName) {
         ArrayList<String> BoardAList = new ArrayList<String>();
@@ -54,16 +55,16 @@ public class Save {
         for (int i = 0; i < Players.size(); i++) {
             int[] lastPosition = Players.get(i).getLastPosition();
             BoardAList.add(Players.get(i).getName() + FILE_DELIM +
-                lastPosition[0] + FILE_DELIM + lastPosition[1]);
+                    lastPosition[0] + FILE_DELIM + lastPosition[1]);
         }
 
 
         for (int y = 0; y < T[0].length; y++) {
             for (int x = 0; x < T.length; x++) {
                 BoardAList.add(x + FILE_DELIM + y + FILE_DELIM +
-                    T[x][y].getTileType() + FILE_DELIM + T[x][y].isOnFire() +
-                    FILE_DELIM + T[x][y].isFrozen() + FILE_DELIM +
-                    T[x][y].getTimer() + FILE_DELIM + T[x][y].isFixed());
+                        T[x][y].getTileType() + FILE_DELIM + T[x][y].isOnFire() + FILE_DELIM +
+                        T[x][y].isFrozen() + FILE_DELIM + T[x][y].getOrientation() + FILE_DELIM +
+                        T[x][y].getTimer() + FILE_DELIM + T[x][y].isFixed());
             }
         }
         WriteToFile(BoardAList, fileName);
@@ -106,7 +107,7 @@ public class Save {
         ArrayList<ArrayList<String>> boardDetails = new ArrayList<ArrayList<String>>();
         File dataPersistence = new File(DATA_PERSISTENCE);
         File specifiedFile;
-        if (dataPersistence.exists()){
+        if (dataPersistence.exists()) {
             specifiedFile = dataPersistence;
         } else {
             specifiedFile = new File(FILE_DIR + fileName + FILE_EXT);
@@ -134,7 +135,7 @@ public class Save {
 
     }
 
-    public static void DeleteFile(String fileName){
+    public static void DeleteFile(String fileName) {
         File f = new File(fileName);
         f.delete();
     }
