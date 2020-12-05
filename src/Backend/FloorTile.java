@@ -23,6 +23,12 @@ public class FloorTile extends Tile {
     private int orientation;
     private int[] paths; //top 0, right 1, bottom 2, left 3
 
+    /**
+     * Constructor of a floor tile.
+     *
+     * @param type        Type of the floor tile.
+     * @param orientation Orientation of the tile.
+     */
     public FloorTile(String type, int orientation) {
         super(type);
         this.orientation = orientation;
@@ -31,11 +37,11 @@ public class FloorTile extends Tile {
     }
 
     /**
-     * Constructor
+     * Constructor of a fixed floor tile.
      *
-     * @param type              default FloorTile
-     * @param orientation       of a Tile
-     * @param isFixed
+     * @param type        Type of the floor tile.
+     * @param orientation Orientation of the tile.
+     * @param isFixed     True if the floor tile is fixed.
      */
     public FloorTile(String type, int orientation, boolean isFixed) {
         super(type);
@@ -45,29 +51,40 @@ public class FloorTile extends Tile {
     }
 
     /**
-     * This method should draw the floor tile. Inherited from Tile.java.
-     * Method that will count, how long the tile
-     * will be frozen or on fire.
+     * Method that countdown the time of a effect
+     * on the floor tile.
      */
     public void changeTime() {
-        if (timer == 0){
+        if (timer == 0) {
             setOnFire(false);
         } else {
             this.timer -= 1;
         }
     }
 
-    public int getTimer(){
+    /**
+     * Get the time of the countdown.
+     *
+     * @return Timer.
+     */
+    public int getTimer() {
         return timer;
     }
+
+    /**
+     * Set the timer for countdown.
+     *
+     * @param time Time of the countdown.
+     */
     public void setTimer(int time) {
         timer = time;
     }
 
 
-
     /**
-     * @return orientation of the floor Tile
+     * Get orientation of the floor tile.
+     *
+     * @return Orientation.
      */
     public int getOrientation() {
         return orientation;
@@ -82,6 +99,8 @@ public class FloorTile extends Tile {
 
 
     /**
+     * Check if the floor tile is frozen.
+     *
      * @return True if floor tile is frozen.
      */
     public boolean isFrozen() {
@@ -89,6 +108,8 @@ public class FloorTile extends Tile {
     }
 
     /**
+     * Set the floor tile frozen.
+     *
      * @param frozen Set True if the tile is frozen.
      */
     public void setFrozen(boolean frozen) {
@@ -96,8 +117,9 @@ public class FloorTile extends Tile {
     }
 
 
-
     /**
+     * Check if the floor tile is on fire.
+     *
      * @return True if the tile is on fire.
      */
     public boolean isOnFire() {
@@ -105,24 +127,44 @@ public class FloorTile extends Tile {
     }
 
     /**
+     * Set the floor tile on fire.
+     *
      * @param onFire Set True if the tile is on fire.
      */
     public void setOnFire(boolean onFire) {
         isOnFire = onFire;
     }
 
+    /**
+     * Checks if the floor tile is fixed.
+     *
+     * @return True if the tile is fixed, false if not.
+     */
+    public boolean isFixed() {
+        return this.isFixed;
+    }
 
-
+    /**
+     * It check if the floor tile has a path.
+     *
+     * @param direction Direction to be checked.
+     * @return True if there is a path.
+     */
     public boolean hasPath(int direction) {
         boolean result = false;
-        for (int i:this.paths){
-            if (rotate(i) == direction){
+        for (int i : this.paths) {
+            if (rotate(i) == direction) {
                 result = true;
             }
         }
         return result;
     }
 
+    /**
+     * Set the paths on the tile according to its type.
+     *
+     * @param type Type of the floor tile.
+     */
     private void setPaths(String type) {
         switch (type) {
             case CORNER:
@@ -153,11 +195,4 @@ public class FloorTile extends Tile {
         return (direction + orientation) % 4;
     }
 
-
-    /**
-     * @return True if the tile is fixed, false if not.
-     */
-	public boolean isFixed() {
-		return this.isFixed;
-	}
 }
