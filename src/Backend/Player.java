@@ -236,6 +236,14 @@ public class Player {
         return (down || up || left || right) && !tile.isOnFire() && !hasAnotherPlayer(board, col, row);
     }
 
+    /**
+     * Checks if the chosen floor tile has another player.
+     *
+     * @param board Board of the game.
+     * @param col   Index of column on the board.
+     * @param row   Index of row on the board.
+     * @return True if there is a player, false otherwise.
+     */
     private boolean hasAnotherPlayer(Board board, int col, int row) {
         ArrayList<Player> players = board.getListOfPlayers();
         boolean result = false;
