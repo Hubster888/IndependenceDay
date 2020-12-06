@@ -17,24 +17,25 @@ import java.util.stream.Collectors;
  */
 public class MOTD {
     private static final String POST_API_URL_PUZZLE = "http://cswebcat.swansea.ac.uk/puzzle";
+    private static final String CS_230 = "CS-230";
+    private static final String GET = "GET";
 
     /**
      * Method that retrieves the unsolved puzzle String and solves it by calling other methods.
      *
      * @return Solved the solved puzzle with numChar add the number of characters in the solution added to the end.
      * @throws IOException On input error.
-     * @see IOException
      */
     private static String getPuzzle() throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new
                 URL(POST_API_URL_PUZZLE).openConnection();
-        conn.setRequestMethod("GET");
+        conn.setRequestMethod(GET);
         InputStream inputStream = conn.getInputStream();
         String puzzle = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
                 .lines()
                 .collect(Collectors.joining("\n"));
 
-        String solved = "CS-230" + weirdCaesar(puzzle);
+        String solved = CS_230 + weirdCaesar(puzzle);
         int numCHar = solved.length();
         return solved + numCHar;
     }
@@ -44,13 +45,12 @@ public class MOTD {
      *
      * @return The message of the day.
      * @throws IOException On input error.
-     * @see IOException
      */
-    public static String getMotd() throws IOException {
+    public static String getMOTD() throws IOException {
         final String POST_API_URL_SOlVED = "http://cswebcat.swansea.ac.uk/message?solution=" + getPuzzle();
         HttpURLConnection conn = (HttpURLConnection) new
                 URL(POST_API_URL_SOlVED).openConnection();
-        conn.setRequestMethod("GET");
+        conn.setRequestMethod(GET);
         InputStream inputStream = conn.getInputStream();
 
         return new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
@@ -104,7 +104,7 @@ public class MOTD {
      * Method that merges the two Strings together and removes the duplicate/ excess places in the Strings.
      *
      * @param s1 The first String, to be merged into.
-     * @param s2 The second String, to merge into s1,
+     * @param s2 The second String, to merge into s1.
      * @return The result of merging the two strings.
      */
     private static String merge(String s1, String s2) {

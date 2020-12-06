@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -23,25 +24,22 @@
         </columnConstraints>
         <rowConstraints>
             <RowConstraints maxHeight="189.0" minHeight="10.0" prefHeight="189.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="127.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="189.0" minHeight="10.0" prefHeight="189.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="127.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#gameBtn" prefWidth="120.0" text="Start Game" GridPane.rowIndex="1">
+            <Button mnemonicParsing="false" onAction="#gameBtn" prefWidth="120.0" text="Start Game" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#leaderboardBtn" prefWidth="120.0" text="Leaderboard" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button mnemonicParsing="false" onAction="#leaderboardBtn" prefWidth="120.0" text="Leaderboard" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefWidth="120.0" text="Save" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#exitGame" prefWidth="120.0" text="Exit" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <ChoiceBox fx:id="load" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#exitGame" prefWidth="120.0" text="Exit" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
@@ -53,7 +51,7 @@
       </GridPane>
    </center>
    <top>
-      <GridPane prefHeight="150.0" prefWidth="683.0" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="215.0" prefWidth="683.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -68,7 +66,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="message" alignment="CENTER" prefHeight="160.0" prefWidth="377.0" style="-fx-background-color: white;" text="Message of the day" textAlignment="CENTER" textFill="#101110" wrapText="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowSpan="4">
+            <Label fx:id="message" alignment="CENTER" prefHeight="209.0" prefWidth="377.0" style="-fx-background-color: white;" text="Message of the day" textAlignment="CENTER" textFill="#101110" wrapText="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowSpan="4">
                <font>
                   <Font name="Freestyle Script" size="29.0" />
                </font>

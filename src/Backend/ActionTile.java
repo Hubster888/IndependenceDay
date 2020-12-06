@@ -64,7 +64,7 @@ public class ActionTile extends Tile {
      */
     private void fire(Board board, int col, int row) {
         int[] square = setSquare(board, col, row);
-        int players = board.getListOfPlayers().size() - 1;
+        int players = board.getListOfPlayers().size();
 
         for (int i = square[0]; i <= square[1]; i++) {
             for (int j = square[2]; j <= square[3]; j++) {
@@ -73,7 +73,7 @@ public class ActionTile extends Tile {
                     tile.setFrozen(false);
                 }
                 tile.setOnFire(true);
-                tile.setTimer(players * 2);
+                tile.setTimer(players * 2 - 1);
             }
         }
     }
@@ -170,4 +170,5 @@ public class ActionTile extends Tile {
 
         return new int[]{indexCol, maxIndexCol, indexRow, maxIndexRow};
     }
+    
 }

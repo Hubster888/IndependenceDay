@@ -1,5 +1,6 @@
 package Backend;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static Backend.ActionTile.*;
@@ -49,12 +50,11 @@ public class Player {
             this.lastThreePositions[i] = this.lastThreePositions[i + 1];
         }
         this.lastThreePositions[3] = lastPosition;
-        for (int i = 0; i < 4; i++) {
-        }
-
     }
 
     /**
+     * Get the second last position of the player.
+     *
      * @return Second last position of the player.
      */
     public int[] getLastSecondPosition() {
@@ -62,6 +62,8 @@ public class Player {
     }
 
     /**
+     * Get the second last position of the player.
+     *
      * @return Third last position of the player.
      */
     public int[] getLastThirdPositions() {
@@ -80,9 +82,12 @@ public class Player {
     }
 
     /**
-     * @return Returns an action tile from the queue that is going to be played.
+     * Get the chosen action tile from the player's hand.
+     *
+     * @param tile Chosen tile.
+     * @return Return action tile, otherwise null.
      */
-    public Tile useActionTile(ActionTile tile) {
+    public ActionTile useActionTile(ActionTile tile) {
         String type = tile.getTileType();
         int num = actionTiles.get(type);
         if (num != 0) {
@@ -103,11 +108,7 @@ public class Player {
     public boolean hasActionTile(ActionTile tile) {
         String type = tile.getTileType();
         int num = actionTiles.get(type);
-        if (num != 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return num != 0;
     }
 
     /**
@@ -175,6 +176,8 @@ public class Player {
     public Boolean hasMove(Board board) {
         int plRow = getLastPosition()[1];
         int plCol = getLastPosition()[0];
+
+        boolean hasPlayer;
         boolean left = false;
         boolean right = false;
         boolean down = false;
@@ -184,23 +187,27 @@ public class Player {
         FloorTile tile;
 
         if (0 < plCol) {
+            hasPlayer = hasAnotherPlayer(board, plCol - 1, plRow);
             tile = board.getTile(plCol - 1, plRow);
-            left = (tile.hasPath(1) && plTile.hasPath(3) && !tile.isOnFire());
+            left = (tile.hasPath(1) && plTile.hasPath(3) && !tile.isOnFire() && !hasPlayer);
         }
 
         if (board.getWidth() - 1 > plCol) {
+            hasPlayer = hasAnotherPlayer(board, plCol + 1, plRow);
             tile = board.getTile(plCol + 1, plRow);
-            right = (tile.hasPath(3) && plTile.hasPath(1) && !tile.isOnFire());
+            right = (tile.hasPath(3) && plTile.hasPath(1) && !tile.isOnFire() && !hasPlayer);
         }
 
         if (board.getHeight() - 1 > plRow) {
+            hasPlayer = hasAnotherPlayer(board, plCol, plRow + 1);
             tile = board.getTile(plCol, plRow + 1);
-            down = (tile.hasPath(0) && plTile.hasPath(2) && !tile.isOnFire());
+            down = (tile.hasPath(0) && plTile.hasPath(2) && !tile.isOnFire() && !hasPlayer);
         }
 
         if (0 < plRow) {
+            hasPlayer = hasAnotherPlayer(board, plCol, plRow - 1);
             tile = board.getTile(plCol, plRow - 1);
-            up = (tile.hasPath(2) && plTile.hasPath(0) && !tile.isOnFire());
+            up = (tile.hasPath(2) && plTile.hasPath(0) && !tile.isOnFire() && !hasPlayer);
         }
 
         return down || up || left || right;
@@ -226,6 +233,25 @@ public class Player {
         Boolean up = (plCol == col && plRow == row - 1 && tile.hasPath(0) && plTile.hasPath(2));
         Boolean down = (plCol == col && plRow == row + 1 && tile.hasPath(2) && plTile.hasPath(0));
 
-        return (down || up || left || right) && !tile.isOnFire();
+        return (down || up || left || right) && !tile.isOnFire() && !hasAnotherPlayer(board, col, row);
+    }
+
+    /**
+     * Checks if the chosen floor tile has another player.
+     *
+     * @param board Board of the game.
+     * @param col   Index of column on the board.
+     * @param row   Index of row on the board.
+     * @return True if there is a player, false otherwise.
+     */
+    private boolean hasAnotherPlayer(Board board, int col, int row) {
+        ArrayList<Player> players = board.getListOfPlayers();
+        boolean result = false;
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getLastPosition()[0] == col && players.get(i).getLastPosition()[1] == row) {
+                result = true;
+            }
+        }
+        return result;
     }
 }

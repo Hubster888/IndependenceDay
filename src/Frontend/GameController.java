@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,8 +22,26 @@ import java.util.ArrayList;
 
 import static Backend.ActionTile.*;
 
+/**
+ * Controller that controls everything what is on the Game.fxml scene.
+ *
+ * @author Yan Yan Ji, Lauren Bagnall, Hubert Rzeminski
+ * @version 1.0
+ */
 public class GameController {
-    private static final String DATA_PERSISTENCE = "Data.txt";
+    private static final String SELECT_BOARD = "Select board:";
+    private static final String CLICK_BUTTON = "Click a button";
+    private static final String ONE = "1";
+    private static final String TWO = "2";
+    private static final String THREE = "3";
+    private static final String FOUR = "4";
+    private static final String FIVE = "5";
+    private static final String SELECT_NUM_PLAYERS = "Select number of players:";
+    private static final String TWO_PLAYERS = "2 players";
+    private static final String THREE_PLAYERS = "3 players";
+    private static final String FOUR_PLAYERS = "4 players";
+    private static final String WHAT_IS_PLAYER = "What is player ";
+    private static final String ASK_NAME = " name?";
     private static final String PLAYER = "Player ";
     private static final String MESSAGE_WON = " won!";
     private static final String ERROR_TOO_MANY_PLAYERS = "There are too many players";
@@ -50,19 +69,20 @@ public class GameController {
     private static final String PLAYER4 = "src/players/player_4.png";
     private static final String DRAW = "Draw";
     private static final String PUSH = "Push";
+    private static final String CHOOSE = "Choose";
     private static final String ACTION = "Action";
     private static final String MOVE = "Move";
     private static final int RIGHT_ANGLE = 90;
     private static final int EDGE = 100;
     private static final int DRAWN_EDGE = 150;
     @FXML
-    public BorderPane borderPane;
-    @FXML
-    public GridPane gp;
-    @FXML
     public AnchorPane drawnTile;
     @FXML
-    public Label stateLab, playerLab, numOfActionTiles;
+    public Label stateLab;
+    @FXML
+    public Label playerLab;
+    @FXML
+    public Label numOfActionTiles;
     @FXML
     public Button fireBtn;
     @FXML
@@ -76,22 +96,20 @@ public class GameController {
     private ArrayList<Profile> profileList;
     private int playerTurn = 0;
     private Tile nextTile;
-    private ActionTile actionTile = new ActionTile(BACK_TRACK);
+    private ActionTile actionTile = new ActionTile(ICE);
     private SilkBag silkBag;
+    @FXML
+    private GridPane gp;
+    @FXML
+    private BorderPane borderPane;
 
+    /**
+     * Initialize everything before the scene is shown.
+     *
+     * @throws FileNotFoundException If the picture file was not found.
+     */
     public void initialize() throws FileNotFoundException {
-        int boardSize = askBoardSize();
-        int numOfPlayers = getNumOfPlayers();
-
-        /*ArrayList<Profile>*/
-        profileList = new ArrayList<>();
-        for (int i = 1; i <= numOfPlayers; i++) {
-            String profileName = getPlayerName(i);
-            Profile prof = ProfileSave.getProfile(profileName);
-            profileList.add(prof);
-        }
-
-        board = new Board(boardSize, boardSize, profileList);
+        loadGame();
         System.out.println(board.getListOfPlayers().size());
 
         int width = board.getWidth();
@@ -108,27 +126,42 @@ public class GameController {
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
         setNotClickable();
         silkBag = new SilkBag();
-        silkBag.fillBag(0,5);
+        silkBag.fillBag(board.getNoOfActions(), board.getNoOfFloors());
     }
 
+    /**
+     * Method that saves the game.
+     */
     public void saveGame() {
-        Save s = new Save();
-        s.newIncrementingFile(this.board, this.profileList);
+        Save.newIncrementingFile(this.board, this.silkBag);
+        Save.DeleteFile(Save.DATA_PERSISTENCE);
     }
 
+    /**
+     * Method that will send the user to the menu.
+     *
+     * @throws IOException If the scene was not found.
+     */
     public void exitToMenu() throws IOException {
         FXMLLoader load = new FXMLLoader(getClass().getResource(MENU_FXML));
         Parent root = load.load();
         Scene newScene = new Scene(root);
         Stage stage = (Stage) borderPane.getScene().getWindow();
 
+        Save.DeleteFile(Save.DATA_PERSISTENCE);
         stage.setScene(newScene);
         stage.show();
     }
 
+    /**
+     * Method that is responsible for the logic of the game according
+     * to the user behaviour.
+     *
+     * @param event Mouse click.
+     * @throws IOException Incorrect input.
+     */
     public void mouseAction(MouseEvent event) throws IOException {
-        Save s = new Save();
-        s.FormatBoard(this.board, this.profileList, DATA_PERSISTENCE);
+        Save.formatBoard(this.board, this.board.getListOfPlayers(), Save.DATA_PERSISTENCE);
 
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;
@@ -139,14 +172,17 @@ public class GameController {
             actionDraw(player);
             changeTurnState();
         } else if (turn.equals(PUSH) && checkInputPush(col, row)) {
-            board.updateBoard((FloorTile) nextTile, col, row);
+            FloorTile tile = board.updateBoard((FloorTile) nextTile, col, row);
+            silkBag.addTile(tile);
             setBoardWindow(board.getBoard(), board.getListOfPlayers());
             changeTurnState();
+            nextTile = new ActionTile("");
             setClickable();
             chooseActionTile(player);
-            nextTile = null;
+        } else if (turn.equals(CHOOSE)) {
+            changeTurnState();
         } else if (turn.equals(ACTION)) {
-            actionAction((ActionTile) nextTile, player, col, row);
+            actionAction(nextTile, player, col, row);
             changeTurnState();
             setNotClickable();
         } else if ((turn.equals(MOVE) && player.canMove(board, col, row)) || !player.hasMove(board)) {
@@ -155,6 +191,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Method that will rotate the floor tile.
+     */
     public void rotateDrawnTile() {
         if (nextTile instanceof FloorTile) {
             FloorTile tile = (FloorTile) nextTile;
@@ -166,13 +205,46 @@ public class GameController {
         }
     }
 
+    /**
+     * Ask the user on which board does he wants to play.
+     *
+     * @return Number of the board.
+     */
+    private int askBoard() {
+        String[] options = {ONE, TWO, THREE, FOUR, FIVE};
+        int choice = JOptionPane.showOptionDialog(null, SELECT_BOARD,
+                CLICK_BUTTON,
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        switch (choice) {
+            case 0:
+                return 1;
+            case 1:
+                return 2;
+            case 2:
+                return 3;
+            case 3:
+                return 4;
+            case 4:
+                return 5;
+            default:
+                return 0;
+        }
+    }
+
+    /**
+     * Method that prepares the board on the window.
+     *
+     * @param tiles   Floor tiles from the board.
+     * @param players Players in the game.
+     * @throws FileNotFoundException If the image file was not found.
+     */
     private void setBoardWindow(Tile[][] tiles, ArrayList<Player> players) throws FileNotFoundException {
         gp.getChildren().clear();
 
         int col;
         int row;
-        int width = tiles[0].length;
-        int height = tiles.length;
+        int width = board.getWidth();
+        int height = board.getHeight();
         ImageView[] picOfPlayers = getImagesOfPlayers(players);
         ImageView pic;
         StackPane stackPane;
@@ -197,6 +269,12 @@ public class GameController {
         }
     }
 
+    /**
+     * It will set number of row and columns on the board.
+     *
+     * @param width  Width of the board.
+     * @param height Height of the board.
+     */
     private void setConstrains(int width, int height) {
         for (int i = 0; i < width; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
@@ -211,15 +289,23 @@ public class GameController {
         }
     }
 
+    /**
+     * Find the index of a tile on the board.
+     *
+     * @param orgWidth Width of the board.
+     * @param width    Index of the column of the floor tile.
+     * @param height   Index of the row of the floor tile.
+     * @return Index that is used to find the tile on the board.
+     */
     private int getPosOfGridPane(int orgWidth, int width, int height) {
         return (width * orgWidth) + height;
     }
 
     /**
-     * Help method for converting floor tiles to images
+     * Help method for converting floor tiles to images.
      *
-     * @param tile Floor tile
-     * @return ImageView of a floor tile
+     * @param tile Floor tile.
+     * @return ImageView of a floor tile.
      */
     private ImageView getImageTile(FloorTile tile) {
         Image pic;
@@ -292,6 +378,12 @@ public class GameController {
         return image;
     }
 
+    /**
+     * Help method for converting action tiles to images.
+     *
+     * @param tile Action tile.
+     * @return ImageView of a action tile.
+     */
     private ImageView getImageTile(ActionTile tile) {
         Image pic;
 
@@ -317,6 +409,13 @@ public class GameController {
         return new ImageView(pic);
     }
 
+    /**
+     * Help method for converting players to images.
+     *
+     * @param players List of players.
+     * @return Images of the players.
+     * @throws FileNotFoundException If the images file were not found.
+     */
     private ImageView[] getImagesOfPlayers(ArrayList<Player> players) throws FileNotFoundException {
         ImageView[] images = new ImageView[4];
         Image pic;
@@ -352,10 +451,15 @@ public class GameController {
         return images;
     }
 
+    /**
+     * Method that ask user how many players are going to play.
+     *
+     * @return Number of players.
+     */
     private int getNumOfPlayers() {
-        String[] options = {"2 Players", "3 Players", "4 Players"};
-        int choice = JOptionPane.showOptionDialog(null, "Select number of players:",
-                "Click a button",
+        String[] options = {TWO_PLAYERS, THREE_PLAYERS, FOUR_PLAYERS};
+        int choice = JOptionPane.showOptionDialog(null, SELECT_NUM_PLAYERS,
+                CLICK_BUTTON,
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         switch (choice) {
             case 0:
@@ -365,31 +469,26 @@ public class GameController {
             case 2:
                 return 4;
             default:
-                return 0;
+                return 4;
         }
     }
 
+    /**
+     * Method that ask user of a name of the player.
+     *
+     * @param playerNum Which player.
+     * @return Name of the player.
+     */
     private String getPlayerName(int playerNum) {
-        return JOptionPane.showInputDialog("What is player " + playerNum + " name?");
+        return JOptionPane.showInputDialog(WHAT_IS_PLAYER + playerNum + ASK_NAME);
     }
 
-    private int askBoardSize() {
-        String[] options = {"6x6", "8x8", "10x10"};
-        int choice = JOptionPane.showOptionDialog(null, "Select board size:",
-                "Click a button",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-        switch (choice) {
-            case 0:
-                return 6;
-            case 1:
-                return 8;
-            case 2:
-                return 10;
-            default:
-                return 0;
-        }
-    }
-
+    /**
+     * Action made during player drawing from a silk bag.
+     *
+     * @param player Current player.
+     * @throws FileNotFoundException
+     */
     private void actionDraw(Player player) throws FileNotFoundException {
         ImageView tile;
 
@@ -423,17 +522,33 @@ public class GameController {
         numOfActionTiles.setText(player.getNumOfActionTiles());
     }
 
-    private void actionAction(ActionTile tile, Player player, int col, int row) throws IOException {
+    /**
+     * Actions that are made during the use of action tiles.
+     *
+     * @param tile   Tile to be used.
+     * @param player Current player.
+     * @param col    Index of the col on the board.
+     * @param row    Index of the row on the board.
+     * @throws IOException
+     */
+    private void actionAction(Tile tile, Player player, int col, int row) throws IOException {
         try {
-            tile.execute(board, player, col, row);
-            player.useActionTile(tile);
-        } catch (NullPointerException e) {
+            ActionTile a = (ActionTile) tile;
+            a.execute(board, player, col, row);
+            player.useActionTile(a);
+        } catch (Exception e) {
             System.out.println(ERROR_TILE_NOT_FOUND);
         }
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
     }
 
-    private void chooseActionTile(Player player){
+    /**
+     * Method that stores buttons' actions which will let
+     * player choose their action tile.
+     *
+     * @param player Current player.
+     */
+    private void chooseActionTile(Player player) {
         fireBtn.setOnAction(event1 -> {
             ActionTile tile = new ActionTile(fireBtn.getText());
             if (player.hasActionTile(tile) && !actionTile.getTileType().equals(tile.getTileType())) {
@@ -468,29 +583,50 @@ public class GameController {
         });
     }
 
-    private void setNotClickable(){
+    /**
+     * Disable all the buttons.
+     */
+    private void setNotClickable() {
         fireBtn.setDisable(true);
         iceBtn.setDisable(true);
         doubleBtn.setDisable(true);
         backTrackBtn.setDisable(true);
     }
 
-    private void setClickable(){
+    /**
+     * Enable all the buttons.
+     */
+    private void setClickable() {
         fireBtn.setDisable(false);
         iceBtn.setDisable(false);
         doubleBtn.setDisable(false);
         backTrackBtn.setDisable(false);
     }
 
+    /**
+     * Actions that are made during the players move.
+     *
+     * @param player Current player.
+     * @param col    Index of col where player moves.
+     * @param row    Index of row where player moves.
+     * @throws IOException
+     */
     private void actionPlayer(Player player, int col, int row) throws IOException {
         player.move(board, col, row);
-        player.setLastFourPositions();
         setBoardWindow(board.getBoard(), board.getListOfPlayers());
+        player.setLastFourPositions();
         endOfGame(col, row);
         changePlayer();
         changeTurnState();
     }
 
+    /**
+     * Checks if the player can push the tile from the chosen position.
+     *
+     * @param col Index of the column.
+     * @param row Index of the row.
+     * @return True if it can, false otherwise.
+     */
     private Boolean checkInputPush(int col, int row) {
         int width = board.getWidth() - 1;
         int height = board.getHeight() - 1;
@@ -503,12 +639,18 @@ public class GameController {
         return columns || rows;
     }
 
+    /**
+     * Change the turn state of the current turn.
+     */
     private void changeTurnState() {
         switch (turn) {
             case DRAW:
                 turn = PUSH;
                 break;
             case PUSH:
+                turn = CHOOSE;
+                break;
+            case CHOOSE:
                 turn = ACTION;
                 break;
             case ACTION:
@@ -521,6 +663,9 @@ public class GameController {
         stateLab.setText(turn);
     }
 
+    /**
+     * Change the current player who has a round.
+     */
     private void changePlayer() {
         if (playerTurn < board.getListOfPlayers().size() - 1) {
             playerTurn++;
@@ -529,6 +674,38 @@ public class GameController {
         }
     }
 
+    /**
+     * Prepare the game board.
+     */
+    private void loadGame() {
+        File dataPersistence = new File(Save.DATA_PERSISTENCE);
+
+        if (dataPersistence.exists()) {
+            board = new Board(Save.getBoardData(Save.DATA_PERSISTENCE));
+        } else if (MenuController.saveGameFile != "") {
+            board = new Board(Save.getBoardData(MenuController.saveGameFile));
+        } else {
+            int boardNum = askBoard();
+            int numOfPlayers = getNumOfPlayers();
+
+            profileList = new ArrayList<>();
+            for (int i = 1; i <= numOfPlayers; i++) {
+                String profileName = getPlayerName(i);
+                Profile prof = ProfileSave.getProfile(profileName);
+                profileList.add(prof);
+            }
+            board = new Board(boardNum, profileList);
+
+        }
+    }
+
+    /**
+     * End of the game if the player moves to the goal tile.
+     *
+     * @param col Index of column that player moved.
+     * @param row Index of the row that player moved.
+     * @throws IOException
+     */
     private void endOfGame(int col, int row) throws IOException {
         if (board.getTile(col, row).getTileType().equals(FloorTile.GOAL)) {
             exitToMenu();
