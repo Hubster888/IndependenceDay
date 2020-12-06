@@ -54,6 +54,7 @@ public class FloorTile extends Tile {
     public void changeTime() {
         if (timer == 0) {
             setOnFire(false);
+            setFrozen(false);
         } else {
             this.timer -= 1;
         }
