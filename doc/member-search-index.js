@@ -1,1 +1,0 @@
-memberSearchIndex = [{"p":"Frontend","c":"Leaderboard","l":"addProfile(Profile)","url":"addProfile(Backend.Profile)"},{"p":"Frontend","c":"Leaderboard","l":"display()"},{"p":"Frontend","c":"Leaderboard","l":"Leaderboard()","url":"%3Cinit%3E()"},{"p":"Frontend","c":"Leaderboard","l":"Leaderboard(ArrayList<Profile>)","url":"%3Cinit%3E(java.util.ArrayList)"}]
