@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  * @version 1.0
  */
 public class ProfileSave {
-    private static final String PROFILE_LIST = "profileList.txt";
-    private static final String TEMP_LIST = "tempList.txt";
+    private static final String PROFILE_LIST = "src/profileList.txt";
+    private static final String TEMP_LIST = "src/tempList.txt";
     private static final String PROFILE_EXISTS = "This profile already exists!";
     private static final String CREATE_FILE = "creating file";
     private static final String COULD_NOT_RENAME = "Could not rename ";

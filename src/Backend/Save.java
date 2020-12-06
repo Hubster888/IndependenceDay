@@ -13,7 +13,7 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class Save {
-    public static final String DATA_PERSISTENCE = "Data";
+    public static final String DATA_PERSISTENCE = "src/Data";
     private static final String FILE_DELIM = ",";
     private static final String FILE_EXT = ".txt";
     private static final String NEW_LINE = "\n";

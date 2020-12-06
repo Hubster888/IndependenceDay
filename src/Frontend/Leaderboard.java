@@ -19,7 +19,7 @@ public class Leaderboard {
     private static final String ERROR = "vv";
     private static final String LEADERBOARD = "Leaderboard";
     private static final String EMPTY_LEADERBOARD = "This leaderboard is empty!";
-    private static final String PROFILE_LIST = "profileList.txt";
+    private static final String PROFILE_LIST = "src/profileList.txt";
     private static final String RANK = "Rank";
     private static final String NAME = "Name";
     private static final String WINS = "Wins";
