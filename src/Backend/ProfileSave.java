@@ -98,7 +98,6 @@ public class ProfileSave {
                 createFile();
                 addProfile(profile);
             }
-
         }
     }
 
@@ -157,7 +156,6 @@ public class ProfileSave {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-
         } else {
             addProfile(profile);
             updateProfile(profile, playerWon);

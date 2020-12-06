@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.IOException;
 
 import Backend.Save;
-import Frontend.GameController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

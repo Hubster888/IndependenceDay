@@ -61,15 +61,12 @@ public class Board {
                     new int[]{Integer.parseInt(game.get(i).get(1)),
                             Integer.parseInt(game.get(i).get(2))}));
         }
-
-
         for (int i = playerNo + 3; i < game.size(); i++) {
             // Create the tile with type and orientation.
             FloorTile tempTile = new FloorTile(
                     game.get(i).get(2), Integer.parseInt(game.get(i).get(5)),
                     Boolean.valueOf(game.get(i).get(7))
             );
-
             // Check if action tile has been used.
             if (game.get(i).get(3) == TRUE) {
                 tempTile.setOnFire(true);
@@ -78,12 +75,9 @@ public class Board {
                 tempTile.setFrozen(true);
                 tempTile.setTimer(Integer.parseInt(game.get(i).get(6)));
             }
-
             // Add the tile to the board.
             board[Integer.parseInt(game.get(i).get(0))]
                     [Integer.parseInt(game.get(i).get(1))] = tempTile;
-
-
         }
     }
 
@@ -202,7 +196,6 @@ public class Board {
                 listOfPlayers.add(new Player(prof.getName(),
                         spawns.get(randPos)));
                 spawns.remove(randPos);
-
             }
         }
     }
@@ -348,7 +341,6 @@ public class Board {
                     shiftPlayer(player, col + move, row);
                 }
             }
-
         }
     }
 
