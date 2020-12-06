@@ -1,5 +1,7 @@
 package Frontend;
 
+import Backend.Leaderboard;
+import Backend.MOTD;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
