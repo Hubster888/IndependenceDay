@@ -40,7 +40,7 @@ public class MenuController {
      */
     public void initialize() {
         try {
-            message.setText(MOTD.getMOTD().split("\\(")[0]);
+            message.setText(MOTD.getMOTD());
         } catch (Exception e) {
             message.setText(NOT_FOUND);
         }
