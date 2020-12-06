@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  */
 public class MOTD {
     private static final String POST_API_URL_PUZZLE = "http://cswebcat.swansea.ac.uk/puzzle";
+    private static final String POST_API_URL_SOLUTION = "http://cswebcat.swansea.ac.uk/message?solution=";
     private static final String CS_230 = "CS-230";
     private static final String GET = "GET";
 
@@ -44,7 +45,7 @@ public class MOTD {
      * @throws IOException On input error.
      */
     public static String getMOTD() throws IOException {
-        final String POST_API_URL_SOlVED = "http://cswebcat.swansea.ac.uk/message?solution=" + getPuzzle();
+        final String POST_API_URL_SOlVED = POST_API_URL_SOLUTION + getPuzzle();
         HttpURLConnection conn = (HttpURLConnection) new
                 URL(POST_API_URL_SOlVED).openConnection();
         conn.setRequestMethod(GET);
