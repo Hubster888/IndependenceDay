@@ -327,6 +327,7 @@ public class Board {
                     shiftPlayer(player, col + move, row);
                 }
             }
+
         }
     }
 
