@@ -121,6 +121,7 @@ public class Player {
     }
 
     /**
+     * Get the name of the player.
      * @return Name of the player.
      */
     public String getName() {
