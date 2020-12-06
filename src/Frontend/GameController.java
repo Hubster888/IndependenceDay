@@ -131,7 +131,7 @@ public class GameController {
      * Method that saves the game.
      */
     public void saveGame() {
-        Save.newIncrementingFile(this.board, this.silkBag);
+        Save.newIncrementingFile(this.board);
         Save.DeleteFile(Save.DATA_PERSISTENCE);
     }
 
@@ -157,7 +157,7 @@ public class GameController {
      * @throws IOException Incorrect input.
      */
     public void mouseAction(MouseEvent event) throws IOException {
-        Save.formatBoard(this.board, this.board.getListOfPlayers(), Save.DATA_PERSISTENCE);
+        Save.formatBoard(this.board, Save.DATA_PERSISTENCE);
 
         int col = (int) event.getX() / EDGE;
         int row = (int) event.getY() / EDGE;

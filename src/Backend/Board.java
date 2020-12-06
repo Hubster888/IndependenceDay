@@ -53,10 +53,19 @@ public class Board {
 
         // Set up the players.
         for (int i = 3; i <= playerNo + 2; i++) {
-            this.listOfPlayers.add(new Player(
-                    game.get(i).get(0),
-                    new int[]{Integer.parseInt(game.get(i).get(1)),
-                            Integer.parseInt(game.get(i).get(2))}));
+            Player player = new Player(
+                game.get(i).get(0),
+                new int[]{Integer.parseInt(game.get(i).get(1)),
+                        Integer.parseInt(game.get(i).get(2))});
+
+            // Set up players hand.
+            for (int j = 3; j <= game.get(i).size() - 2; j += 2) {
+                System.out.println(game.get(i).size() - 3);
+                for (int k = 0; k < Integer.parseInt(game.get(i).get(j + 1)); k++)
+                    player.addActionTile(new ActionTile(game.get(i).get(j)));
+            }
+
+            this.listOfPlayers.add(player);
         }
         for (int i = playerNo + 3; i < game.size(); i++) {
             // Create the tile with type and orientation.
