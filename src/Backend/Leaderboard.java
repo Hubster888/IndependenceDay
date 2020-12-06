@@ -1,8 +1,5 @@
 package Backend;
 
-import Backend.Profile;
-import Backend.ProfileSave;
-
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
