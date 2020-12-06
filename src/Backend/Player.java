@@ -1,6 +1,7 @@
 package Backend;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static Backend.ActionTile.*;
@@ -72,8 +73,14 @@ public class Player {
      */
     public void addActionTile(ActionTile newTile) {
         String type = newTile.getTileType();
-        int num = actionTiles.get(type);
-        actionTiles.replace(type, ++num);
+        
+        if (actionTiles.get(type) != null) {
+            int num = actionTiles.get(type);
+            actionTiles.replace(type, ++num);
+        } else {
+            actionTiles.put(type, 1);
+        }
+        
     }
 
     /**
@@ -143,6 +150,25 @@ public class Player {
 
         result = MESSAGE_NUM_OF_TILES + num + "\n" + result;
         return result;
+    }
+
+    /**
+     * It will count the number of each type of action tile.
+     * @return List containing a list of the type of tile and how many there are.
+     */
+    public ArrayList<ArrayList<String>> getActionTiles() {
+        ArrayList<ArrayList<String>> tiles = new ArrayList<ArrayList<String>>();
+        
+        String[] types = actionTiles.keySet().toArray(new String[4]);
+        
+        for (String type : types) {
+            if (actionTiles.get(type) != 0)
+                tiles.add(new ArrayList<String>(
+                    Arrays.asList(type, Integer.toString(actionTiles.get(type)))
+                    ));
+        }
+
+        return tiles;
     }
 
     /**

@@ -25,7 +25,7 @@ public class Save {
      * @param silkBag The silk bag to save.
      * @param board   The board to save.
      */
-    public static void newIncrementingFile(Board board, SilkBag silkBag) {
+    public static void newIncrementingFile(Board board) {
         int fileNumber = 0;
 
         try {
@@ -36,8 +36,7 @@ public class Save {
                 newFile = new File(FILE_DIR + fileNumber + FILE_EXT);
             }
 
-            formatBoard(board, board.getListOfPlayers(),
-                    FILE_DIR + fileNumber + FILE_EXT);
+            formatBoard(board, FILE_DIR + fileNumber + FILE_EXT);
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -49,20 +48,29 @@ public class Save {
      * @param arrayList The profiles playing on the board to save.
      * @param fileName  The file name of the board.
      */
-    public static void formatBoard(Board board, ArrayList<Player> arrayList,
+    public static void formatBoard(Board board,
                                    String fileName) {
         ArrayList<String> BoardAList = new ArrayList<String>();
         FloorTile[][] T = board.getBoard();
-        ArrayList<Player> Players = board.getListOfPlayers();
+        ArrayList<Player> players = board.getListOfPlayers();
 
         BoardAList.add(T.length + FILE_DELIM + T[0].length);
         BoardAList.add(board.getNoOfActions() + FILE_DELIM + board.getNoOfFloors());
-        BoardAList.add(Integer.toString(arrayList.size()));
+        BoardAList.add(Integer.toString(players.size()));
 
-        for (int i = 0; i < Players.size(); i++) {
-            int[] lastPosition = Players.get(i).getLastPosition();
-            BoardAList.add(Players.get(i).getName() + FILE_DELIM +
-                    lastPosition[0] + FILE_DELIM + lastPosition[1]);
+        for (int i = 0; i < players.size(); i++) {
+            String playerDetails = "";
+            int[] lastPosition = players.get(i).getLastPosition();
+
+            playerDetails = players.get(i).getName() + FILE_DELIM +
+            lastPosition[0] + FILE_DELIM + lastPosition[1];
+            
+            ArrayList<ArrayList<String>> playersHand = players.get(i).getActionTiles();
+
+            for (ArrayList<String> tile : playersHand)
+                playerDetails += FILE_DELIM + tile.get(0) + FILE_DELIM + tile.get(1);
+
+            BoardAList.add(playerDetails);
         }
 
 
