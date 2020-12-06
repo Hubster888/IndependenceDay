@@ -497,7 +497,7 @@ public class GameController {
             this.actionTile = (ActionTile) newTile;
             player.addActionTile(actionTile);
             tile = getImageTile(actionTile);
-            changeTurnState();
+            turn = CHOOSE;
             setClickable();
             chooseActionTile(player);
         }
