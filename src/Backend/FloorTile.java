@@ -2,7 +2,7 @@ package Backend;
 
 /**
  * FloorTile is class that floor tiles. It stores the
- * type and orientation of a floor tile.
+ * type, orientation of a floor tile and if it is fixed, frozen or on fire.
  * @author Yan Yan Ji
  * @version 1.0
  */
