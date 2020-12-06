@@ -16,7 +16,6 @@ import java.io.IOException;
 
 /**
  * Controller that controls everything what is on the Menu.fxml scene.
- *
  * @author Yan Yan Ji
  * @version 1.0
  */
@@ -27,7 +26,7 @@ public class MenuController {
     private static final String NOT_FOUND = "Message of the day is not found.";
     public static String saveGameFile = "";
     @FXML
-    public  ChoiceBox load;
+    public ChoiceBox load;
     @FXML
     private Label message;
     @FXML
@@ -56,12 +55,11 @@ public class MenuController {
 
     /**
      * Method that start the Game.
-     *
      * @param event Event from button.
      * @throws IOException On input error.
      */
     public void gameBtn(ActionEvent event) throws IOException {
-        if (load.getValue() != null){
+        if (load.getValue() != null) {
             saveGameFile = load.getValue().toString();
         }
 
@@ -76,7 +74,6 @@ public class MenuController {
 
     /**
      * Method that shows leaderboard.
-     *
      * @param event Event from button.
      */
     public void leaderboardBtn(ActionEvent event) {
@@ -86,7 +83,6 @@ public class MenuController {
 
     /**
      * Method that will close the application.
-     *
      * @param event Event form button.
      */
     public void exitGame(ActionEvent event) {

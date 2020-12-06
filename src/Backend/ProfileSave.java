@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 /**
  * Class that contains methods needed to save profiles of the players.
- *
  * @author Hubert Rzeminski, Owen Warner, Robbie Southman
  * @version 1.0
  */
@@ -23,16 +22,11 @@ public class ProfileSave {
 
     /**
      * Checks if the file with profiles exists.
-     *
      * @return True if the file exists, false if not.
      */
     private static Boolean fileExists() {
         File file = new File(PROFILE_LIST);
-        if (file.exists()) {
-            return true;
-        } else {
-            return false;
-        }
+        return file.exists();
     }
 
     /**
@@ -49,7 +43,6 @@ public class ProfileSave {
 
     /**
      * Checks if the given profile exists in the file.
-     *
      * @param profile The profile to find.
      * @return True if the given profile exists in the file, false if not.
      */
@@ -70,7 +63,6 @@ public class ProfileSave {
 
     /**
      * Adds a profile to the file.
-     *
      * @param profile The profile to add.
      */
     public static void addProfile(Profile profile) {
@@ -103,7 +95,6 @@ public class ProfileSave {
 
     /**
      * Updates a profile in the file.
-     *
      * @param profile   Profile to update.
      * @param playerWon True if the player has won, false if the player has lost.
      */
@@ -164,7 +155,6 @@ public class ProfileSave {
 
     /**
      * It will search through the given String and find a match from the other String.
-     *
      * @param source  The source string to search through.
      * @param subItem The string to search for.
      * @return True if the source contains the sub item.
@@ -178,7 +168,6 @@ public class ProfileSave {
 
     /**
      * It will return the profile according the name of the given player.
-     *
      * @param profileName The name of the profile.
      * @return The profile.
      */

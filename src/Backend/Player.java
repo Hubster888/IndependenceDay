@@ -9,21 +9,19 @@ import static Backend.ActionTile.*;
 /**
  * Player class represents a player on the board. It stores name and last
  * three positions and the hand of action tiles.
- *
  * @author Yan Yan Ji
  * @version 1.0
  */
 public class Player {
     private static final String MESSAGE_NUM_OF_TILES = "No. action tiles: ";
-    private String name;
+    private final String name;
     private int[] lastPosition = new int[2];
-    private int[][] lastThreePositions = new int[4][2];
-    private HashMap<String, Integer> actionTiles = new HashMap<>();
+    private final int[][] lastThreePositions = new int[4][2];
+    private final HashMap<String, Integer> actionTiles = new HashMap<>();
 
     /**
      * Constructor of Player. It takes name and the last
      * position of a player.
-     *
      * @param name         Name of the player.
      * @param lastPosition Last position of the player.
      */
@@ -54,7 +52,6 @@ public class Player {
 
     /**
      * Get the second last position of the player.
-     *
      * @return Second last position of the player.
      */
     public int[] getLastSecondPosition() {
@@ -63,7 +60,6 @@ public class Player {
 
     /**
      * Get the second last position of the player.
-     *
      * @return Third last position of the player.
      */
     public int[] getLastThirdPositions() {
@@ -72,7 +68,6 @@ public class Player {
 
     /**
      * Add the action tile to the players hand.
-     *
      * @param newTile ActionTile to be put to the players hand.
      */
     public void addActionTile(ActionTile newTile) {
@@ -83,7 +78,6 @@ public class Player {
 
     /**
      * Get the chosen action tile from the player's hand.
-     *
      * @param tile Chosen tile.
      * @return Return action tile, otherwise null.
      */
@@ -101,7 +95,6 @@ public class Player {
     /**
      * Checks if the player has the specified action tile in
      * its hand.
-     *
      * @param tile Action tile that is going to be checked.
      * @return True if the action tile is in the hand, otherwise false.
      */
@@ -113,7 +106,6 @@ public class Player {
 
     /**
      * Gets the last position of the player.
-     *
      * @return lastPosition
      */
     public int[] getLastPosition() {
@@ -122,7 +114,6 @@ public class Player {
 
     /**
      * Set the last position of the player.
-     *
      * @param position Set of the coordinates passed from the board class.
      */
     public void setLastPosition(int[] position) {
@@ -138,7 +129,6 @@ public class Player {
 
     /**
      * It will count the number of action tiles and its types.
-     *
      * @return String of the count of action tiles.
      */
     public String getNumOfActionTiles() {
@@ -156,7 +146,6 @@ public class Player {
 
     /**
      * It will move the player on the board.
-     *
      * @param board Current board that player is stands on.
      * @param col   Index of the column that player stands on.
      * @param row   Index of the row that player stands on.
@@ -169,7 +158,6 @@ public class Player {
 
     /**
      * Checks if there is possible move for the current player.
-     *
      * @param board Current board that player is stands on.
      * @return True if there is possible move, otherwise false.
      */
@@ -215,7 +203,6 @@ public class Player {
 
     /**
      * Checks if the player can move to the chosen tile.
-     *
      * @param board Current board that player is stands on.
      * @param col   Chosen index of column on the board.
      * @param row   Chosen index of row on the board.
@@ -238,7 +225,6 @@ public class Player {
 
     /**
      * Checks if the chosen floor tile has another player.
-     *
      * @param board Board of the game.
      * @param col   Index of column on the board.
      * @param row   Index of row on the board.

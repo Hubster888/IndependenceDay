@@ -6,7 +6,6 @@ import java.util.Arrays;
 /**
  * ActionTile class that represents all the action tiles in the Game.
  * It stores the type of the action tile.
- *
  * @author Yan Yan Ji
  * @version 1.0
  */
@@ -19,7 +18,6 @@ public class ActionTile extends Tile {
 
     /**
      * Constructor of the action tile.
-     *
      * @param type Type of the action tile.
      */
     public ActionTile(String type) {
@@ -29,7 +27,6 @@ public class ActionTile extends Tile {
     /**
      * Method that will execute certain action according to the
      * type of the action tile.
-     *
      * @param board  Current board where the tile is in the game.
      * @param player Chosen player from the game.
      * @param col    Chosen index of the column on the board.
@@ -57,7 +54,6 @@ public class ActionTile extends Tile {
 
     /**
      * Method that will put square 3x3 on fire on the board.
-     *
      * @param board Current board of the game.
      * @param col   Index of the column on the board that is center of the chosen square.
      * @param row   Index of the row on the board that is center of the chosen square.
@@ -80,7 +76,6 @@ public class ActionTile extends Tile {
 
     /**
      * Method that will freeze square 3x3 or smaller on the board.
-     *
      * @param board Current board of the game.
      * @param col   Index of the column on the board that is center of the chosen square.
      * @param row   Index of the row on the board that is center of the chosen square.
@@ -103,7 +98,6 @@ public class ActionTile extends Tile {
 
     /**
      * Method that will give the chosen player an extra move.
-     *
      * @param board  Current board of the game.
      * @param player Player who has a turn.
      * @param col    Index of column on the board of the next move.
@@ -117,7 +111,6 @@ public class ActionTile extends Tile {
      * Method that will put a player on the position on the board from the last
      * second turn. If the last second position is on fire it will check if the
      * last third position, otherwise will do nothing.
-     *
      * @param board Current board of the game.
      * @param col   Index of the column of the chosen player.
      * @param row   Index of the row of the chosen player.
@@ -143,7 +136,6 @@ public class ActionTile extends Tile {
 
     /**
      * It will set square on the board.
-     *
      * @param board Current board of the game.
      * @param col   Index of the column on the board with the center of the square.
      * @param row   Index of the row on the board with the center of the square.
@@ -170,5 +162,5 @@ public class ActionTile extends Tile {
 
         return new int[]{indexCol, maxIndexCol, indexRow, maxIndexRow};
     }
-    
+
 }

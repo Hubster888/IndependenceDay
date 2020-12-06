@@ -7,12 +7,11 @@ import java.util.Random;
 
 /**
  * The Silk Bag class is responsible for holding tiles not on the board or in the Player's hand.
- *
  * @author Mart Krol
  * @version 1.0
  */
 public class SilkBag {
-    private LinkedList<Tile> tiles = new LinkedList<>(); //Linked list holding the tiles
+    private final LinkedList<Tile> tiles = new LinkedList<>(); //Linked list holding the tiles
 
     /**
      * Default constructor for SilkBag.
@@ -22,7 +21,6 @@ public class SilkBag {
 
     /**
      * The method fillBag is responsible for filling the LinkedList that is SilkBag.
-     *
      * @param noFloorTiles  An integer representing the number of FloorTiles that will be generated in the SilkBag.
      * @param noActionTiles An integer representing the number of ActionTiles that will be generated in the SilkBag.
      */
@@ -68,7 +66,6 @@ public class SilkBag {
 
     /**
      * The method addTile is responsible for adding the tiles that are 'pushed' off the board back into the SilkBag.
-     *
      * @param tile Floor tile.
      */
     public void addTile(FloorTile tile) {
@@ -77,7 +74,6 @@ public class SilkBag {
 
     /**
      * The method drawTile is responsible for allowing the player to draw a random tile from the SilkBag.
-     *
      * @return A random tile, being either a FloorTile or ActionTile
      */
     public Tile drawTile() {
@@ -91,7 +87,6 @@ public class SilkBag {
 
     /**
      * The method GenerateFloorTiles is responsible for constructing FloorTiles.
-     *
      * @param tileType      A string referring to the type of FloorTile it will construct.
      * @param orientationNo An integer between 0-3 specifying the orientation of the FloorTile.
      */
@@ -103,7 +98,6 @@ public class SilkBag {
 
     /**
      * The method GenerateActionTiles is responsible for constructing ActionTiles.
-     *
      * @param tileType A string referring to the type of ActionTile it will construct.
      */
     private void generateActionTiles(String tileType) {

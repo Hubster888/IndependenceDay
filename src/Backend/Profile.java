@@ -2,7 +2,6 @@ package Backend;
 
 /**
  * Profile class that represents profiles.
- *
  * @author Hubert Rzeminski
  * @version 1.0
  */
@@ -14,7 +13,6 @@ public class Profile {
 
     /**
      * Creates a profile object from a given name.
-     *
      * @param name Name of the profile.
      */
     public Profile(String name) {
@@ -24,13 +22,11 @@ public class Profile {
 
     /**
      * Creates a profile object from a given name.
-     *
      * @param name   Name of the profile.`
      * @param wins   Number of wins the profile has.
      * @param losses Number of losses the profile has.
      */
     public Profile(String name, int wins, int losses) {
-
         this.name = name;
         this.wins = wins;
         this.losses = losses;
@@ -40,7 +36,6 @@ public class Profile {
      * Default constructor of a profile.
      */
     public Profile() {
-
     }
 
     /**
@@ -59,7 +54,6 @@ public class Profile {
 
     /**
      * Get the name of the profile.
-     *
      * @return Name of the profile.
      */
     public String getName() {
@@ -68,7 +62,6 @@ public class Profile {
 
     /**
      * Set the name of the profile.
-     *
      * @param name Name of the profile
      */
     public void setName(String name) {
@@ -77,7 +70,6 @@ public class Profile {
 
     /**
      * Get the number of wins of the profile.
-     *
      * @return Number of wins.
      */
     public int getWins() {
@@ -86,7 +78,6 @@ public class Profile {
 
     /**
      * Set number of wins to the profile.
-     *
      * @param wins Number of wins.
      */
     public void setWins(int wins) {
@@ -95,7 +86,6 @@ public class Profile {
 
     /**
      * Get the number of losses of the profile.
-     *
      * @return Number of losses.
      */
     public int getLosses() {
@@ -104,11 +94,9 @@ public class Profile {
 
     /**
      * Set the number of losses to the profile.
-     *
      * @param losses Number of losses.
      */
     public void setLosses(int losses) {
-
         this.losses = losses;
     }
 }

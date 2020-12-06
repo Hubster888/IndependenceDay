@@ -12,23 +12,29 @@ import java.util.ArrayList;
 
 /**
  * Leaderboard class that represents the leaderboard.
- *
  * @author Hubert Rzeminski
  * @version 1.0
  */
 public class Leaderboard {
-    private static String LEADERBOARD = "Leaderboard";
-    private static String EMPTY_LEADERBOARD = "This leaderboard is empty!";
-    private static String PROFILE_LIST = "profileList.txt";
-    private static String RANK = "Rank";
-    private static String NAME = "Name";
-    private static String WINS = "Wins";
-    private static String LOSSES = "Losses";
+    private static final String ERROR = "vv";
+    private static final String LEADERBOARD = "Leaderboard";
+    private static final String EMPTY_LEADERBOARD = "This leaderboard is empty!";
+    private static final String PROFILE_LIST = "profileList.txt";
+    private static final String RANK = "Rank";
+    private static final String NAME = "Name";
+    private static final String WINS = "Wins";
+    private static final String LOSSES = "Losses";
+    private static final int NUM_OF_PLAYERS_SHOWN = 9;
+    private static final int WIDTH_BOUND = 200;
+    private static final int HEIGHT_BOUND = 300;
+    private static final int BOUND_X = 30;
+    private static final int BOUND_Y = 40;
+    private static final int WIDTH_OF_WINDOW = 500;
+    private static final int HEIGHT_OF_WINDOW = 200;
     private ArrayList<Profile> profiles = new ArrayList<Profile>();
 
     /**
      * Creates a leader board from a given list of profiles.
-     *
      * @param profiles List of profiles.
      */
     public Leaderboard(ArrayList<Profile> profiles) {
@@ -57,12 +63,13 @@ public class Leaderboard {
             e.printStackTrace();
             ProfileSave.createFile();
         } catch (NullPointerException e1) {
-            System.out.println("vv");
+            System.out.println(ERROR);
         }
     }
 
     /**
-     * @param profile
+     * It will add profile to the leaderboard.
+     * @param profile Profile of player.
      */
     public void addProfile(Profile profile) {
         this.profiles.add(profile);
@@ -80,7 +87,7 @@ public class Leaderboard {
                 profiles.set(i, profiles.get(i + 1));
                 profiles.set(i + 1, t);
 
-                if (i > 9) {
+                if (i > NUM_OF_PLAYERS_SHOWN) {
                     profiles.remove(i);
                 }
             }
@@ -89,7 +96,6 @@ public class Leaderboard {
 
     /**
      * Displays the leader board to the screen.
-     *
      * @throws IOException
      */
     public void display() {
@@ -112,7 +118,7 @@ public class Leaderboard {
                 }
             };
 
-            table.setBounds(30, 40, 200, 300);
+            table.setBounds(BOUND_X, BOUND_Y, WIDTH_BOUND, HEIGHT_BOUND);
 
             JScrollPane sp = new JScrollPane(table);
 
@@ -120,7 +126,7 @@ public class Leaderboard {
             jF.setTitle(LEADERBOARD);
 
             jF.add(sp);
-            jF.setSize(500, 200);
+            jF.setSize(WIDTH_OF_WINDOW, HEIGHT_OF_WINDOW);
             jF.setVisible(true);
         } catch (Exception e) {
             JLabel label = new JLabel();
@@ -128,7 +134,7 @@ public class Leaderboard {
 
             JFrame jF = new JFrame();
             jF.setTitle(LEADERBOARD);
-            jF.setSize(500, 200);
+            jF.setSize(WIDTH_OF_WINDOW, HEIGHT_OF_WINDOW);
             jF.add(label);
             jF.setVisible(true);
         }

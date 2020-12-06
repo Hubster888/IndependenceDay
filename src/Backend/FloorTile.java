@@ -3,7 +3,6 @@ package Backend;
 /**
  * FloorTile is class that floor tiles. It stores the
  * type and orientation of a floor tile.
- *
  * @author Yan Yan Ji
  * @version 1.0
  */
@@ -16,7 +15,7 @@ public class FloorTile extends Tile {
 
     private boolean isFrozen = false;
     private boolean isOnFire = false;
-    private Boolean isFixed;
+    private final Boolean isFixed;
     private int timer = 0;
 
 
@@ -25,7 +24,6 @@ public class FloorTile extends Tile {
 
     /**
      * Constructor of a floor tile.
-     *
      * @param type        Type of the floor tile.
      * @param orientation Orientation of the tile.
      */
@@ -38,7 +36,6 @@ public class FloorTile extends Tile {
 
     /**
      * Constructor of a fixed floor tile.
-     *
      * @param type        Type of the floor tile.
      * @param orientation Orientation of the tile.
      * @param isFixed     True if the floor tile is fixed.
@@ -64,7 +61,6 @@ public class FloorTile extends Tile {
 
     /**
      * Get the time of the countdown.
-     *
      * @return Timer.
      */
     public int getTimer() {
@@ -73,7 +69,6 @@ public class FloorTile extends Tile {
 
     /**
      * Set the timer for countdown.
-     *
      * @param time Time of the countdown.
      */
     public void setTimer(int time) {
@@ -83,7 +78,6 @@ public class FloorTile extends Tile {
 
     /**
      * Get orientation of the floor tile.
-     *
      * @return Orientation.
      */
     public int getOrientation() {
@@ -100,7 +94,6 @@ public class FloorTile extends Tile {
 
     /**
      * Check if the floor tile is frozen.
-     *
      * @return True if floor tile is frozen.
      */
     public boolean isFrozen() {
@@ -109,7 +102,6 @@ public class FloorTile extends Tile {
 
     /**
      * Set the floor tile frozen.
-     *
      * @param frozen Set True if the tile is frozen.
      */
     public void setFrozen(boolean frozen) {
@@ -119,7 +111,6 @@ public class FloorTile extends Tile {
 
     /**
      * Check if the floor tile is on fire.
-     *
      * @return True if the tile is on fire.
      */
     public boolean isOnFire() {
@@ -128,7 +119,6 @@ public class FloorTile extends Tile {
 
     /**
      * Set the floor tile on fire.
-     *
      * @param onFire Set True if the tile is on fire.
      */
     public void setOnFire(boolean onFire) {
@@ -137,7 +127,6 @@ public class FloorTile extends Tile {
 
     /**
      * Checks if the floor tile is fixed.
-     *
      * @return True if the tile is fixed, false if not.
      */
     public boolean isFixed() {
@@ -146,7 +135,6 @@ public class FloorTile extends Tile {
 
     /**
      * It check if the floor tile has a path.
-     *
      * @param direction Direction to be checked.
      * @return True if there is a path.
      */
@@ -162,7 +150,6 @@ public class FloorTile extends Tile {
 
     /**
      * Set the paths on the tile according to its type.
-     *
      * @param type Type of the floor tile.
      */
     private void setPaths(String type) {
@@ -187,7 +174,6 @@ public class FloorTile extends Tile {
 
     /**
      * It will rotate the path according to the orientation of the tile.
-     *
      * @param direction Direction of path from a floor tile.
      * @return Int of rotated path from the floor tile.
      */

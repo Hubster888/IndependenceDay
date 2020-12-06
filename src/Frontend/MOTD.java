@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 /**
  * The MOTD class gets the message of the day from the api provided.
- *
  * @author Marcus Poole
  * @version 1.0
  */
@@ -22,7 +21,6 @@ public class MOTD {
 
     /**
      * Method that retrieves the unsolved puzzle String and solves it by calling other methods.
-     *
      * @return Solved the solved puzzle with numChar add the number of characters in the solution added to the end.
      * @throws IOException On input error.
      */
@@ -42,7 +40,6 @@ public class MOTD {
 
     /**
      * Method that retrieves the message of the day from the URL solved from the puzzle.
-     *
      * @return The message of the day.
      * @throws IOException On input error.
      */
@@ -61,7 +58,6 @@ public class MOTD {
 
     /**
      * Method that solves the puzzle using same method as to solve Caesar cyphers.
-     *
      * @param value This is the unsolved puzzle String.
      * @return The solved puzzle.
      */
@@ -102,7 +98,6 @@ public class MOTD {
 
     /**
      * Method that merges the two Strings together and removes the duplicate/ excess places in the Strings.
-     *
      * @param s1 The first String, to be merged into.
      * @param s2 The second String, to merge into s1.
      * @return The result of merging the two strings.

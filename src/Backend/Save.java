@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 /**
  * Class that contains method that are used for saving into the file.
- *
  * @author Owen Warner, Robbie Southman
  * @version 1.0
  */
@@ -23,7 +22,6 @@ public class Save {
 
     /**
      * Saves the game data to an incremented file.
-     *
      * @param silkBag The silk bag to save.
      * @param board   The board to save.
      */
@@ -47,7 +45,6 @@ public class Save {
 
     /**
      * Turns the board into a savable format.
-     *
      * @param board     The board to save.
      * @param arrayList The profiles playing on the board to save.
      * @param fileName  The file name of the board.
@@ -86,7 +83,6 @@ public class Save {
      * Writes the given data to the save file.
      * Will save to data persistence file or incremented file depending on how
      * its called.
-     *
      * @param aList      The list of data.
      * @param namingFile The name of the file to write to.
      */
@@ -111,7 +107,6 @@ public class Save {
 
     /**
      * Gets the board data in file to be used when instantiating a board.
-     *
      * @param fileName Name of the save file.
      * @return The board data.
      */

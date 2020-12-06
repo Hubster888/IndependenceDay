@@ -24,7 +24,6 @@ import static Backend.ActionTile.*;
 
 /**
  * Controller that controls everything what is on the Game.fxml scene.
- *
  * @author Yan Yan Ji, Lauren Bagnall, Hubert Rzeminski
  * @version 1.0
  */
@@ -105,7 +104,6 @@ public class GameController {
 
     /**
      * Initialize everything before the scene is shown.
-     *
      * @throws FileNotFoundException If the picture file was not found.
      */
     public void initialize() throws FileNotFoundException {
@@ -139,7 +137,6 @@ public class GameController {
 
     /**
      * Method that will send the user to the menu.
-     *
      * @throws IOException If the scene was not found.
      */
     public void exitToMenu() throws IOException {
@@ -156,7 +153,6 @@ public class GameController {
     /**
      * Method that is responsible for the logic of the game according
      * to the user behaviour.
-     *
      * @param event Mouse click.
      * @throws IOException Incorrect input.
      */
@@ -207,7 +203,6 @@ public class GameController {
 
     /**
      * Ask the user on which board does he wants to play.
-     *
      * @return Number of the board.
      */
     private int askBoard() {
@@ -233,7 +228,6 @@ public class GameController {
 
     /**
      * Method that prepares the board on the window.
-     *
      * @param tiles   Floor tiles from the board.
      * @param players Players in the game.
      * @throws FileNotFoundException If the image file was not found.
@@ -271,7 +265,6 @@ public class GameController {
 
     /**
      * It will set number of row and columns on the board.
-     *
      * @param width  Width of the board.
      * @param height Height of the board.
      */
@@ -291,7 +284,6 @@ public class GameController {
 
     /**
      * Find the index of a tile on the board.
-     *
      * @param orgWidth Width of the board.
      * @param width    Index of the column of the floor tile.
      * @param height   Index of the row of the floor tile.
@@ -303,7 +295,6 @@ public class GameController {
 
     /**
      * Help method for converting floor tiles to images.
-     *
      * @param tile Floor tile.
      * @return ImageView of a floor tile.
      */
@@ -380,7 +371,6 @@ public class GameController {
 
     /**
      * Help method for converting action tiles to images.
-     *
      * @param tile Action tile.
      * @return ImageView of a action tile.
      */
@@ -411,7 +401,6 @@ public class GameController {
 
     /**
      * Help method for converting players to images.
-     *
      * @param players List of players.
      * @return Images of the players.
      * @throws FileNotFoundException If the images file were not found.
@@ -453,7 +442,6 @@ public class GameController {
 
     /**
      * Method that ask user how many players are going to play.
-     *
      * @return Number of players.
      */
     private int getNumOfPlayers() {
@@ -475,7 +463,6 @@ public class GameController {
 
     /**
      * Method that ask user of a name of the player.
-     *
      * @param playerNum Which player.
      * @return Name of the player.
      */
@@ -485,7 +472,6 @@ public class GameController {
 
     /**
      * Action made during player drawing from a silk bag.
-     *
      * @param player Current player.
      * @throws FileNotFoundException
      */
@@ -524,7 +510,6 @@ public class GameController {
 
     /**
      * Actions that are made during the use of action tiles.
-     *
      * @param tile   Tile to be used.
      * @param player Current player.
      * @param col    Index of the col on the board.
@@ -545,7 +530,6 @@ public class GameController {
     /**
      * Method that stores buttons' actions which will let
      * player choose their action tile.
-     *
      * @param player Current player.
      */
     private void chooseActionTile(Player player) {
@@ -605,7 +589,6 @@ public class GameController {
 
     /**
      * Actions that are made during the players move.
-     *
      * @param player Current player.
      * @param col    Index of col where player moves.
      * @param row    Index of row where player moves.
@@ -622,7 +605,6 @@ public class GameController {
 
     /**
      * Checks if the player can push the tile from the chosen position.
-     *
      * @param col Index of the column.
      * @param row Index of the row.
      * @return True if it can, false otherwise.
@@ -701,7 +683,6 @@ public class GameController {
 
     /**
      * End of the game if the player moves to the goal tile.
-     *
      * @param col Index of column that player moved.
      * @param row Index of the row that player moved.
      * @throws IOException

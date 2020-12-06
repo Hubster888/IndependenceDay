@@ -8,7 +8,6 @@ import java.util.Scanner;
 /**
  * Board class that is responsible for board and actions
  * made on it.
- *
  * @author Yan Yan Ji, Robbie Southam,  Hubert Rzeminski
  * @version 1.0
  */
@@ -21,7 +20,7 @@ public class Board {
     private static final String TRUE = "true";
     private int boardWidth;
     private int boardHeight;
-    private ArrayList<Player> listOfPlayers = new ArrayList<>();
+    private final ArrayList<Player> listOfPlayers = new ArrayList<>();
     private FloorTile[][] board;
     private int noOfFloors;
     private int noOfActions;
@@ -29,7 +28,6 @@ public class Board {
 
     /**
      * Creates a board instance from given details.
-     *
      * @param levelNo Level number to load.
      * @param profs   List of profiles playing the game.
      */
@@ -40,7 +38,6 @@ public class Board {
 
     /**
      * Creates a board from a saved game.
-     *
      * @param game The game details to load from.
      */
     public Board(ArrayList<ArrayList<String>> game) {
@@ -83,7 +80,6 @@ public class Board {
 
     /**
      * Generate a random tile type for the board.
-     *
      * @return A random tile type.
      */
     public static String getRandomTileType() {
@@ -107,13 +103,12 @@ public class Board {
 
     /**
      * Loads the level format from file.
-     *
      * @param levelNo The level to load.
      * @return An array containing the level format.
      */
     public ArrayList<String> getlevel(int levelNo) {
         ArrayList<String> level = new ArrayList<>();
-        File file = new File(LEVEL_DIR + Integer.toString(levelNo) + FILE_EXT);
+        File file = new File(LEVEL_DIR + levelNo + FILE_EXT);
 
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine())
@@ -127,7 +122,6 @@ public class Board {
 
     /**
      * Sets up level from given format.
-     *
      * @param level          A list of level details.
      * @param listOfProfiles List of profiles playing the level.
      */
@@ -202,7 +196,6 @@ public class Board {
 
     /**
      * Get the current board.
-     *
      * @return Board.
      */
     public FloorTile[][] getBoard() {
@@ -211,7 +204,6 @@ public class Board {
 
     /**
      * Get a floor tile from a board.
-     *
      * @param x Index of column.
      * @param y Index of row.
      * @return FloorTile on the chosen position.
@@ -222,7 +214,6 @@ public class Board {
 
     /**
      * Get the width of the board.
-     *
      * @return Width of the board.
      */
     public int getWidth() {
@@ -231,7 +222,6 @@ public class Board {
 
     /**
      * Get the height of the board.
-     *
      * @return Height of the board.
      */
     public int getHeight() {
@@ -240,7 +230,6 @@ public class Board {
 
     /**
      * Get the list of the players.
-     *
      * @return List of players.
      */
     public ArrayList<Player> getListOfPlayers() {
@@ -250,7 +239,6 @@ public class Board {
 
     /**
      * It will shift everything according to the pushed floor tile onto the board.
-     *
      * @param newTile Floor tile that is pushed.
      * @param col     Index of column where the tile is pushed.
      * @param row     Index of row where the tile is pushed.
@@ -296,7 +284,6 @@ public class Board {
 
     /**
      * Checks if the row or column is movable.
-     *
      * @param tiles Row or column of tile on the board.
      * @param row   True if the column is pushed, false if the row is pushed.
      * @param index Index of row or column that is pushed.
@@ -322,7 +309,6 @@ public class Board {
 
     /**
      * Shift all the players that are on the pushed row or column.
-     *
      * @param column True if the index is column, false otherwise.
      * @param index  Index of row or column that is pushed.
      * @param move   1 or -1 to move.
@@ -346,7 +332,6 @@ public class Board {
 
     /**
      * Shift a player on the board.
-     *
      * @param player Player.
      * @param col    Index of column where it be moved.
      * @param row    Index of row where it be moved.
@@ -368,7 +353,6 @@ public class Board {
 
     /**
      * Get number of action tiles in the game.
-     *
      * @return Number of action tiles.
      */
     public int getNoOfActions() {
@@ -377,7 +361,6 @@ public class Board {
 
     /**
      * Get rest of the floor tile in the silkBag.
-     *
      * @return Number of floor tiles.
      */
     public int getNoOfFloors() {
